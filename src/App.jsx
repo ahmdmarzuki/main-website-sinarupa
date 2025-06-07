@@ -5,6 +5,8 @@ import { Route, Routes } from "react-router-dom";
 import Homepage from "./pages/Homepage";
 import RegisterPage from "./pages/RegisterPage";
 import UploadArt from "./pages/UploadArt";
+import LoginPage from "./pages/LoginPage";
+import PendingSubsmissionPage from "./pages/PendingSubsmissionPage";
 
 function App() {
   useEffect(() => {
@@ -17,6 +19,8 @@ function App() {
         <Route path="/" element={<Homepage />} />
         <Route path="/regist" element={<RegisterPage />} />
         <Route path="/upload" element={<UploadArt />} />
+        <Route path="/login" element={<LoginPage />} />
+        <Route path="/pending" element={<PendingSubsmissionPage />} />
       </Routes>
     </main>
   );

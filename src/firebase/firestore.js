@@ -1,4 +1,11 @@
-import { getFirestore, collection, setDoc, doc } from "firebase/firestore";
+import {
+  getFirestore,
+  collection,
+  setDoc,
+  doc,
+  deleteDoc,
+  getDocs,
+} from "firebase/firestore";
 import { app } from "./firebaseConfig";
 import { toast } from "react-toastify";
 
@@ -32,4 +39,63 @@ const createArt = async (id, url, name, artTitle, artDesc) => {
   }
 };
 
-export { createArt };
+const acceptArt = async (id, url, name, artTitle, artDesc) => {
+  try {
+    await setDoc(doc(artDatabase, id), {
+      id,
+      url,
+      name,
+      artTitle,
+      artDesc,
+    });
+
+    await deleteDoc(doc(tempArtDatabase, id));
+
+    toast.success("udh di acc", {
+      position: "top-center",
+      autoClose: 5000,
+      hideProgressBar: false,
+      closeOnClick: false,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "dark",
+    });
+  } catch (error) {
+    alert(`error: ${error}`);
+  }
+};
+
+const fetchTempArtDatabase = async () => {
+  try {
+    const querySnapshot = await getDocs(tempArtDatabase);
+    const tempArtList = querySnapshot.docs.map((doc) => ({
+      ...doc.data(),
+    }));
+    return tempArtList;
+  } catch (error) {
+    console.error("Error fetching temp art data:", error);
+    throw error;
+  }
+};
+
+const fetchArtDatabase = async () => {
+  try {
+    const querySnapshot = await getDocs(artDatabase);
+    const artList = querySnapshot.docs.map((doc) => ({
+      ...doc.data(),
+    }));
+    return artList;
+  } catch (error) {
+    console.error("Error fetching art data:", error);
+    throw error;
+  }
+};
+
+export {
+  createArt,
+  acceptArt,
+  fetchTempArtDatabase,
+  fetchArtDatabase,
+  tempArtDatabase,
+};

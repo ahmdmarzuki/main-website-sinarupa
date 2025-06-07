@@ -1,15 +1,10 @@
 import React from "react";
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { v4 } from "uuid";
-import {
-  getDownloadURL,
-  getStorage,
-  listAll,
-  ref,
-  uploadBytes,
-} from "firebase/storage";
+import { getDownloadURL, getStorage, ref, uploadBytes } from "firebase/storage";
 import { app } from "../firebase/firebaseConfig";
 import { createArt } from "../firebase/firestore";
+import { Link } from "react-router-dom";
 
 const imageDb = getStorage(app);
 
@@ -24,32 +19,71 @@ const UploadArt = () => {
   const [imagePreview, setImagePreview] = useState(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState("");
+  const [isDragging, setIsDragging] = useState(false);
+  const fileInputRef = useRef(null);
+
+  const handleDragEnter = (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    setIsDragging(true);
+  };
+
+  const handleDragLeave = (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    setIsDragging(false);
+  };
+
+  const handleDragOver = (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+  };
+
+  const handleDrop = (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    setIsDragging(false);
+
+    const file = e.dataTransfer.files[0];
+    if (file) {
+      handleFile(file);
+      // Update file input value
+      if (fileInputRef.current) {
+        const dataTransfer = new DataTransfer();
+        dataTransfer.items.add(file);
+        fileInputRef.current.files = dataTransfer.files;
+      }
+    }
+  };
+
+  const handleFile = (file) => {
+    // Validasi ukuran file (max 10MB)
+    if (file.size > 10 * 1024 * 1024) {
+      setError("File size should be less than 10MB");
+      return;
+    }
+    // Validasi tipe file
+    if (!file.type.startsWith("image/")) {
+      setError("Please upload an image file");
+      return;
+    }
+
+    setError("");
+    setFormData((prev) => ({
+      ...prev,
+      image: file,
+    }));
+
+    // Create preview URL
+    const previewUrl = URL.createObjectURL(file);
+    setImagePreview(previewUrl);
+  };
 
   const handleChange = (e) => {
     const { name, value, files } = e.target;
 
     if (name === "image" && files && files[0]) {
-      const file = files[0];
-      // Validasi ukuran file (max 10MB)
-      if (file.size > 10 * 1024 * 1024) {
-        setError("File size should be less than 10MB");
-        return;
-      }
-      // Validasi tipe file
-      if (!file.type.startsWith("image/")) {
-        setError("Please upload an image file");
-        return;
-      }
-
-      setError("");
-      setFormData((prev) => ({
-        ...prev,
-        [name]: file,
-      }));
-
-      // Create preview URL
-      const previewUrl = URL.createObjectURL(file);
-      setImagePreview(previewUrl);
+      handleFile(files[0]);
     } else {
       setFormData((prev) => ({
         ...prev,
@@ -92,6 +126,10 @@ const UploadArt = () => {
         image: null,
       });
       setImagePreview(null);
+      // Clear file input
+      if (fileInputRef.current) {
+        fileInputRef.current.value = "";
+      }
     } catch (err) {
       setError("An error occurred while submitting the form");
     } finally {
@@ -101,7 +139,7 @@ const UploadArt = () => {
 
   return (
     <main className="bg-gray-950 min-h-screen">
-      <div className="max-w-2xl mx-auto p-6 ">
+      <div className="max-w-2xl mx-auto p-6">
         <div className="bg-gray-900 rounded-lg shadow-xl p-6">
           <h1 className="text-2xl font-bold mb-6 text-white text-center">
             Upload Artwork
@@ -125,7 +163,6 @@ const UploadArt = () => {
                 className="w-full p-2 border border-gray-600 rounded bg-gray-800 text-white placeholder-gray-400 focus:outline-none focus:border-blue-500 transition-colors"
                 required
               />
-              <p className="text-white">{formData.nim}</p>
             </div>
 
             <div>
@@ -183,6 +220,9 @@ const UploadArt = () => {
                       onClick={() => {
                         setImagePreview(null);
                         setFormData((prev) => ({ ...prev, image: null }));
+                        if (fileInputRef.current) {
+                          fileInputRef.current.value = "";
+                        }
                       }}
                       className="absolute top-2 right-2 bg-red-500 text-white p-1 rounded-full opacity-0 group-hover:opacity-100 transition-opacity"
                     >
@@ -201,7 +241,17 @@ const UploadArt = () => {
                     </button>
                   </div>
                 ) : (
-                  <div className="w-full h-64 border-2 border-dashed border-gray-600 rounded flex items-center justify-center bg-gray-800 hover:border-blue-500 transition-colors">
+                  <div
+                    onDragEnter={handleDragEnter}
+                    onDragLeave={handleDragLeave}
+                    onDragOver={handleDragOver}
+                    onDrop={handleDrop}
+                    className={`w-full h-64 border-2 border-dashed rounded flex items-center justify-center transition-colors ${
+                      isDragging
+                        ? "border-blue-500 bg-blue-500/10"
+                        : "border-gray-600 bg-gray-800 hover:border-blue-500"
+                    }`}
+                  >
                     <div className="text-center text-gray-400">
                       <svg
                         className="mx-auto h-12 w-12 text-gray-500"
@@ -226,6 +276,7 @@ const UploadArt = () => {
                 )}
               </div>
               <input
+                ref={fileInputRef}
                 type="file"
                 name="image"
                 onChange={handleChange}
@@ -248,6 +299,15 @@ const UploadArt = () => {
             </button>
           </form>
         </div>
+        <Link to="/pending">
+          <button
+            className={
+              "w-full mt-4 mb-10 py-2 rounded bg-white hover:bg-gray-300 text-black "
+            }
+          >
+            Submission Pending
+          </button>
+        </Link>
       </div>
     </main>
   );
