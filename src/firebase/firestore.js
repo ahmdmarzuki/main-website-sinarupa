@@ -5,6 +5,7 @@ import {
   doc,
   deleteDoc,
   getDocs,
+  onSnapshot,
 } from "firebase/firestore";
 import { app } from "./firebaseConfig";
 import { toast } from "react-toastify";
@@ -22,7 +23,8 @@ const createArt = async (
   artUrl,
   artNameYear,
   artDesc,
-  artDimension
+  artDimension,
+  artMedia
 ) => {
   try {
     await setDoc(doc(tempArtDatabase, id), {
@@ -35,6 +37,7 @@ const createArt = async (
       artDesc,
       artNameYear,
       artDimension,
+      artMedia,
     });
 
     toast.success("Berhasil Upload Karya!", {
@@ -60,7 +63,8 @@ const acceptArt = async (
   artUrl,
   artNameYear,
   artDesc,
-  artDimension
+  artDimension,
+  artMedia
 ) => {
   try {
     await setDoc(doc(artDatabase, id), {
@@ -73,6 +77,7 @@ const acceptArt = async (
       artDesc,
       artNameYear,
       artDimension,
+      artMedia,
     });
 
     await deleteDoc(doc(tempArtDatabase, id));
@@ -88,7 +93,12 @@ const acceptArt = async (
       theme: "dark",
     });
   } catch (error) {
-    alert(`error: ${error}`);
+    alert(
+      error ==
+        "FirebaseError: [code=permission-denied]: Missing or insufficient permissions."
+        ? "LOGIN SEBAGAI ADMIN"
+        : { error }
+    );
   }
 };
 
@@ -118,10 +128,28 @@ const fetchArtDatabase = async () => {
   }
 };
 
+const subscribeToArtDatabase = (callback) => {
+  const unsubscribe = onSnapshot(
+    artDatabase,
+    (snapshot) => {
+      const artList = snapshot.docs.map((doc) => ({
+        ...doc.data(),
+      }));
+      callback(artList);
+    },
+    (error) => {
+      console.error("Error listening to art database:", error);
+    }
+  );
+
+  return unsubscribe;
+};
+
 export {
   createArt,
   acceptArt,
   fetchTempArtDatabase,
   fetchArtDatabase,
   tempArtDatabase,
+  subscribeToArtDatabase,
 };

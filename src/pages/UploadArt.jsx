@@ -19,6 +19,7 @@ const UploadArt = () => {
     artImage: null,
     artNameYear: "",
     artDimension: "",
+    artMedia: "",
   });
 
   const [artImagePreview, setArtImagePreview] = useState(null);
@@ -89,7 +90,7 @@ const UploadArt = () => {
   const handleArtChange = (e) => {
     const { name, value, files } = e.target;
 
-    if (name === "image" && files && files[0]) {
+    if (name === "artImage" && files && files[0]) {
       handleArtFile(files[0]);
     } else {
       setFormData((prev) => ({
@@ -155,7 +156,7 @@ const UploadArt = () => {
   const handleProfileChange = (e) => {
     const { name, value, files } = e.target;
 
-    if (name === "image" && files && files[0]) {
+    if (name === "profileImage" && files && files[0]) {
       handleProfileFile(files[0]);
     } else {
       setFormData((prev) => ({
@@ -198,7 +199,8 @@ const UploadArt = () => {
         artUrl,
         formData.artNameYear,
         formData.artDesc,
-        formData.artDimension
+        formData.artDimension,
+        formData.artMedia
       );
 
       // Reset form and preview
@@ -212,6 +214,7 @@ const UploadArt = () => {
         artImage: null,
         artNameYear: "",
         artDimension: "",
+        artMedia: "",
       });
       setArtImagePreview(null);
       setProfileImagePreview(null);
@@ -251,7 +254,7 @@ const UploadArt = () => {
                 type="text"
                 name="realName"
                 value={formData.realName}
-                onChange={handleArtChange}
+                onChange={handleProfileChange}
                 placeholder="Masukkan namaa"
                 className="w-full p-2 border border-gray-600 rounded bg-gray-800 text-white placeholder-gray-400 focus:outline-none focus:border-blue-500 transition-colors"
                 required
@@ -264,7 +267,7 @@ const UploadArt = () => {
                 type="text"
                 name="nim"
                 value={formData.nim}
-                onChange={handleArtChange}
+                onChange={handleProfileChange}
                 placeholder="Boleh tau NIM nya ga?"
                 className="w-full p-2 border border-gray-600 rounded bg-gray-800 text-white placeholder-gray-400 focus:outline-none focus:border-blue-500 transition-colors"
                 required
@@ -345,7 +348,7 @@ const UploadArt = () => {
               <input
                 ref={profileInputRef}
                 type="file"
-                name="image"
+                name="profileImage"
                 onChange={handleProfileChange}
                 accept="image/*"
                 className="w-full p-2 border border-gray-600 rounded bg-gray-800 text-gray-300 file:mr-4 file:py-2 file:px-4 file:rounded file:border-0 file:text-sm file:font-semibold file:bg-blue-500 file:text-white hover:file:bg-blue-600 transition-colors"
@@ -376,6 +379,19 @@ const UploadArt = () => {
                 onChange={handleArtChange}
                 placeholder="Masukkin deskripsi karya"
                 className="w-full p-2 border border-gray-600 rounded bg-gray-800 text-white placeholder-gray-400 h-32 focus:outline-none focus:border-blue-500 transition-colors resize-none"
+                required
+              />
+            </div>
+
+            <div>
+              <label className="block mb-2 text-gray-300">Media:</label>
+              <input
+                type="text"
+                name="artMedia"
+                value={formData.artMedia}
+                onChange={handleArtChange}
+                placeholder="Contoh: Ink on paper"
+                className="w-full p-2 border border-gray-600 rounded bg-gray-800 text-white placeholder-gray-400 focus:outline-none focus:border-blue-500 transition-colors"
                 required
               />
             </div>
@@ -479,7 +495,7 @@ const UploadArt = () => {
               <input
                 ref={artInputRef}
                 type="file"
-                name="image"
+                name="artImage"
                 onChange={handleArtChange}
                 accept="image/*"
                 className="w-full p-2 border border-gray-600 rounded bg-gray-800 text-gray-300 file:mr-4 file:py-2 file:px-4 file:rounded file:border-0 file:text-sm file:font-semibold file:bg-blue-500 file:text-white hover:file:bg-blue-600 transition-colors"
@@ -500,15 +516,17 @@ const UploadArt = () => {
             </button>
           </form>
         </div>
-        <Link to="/pending">
-          <button
-            className={
-              "w-full mt-4 mb-10 py-2 rounded bg-white hover:bg-gray-300 text-black "
-            }
-          >
-            Submission Pending
-          </button>
-        </Link>
+        <div className="flex flex-col justify-center items-center">
+          <Link to="/guest">
+            <button
+              className={
+                "mt-20 mb-10 py-2 px-10 rounded bg-white hover:bg-gray-300 text-black"
+              }
+            >
+              Liat Submission Pending
+            </button>
+          </Link>
+        </div>
       </div>
     </main>
   );

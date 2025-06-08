@@ -27,7 +27,17 @@ const PendingArtDisplay = () => {
 
   const handleAccept = async (art) => {
     try {
-      await acceptArt(art.id, art.url, art.name, art.artTitle, art.artDesc);
+      await acceptArt(
+        art.id,
+        art.realName,
+        art.profilePictureUrl,
+        art.artTitle,
+        art.artUrl,
+        art.artNameYear,
+        art.artDesc,
+        art.artDimension,
+        art.artMedia
+      );
       await fetchTempArtData(); // Refresh the list after accepting
     } catch (error) {
       console.error("Error accepting art:", error);
@@ -41,50 +51,62 @@ const PendingArtDisplay = () => {
       await fetchTempArtData(); // Refresh the list after rejecting
     } catch (error) {
       console.error("Error rejecting art:", error);
+      alert(
+        error ==
+          "FirebaseError: [code=permission-denied]: Missing or insufficient permissions."
+          ? "LOGIN SEBAGAI ADMIN"
+          : { error }
+      );
       setError("Failed to reject submission");
     }
   };
 
   return (
-    <div className="space-y-4 w-[100%] px-20">
+    <div className="space-y-4 w-[100%] px-4 sm:px-8 md:px-12 lg:px-20">
       {isLoading ? (
         <div className="text-center py-4">
           <p className="text-gray-400">Loading submissions...</p>
-        </div>
-      ) : error ? (
-        <div className="text-center py-4">
-          <p className="text-red-400">{error}</p>
         </div>
       ) : (
         <>
           {tempArtList.map((art) => (
             <div
               key={art.id}
-              className="bg-gray-800 rounded-lg p-4 flex justify-center items-center space-x-4 "
+              className="bg-gray-800 rounded-lg p-3 sm:p-4 flex flex-col sm:flex-row justify-center items-center gap-4"
             >
               <img
-                src={art.url}
+                src={art.artUrl}
                 alt={art.artTitle}
-                className="w-32 h-32 object-cover rounded-lg"
+                className="w-full sm:w-32 h-48 sm:h-32 object-cover rounded-lg"
               />
-              <div className="flex-1">
-                <h3 className="text-xl font-semibold text-white mb-2">
+              <div className="flex-1 w-full">
+                <div className="flex flex-row gap-3 sm:gap-4 mb-3 sm:mb-4">
+                  <img
+                    src={art.profilePictureUrl}
+                    alt={art.realName}
+                    className="w-8 h-8 border border-white rounded-full object-cover"
+                  />
+                  <h3 className="text-lg sm:text-xl font-semibold text-white mb-2">
+                    {art.realName} ({art.id})
+                  </h3>
+                </div>
+                <p className="text-gray-300 text-base sm:text-lg">
                   {art.artTitle}
-                </h3>
-                <p className="text-gray-300 mb-2">Artist: {art.name}</p>
-                <p className="text-gray-300 mb-2">NIM: {art.id}</p>
-                <p className="text-gray-400 text-sm mb-4">{art.artDesc}</p>
+                </p>
+                <p className="text-gray-400 text-sm sm:text-base mb-2 sm:mb-4">
+                  {art.artDesc}
+                </p>
               </div>
-              <div className="flex flex-col gap-4 min-w-40">
+              <div className="flex flex-row sm:flex-col gap-2 sm:gap-4 w-full sm:w-40">
                 <button
                   onClick={() => handleAccept(art)}
-                  className="px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700 transition-colors"
+                  className="flex-1 sm:flex-none px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700 transition-colors text-sm sm:text-base"
                 >
                   Accept
                 </button>
                 <button
                   onClick={() => handleReject(art.id)}
-                  className="px-4 py-2 bg-red-600 text-white rounded hover:bg-red-700 transition-colors"
+                  className="flex-1 sm:flex-none px-4 py-2 bg-red-600 text-white rounded hover:bg-red-700 transition-colors text-sm sm:text-base"
                 >
                   Reject
                 </button>

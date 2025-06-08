@@ -3,6 +3,7 @@ import { auth, logout, signInWithEmail } from "../firebase/auth";
 
 import PendingArtDisplay from "../components/PendingArtDisplay";
 import { onAuthStateChanged } from "firebase/auth";
+import AcceptedArtDisplay from "../components/AcceptedArtDisplay";
 
 const PendingSubsmissionPage = () => {
   const [isLoadingLogin, setIsLoadingLogin] = useState(false);
@@ -146,7 +147,18 @@ const PendingSubsmissionPage = () => {
         )}
       </div>
 
-      {isUser && <PendingArtDisplay />}
+      {isUser && (
+        <div className="w-full flex flex-col justify-center items-center">
+          <h1 className="text-white text-3xl mt-20 mb-12">
+            - Submission Pending -
+          </h1>
+          <PendingArtDisplay />
+          <h1 className="text-white text-3xl mt-20 mb-12">
+            - Submission Accepted -
+          </h1>
+          <AcceptedArtDisplay />
+        </div>
+      )}
     </div>
   );
 };
