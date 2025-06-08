@@ -14,14 +14,27 @@ const usersCollectionRef = collection(db, "users");
 const tempArtDatabase = collection(db, "tempArtDatabase");
 const artDatabase = collection(db, "artDatabase");
 
-const createArt = async (id, url, name, artTitle, artDesc) => {
+const createArt = async (
+  id,
+  realName,
+  profilePictureUrl,
+  artTitle,
+  artUrl,
+  artNameYear,
+  artDesc,
+  artDimension
+) => {
   try {
     await setDoc(doc(tempArtDatabase, id), {
       id,
-      url,
-      name,
+      realName,
+      profilePictureUrl,
+
+      artUrl,
       artTitle,
       artDesc,
+      artNameYear,
+      artDimension,
     });
 
     toast.success("Berhasil Upload Karya!", {
@@ -39,14 +52,27 @@ const createArt = async (id, url, name, artTitle, artDesc) => {
   }
 };
 
-const acceptArt = async (id, url, name, artTitle, artDesc) => {
+const acceptArt = async (
+  id,
+  realName,
+  profilePictureUrl,
+  artTitle,
+  artUrl,
+  artNameYear,
+  artDesc,
+  artDimension
+) => {
   try {
     await setDoc(doc(artDatabase, id), {
       id,
-      url,
-      name,
+      realName,
+      profilePictureUrl,
+
+      artUrl,
       artTitle,
       artDesc,
+      artNameYear,
+      artDimension,
     });
 
     await deleteDoc(doc(tempArtDatabase, id));

@@ -93,7 +93,7 @@ const PendingArtDisplay = () => {
           ))}
           {tempArtList.length === 0 && (
             <p className="text-gray-400 text-center py-4">
-              No pending artwork submissions
+              - No pending artwork submissions -
             </p>
           )}
         </>
