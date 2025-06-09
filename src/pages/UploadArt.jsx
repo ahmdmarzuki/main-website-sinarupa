@@ -1,12 +1,22 @@
 import React from "react";
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import { v4 } from "uuid";
 import { getDownloadURL, getStorage, ref, uploadBytes } from "firebase/storage";
 import { app } from "../firebase/firebaseConfig";
 import { createArt } from "../firebase/firestore";
 import { Link } from "react-router-dom";
+import ReactCrop, { centerCrop, makeAspectCrop } from "react-image-crop";
+import "react-image-crop/dist/ReactCrop.css";
 
 const imageDb = getStorage(app);
+
+// Define available aspect ratios
+const ASPECT_RATIOS = [
+  { label: "1:1", value: 1 / 1 },
+  { label: "3:4", value: 3 / 4 },
+  { label: "4:3", value: 4 / 3 },
+  { label: "16:9", value: 16 / 9 },
+];
 
 const UploadArt = () => {
   const [formData, setFormData] = useState({
@@ -24,6 +34,14 @@ const UploadArt = () => {
 
   const [artImagePreview, setArtImagePreview] = useState(null);
   const [profileImagePreview, setProfileImagePreview] = useState(null);
+  const [showCropModal, setShowCropModal] = useState(false);
+  const [showProfileCropModal, setShowProfileCropModal] = useState(false);
+  const [tempImage, setTempImage] = useState(null);
+  const [crop, setCrop] = useState();
+  const [completedCrop, setCompletedCrop] = useState(null);
+  const [selectedRatio, setSelectedRatio] = useState(ASPECT_RATIOS[0]);
+  const imgRef = useRef(null);
+  const profileImgRef = useRef(null);
 
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState("");
@@ -33,6 +51,141 @@ const UploadArt = () => {
 
   const artInputRef = useRef(null);
   const profileInputRef = useRef(null);
+
+  // Add useEffect to handle body scroll
+  useEffect(() => {
+    if (showCropModal || showProfileCropModal) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "unset";
+    }
+
+    // Cleanup function
+    return () => {
+      document.body.style.overflow = "unset";
+    };
+  }, [showCropModal, showProfileCropModal]);
+
+  // Function to create a cropped image
+  const getCroppedImg = (image, crop) => {
+    const canvas = document.createElement("canvas");
+    const scaleX = image.naturalWidth / image.width;
+    const scaleY = image.naturalHeight / image.height;
+    canvas.width = crop.width;
+    canvas.height = crop.height;
+    const ctx = canvas.getContext("2d");
+
+    ctx.drawImage(
+      image,
+      crop.x * scaleX,
+      crop.y * scaleY,
+      crop.width * scaleX,
+      crop.height * scaleY,
+      0,
+      0,
+      crop.width,
+      crop.height
+    );
+
+    return new Promise((resolve) => {
+      canvas.toBlob((blob) => {
+        resolve(blob);
+      }, "image/jpeg");
+    });
+  };
+
+  const handleCropComplete = async () => {
+    if (!imgRef.current || !completedCrop) return;
+
+    try {
+      const croppedImage = await getCroppedImg(imgRef.current, completedCrop);
+      const croppedImageUrl = URL.createObjectURL(croppedImage);
+
+      const file = new File([croppedImage], "cropped-image.jpg", {
+        type: "image/jpeg",
+      });
+
+      setFormData((prev) => ({
+        ...prev,
+        artImage: file,
+      }));
+      setArtImagePreview(croppedImageUrl);
+      setShowCropModal(false);
+      setTempImage(null);
+      setCrop(undefined);
+      setCompletedCrop(null);
+    } catch (e) {
+      console.error("Error cropping image:", e);
+    }
+  };
+
+  // Function to center the crop on the image
+  function centerAspectCrop(mediaWidth, mediaHeight, aspect) {
+    return centerCrop(
+      makeAspectCrop(
+        {
+          unit: "%",
+          width: 90,
+        },
+        aspect,
+        mediaWidth,
+        mediaHeight
+      ),
+      mediaWidth,
+      mediaHeight
+    );
+  }
+
+  // Function to handle image load
+  function onImageLoad(e) {
+    const { width, height } = e.currentTarget;
+    setCrop(centerAspectCrop(width, height, 1));
+  }
+
+  // Function to handle ratio change
+  const handleRatioChange = (ratio) => {
+    setSelectedRatio(ratio);
+    if (imgRef.current) {
+      const { width, height } = imgRef.current;
+      setCrop(centerAspectCrop(width, height, ratio.value));
+    }
+  };
+
+  // Function to handle profile crop completion
+  const handleProfileCropComplete = async () => {
+    if (!profileImgRef.current || !completedCrop) return;
+
+    try {
+      const croppedImage = await getCroppedImg(
+        profileImgRef.current,
+        completedCrop
+      );
+      const croppedImageUrl = URL.createObjectURL(croppedImage);
+
+      // Create a File object from the blob
+      const file = new File([croppedImage], "cropped-profile.jpg", {
+        type: "image/jpeg",
+      });
+
+      setFormData((prev) => ({
+        ...prev,
+        profileImage: file,
+      }));
+      setProfileImagePreview(croppedImageUrl);
+      setShowProfileCropModal(false);
+      setTempImage(null);
+      setCrop(undefined);
+      setCompletedCrop(null);
+    } catch (e) {
+      console.error("Error cropping profile image:", e);
+    }
+  };
+
+  // Function to handle profile image load
+  function onProfileImageLoad(e) {
+    const { width, height } = e.currentTarget;
+    setCrop(centerAspectCrop(width, height, 1));
+  }
 
   // ART FUNCTION
   const handleArtDragEnter = (e) => {
@@ -78,14 +231,8 @@ const UploadArt = () => {
     }
 
     setError("");
-    setFormData((prev) => ({
-      ...prev,
-      artImage: file,
-    }));
-
-    // Create preview URL
-    const previewUrl = URL.createObjectURL(file);
-    setArtImagePreview(previewUrl);
+    setTempImage(URL.createObjectURL(file));
+    setShowCropModal(true);
   };
   const handleArtChange = (e) => {
     const { name, value, files } = e.target;
@@ -144,14 +291,8 @@ const UploadArt = () => {
     }
 
     setError("");
-    setFormData((prev) => ({
-      ...prev,
-      profileImage: file,
-    }));
-
-    // Create preview URL
-    const previewUrl = URL.createObjectURL(file);
-    setProfileImagePreview(previewUrl);
+    setTempImage(URL.createObjectURL(file));
+    setShowProfileCropModal(true);
   };
   const handleProfileChange = (e) => {
     const { name, value, files } = e.target;
@@ -244,6 +385,127 @@ const UploadArt = () => {
           {error && (
             <div className="mb-4 p-3 bg-red-500/10 border border-red-500 rounded text-red-500 text-sm">
               {error}
+            </div>
+          )}
+
+          {/* Crop Modal */}
+          {showCropModal && (
+            <div className="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center z-50">
+              <div className="bg-gray-900 p-4 rounded-lg w-full flex justify-center flex-row gap-8">
+                <div className="w-[20%]">
+                  <div className="flex flex-col h-[100%] justify-between">
+                    {/* Aspect Ratio Buttons */}
+                    <div className="flex flex-col gap-2 mb-4 overflow-x-auto pb-2">
+                      <h2 className="text-xl font-bold text-white mb-4">
+                        Crop Image
+                      </h2>
+                      {ASPECT_RATIOS.map((ratio) => (
+                        <button
+                          key={ratio.label}
+                          onClick={() => handleRatioChange(ratio)}
+                          className={`px-3 py-1 rounded text-sm whitespace-nowrap ${
+                            selectedRatio.label === ratio.label
+                              ? "bg-blue-600 text-white"
+                              : "bg-gray-700 text-gray-300 hover:bg-gray-600"
+                          }`}
+                        >
+                          {ratio.label}
+                        </button>
+                      ))}
+                    </div>
+                    <div className="flex flex-col justify-end gap-2 mt-4">
+                      <button
+                        onClick={() => {
+                          setShowCropModal(false);
+                          setTempImage(null);
+                          if (artInputRef.current) {
+                            artInputRef.current.value = "";
+                          }
+                        }}
+                        className="px-4 py-2 bg-gray-600 text-white rounded hover:bg-gray-700"
+                      >
+                        Cancel
+                      </button>
+                      <button
+                        onClick={handleCropComplete}
+                        className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
+                      >
+                        Save
+                      </button>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="max-h-[90vh] overflow-hidden">
+                  <ReactCrop
+                    crop={crop}
+                    onChange={(c) => setCrop(c)}
+                    onComplete={(c) => setCompletedCrop(c)}
+                    aspect={selectedRatio.value}
+                  >
+                    <img
+                      ref={imgRef}
+                      src={tempImage}
+                      alt="Crop me"
+                      onLoad={onImageLoad}
+                      className="h-[90vh] object-contain"
+                    />
+                  </ReactCrop>
+                </div>
+              </div>
+            </div>
+          )}
+
+          {/* Profile Crop Modal */}
+          {showProfileCropModal && (
+            <div className="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center z-50">
+              <div className="bg-gray-900 p-4 rounded-lg w-full flex justify-center flex-row gap-8">
+                <div className="w-[20%]">
+                  <div className="flex flex-col h-[100%] justify-between">
+                    <h2 className="text-xl font-bold text-white mb-4">
+                      Crop Profile Picture
+                    </h2>
+
+                    <div className="flex flex-col justify-end gap-2 mt-4">
+                      <button
+                        onClick={() => {
+                          setShowProfileCropModal(false);
+                          setTempImage(null);
+                          if (profileInputRef.current) {
+                            profileInputRef.current.value = "";
+                          }
+                        }}
+                        className="px-4 py-2 bg-gray-600 text-white rounded hover:bg-gray-700"
+                      >
+                        Cancel
+                      </button>
+                      <button
+                        onClick={handleProfileCropComplete}
+                        className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
+                      >
+                        Save
+                      </button>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="max-h-[90vh] overflow-hidden">
+                  <ReactCrop
+                    crop={crop}
+                    onChange={(c) => setCrop(c)}
+                    onComplete={(c) => setCompletedCrop(c)}
+                    aspect={1}
+                  >
+                    <img
+                      ref={profileImgRef}
+                      src={tempImage}
+                      alt="Crop me"
+                      onLoad={onProfileImageLoad}
+                      className="h-[90vh] object-contain"
+                    />
+                  </ReactCrop>
+                </div>
+              </div>
             </div>
           )}
 
@@ -456,6 +718,9 @@ const UploadArt = () => {
                         />
                       </svg>
                     </button>
+                    <ReactCrop crop={crop} onChange={setCrop}>
+                      <img src={formData.artImage} alt="" />
+                    </ReactCrop>
                   </div>
                 ) : (
                   <div
