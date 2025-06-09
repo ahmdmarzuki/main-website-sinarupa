@@ -5,6 +5,7 @@ import { Route, Routes } from "react-router-dom";
 import Homepage from "./pages/Homepage";
 import RegisterPage from "./pages/RegisterPage";
 import UploadArt from "./pages/UploadArt";
+import MasonryGrid from "./components/MasonryGrid";
 
 function App() {
   useEffect(() => {
@@ -17,6 +18,7 @@ function App() {
         <Route path="/" element={<Homepage />} />
         <Route path="/regist" element={<RegisterPage />} />
         <Route path="/upload" element={<UploadArt />} />
+        <Route path="/grid" element={<MasonryGrid />} />
       </Routes>
     </main>
   );

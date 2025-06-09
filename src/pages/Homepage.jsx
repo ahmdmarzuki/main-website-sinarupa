@@ -2,6 +2,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 import HomeSection from "../sections/HomeSection";
 import AboutSection from "../sections/AboutSection";
+import MasonryGrid from "../components/MasonryGrid";
 
 const Homepage = () => {
   return (
@@ -13,6 +14,7 @@ const Homepage = () => {
           Register
         </button>
       </Link>
+      <MasonryGrid />
     </div>
   );
 };
