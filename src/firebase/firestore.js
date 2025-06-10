@@ -6,9 +6,11 @@ import {
   deleteDoc,
   getDocs,
   onSnapshot,
+  getDoc,
 } from "firebase/firestore";
 import { app } from "./firebaseConfig";
 import { toast } from "react-toastify";
+import { auth } from "./auth";
 
 const db = getFirestore(app);
 const usersCollectionRef = collection(db, "users");
@@ -145,11 +147,33 @@ const subscribeToArtDatabase = (callback) => {
   return unsubscribe;
 };
 
+const adminCheck = async (setEmail, setRole, setIsAdmin) => {
+  try {
+    const user = auth.currentUser;
+    if (user) {
+      const userDoc = await getDoc(doc(usersCollectionRef, user.uid));
+      if (userDoc.data()?.role === "admin") {
+        setIsAdmin(true);
+        setEmail(userDoc.data().email);
+        setRole(userDoc.data().role);
+      } else {
+        setIsAdmin(false);
+        setEmail(userDoc.data().email);
+        setRole(userDoc.data().role);
+      }
+    }
+  } catch (error) {
+    console.log(error);
+  }
+};
+
 export {
+  db,
   createArt,
   acceptArt,
   fetchTempArtDatabase,
   fetchArtDatabase,
   tempArtDatabase,
   subscribeToArtDatabase,
+  adminCheck,
 };

@@ -1,13 +1,22 @@
 import React, { useState, useEffect } from "react";
-import { auth, logout, signInWithEmail } from "../firebase/auth";
+import {
+  auth,
+  logout,
+  signInWithEmail,
+  signUpWithEmail,
+} from "../firebase/auth";
+import { useNavigate } from "react-router-dom";
 
 import PendingArtDisplay from "../components/PendingArtDisplay";
 import { onAuthStateChanged } from "firebase/auth";
 import AcceptedArtDisplay from "../components/AcceptedArtDisplay";
+import { adminCheck } from "../firebase/firestore";
 
 const PendingSubsmissionPage = () => {
+  const navigate = useNavigate();
   const [isLoadingLogin, setIsLoadingLogin] = useState(false);
   const [error, setError] = useState("");
+  const [isLogin, setIsLogin] = useState(true);
 
   const [formData, setFormData] = useState({
     email: "",
@@ -15,6 +24,10 @@ const PendingSubsmissionPage = () => {
   });
 
   const [isUser, setIsUser] = useState(false);
+  const [isAdmin, setIsAdmin] = useState(false);
+
+  const [userEmail, setUserEmail] = useState("");
+  const [userRole, setUserRole] = useState("");
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -31,7 +44,21 @@ const PendingSubsmissionPage = () => {
 
     try {
       await signInWithEmail(formData.email, formData.password);
-      //   navigate("/"); // Redirect to home page after successful login
+    } catch (error) {
+      setError(error.message);
+    } finally {
+      setIsLoadingLogin(false);
+    }
+  };
+
+  const handleSignup = async (e) => {
+    e.preventDefault();
+    setIsLoadingLogin(true);
+    setError("");
+
+    try {
+      await signUpWithEmail(formData.email, formData.password);
+      navigate("/pending");
     } catch (error) {
       setError(error.message);
     } finally {
@@ -43,6 +70,7 @@ const PendingSubsmissionPage = () => {
     onAuthStateChanged(auth, async (user) => {
       if (user) {
         setIsUser(true);
+        adminCheck(setUserEmail, setUserRole, setIsAdmin);
       } else {
         setIsUser(false);
       }
@@ -53,10 +81,19 @@ const PendingSubsmissionPage = () => {
     <div className="bg-gray-900 w-screen min-h-screen mx-auto p-6 flex flex-col justify-center items-center">
       <div className="w-full max-w-md mb-40">
         {isUser ? (
-          <div>
-            <div className="text-center mb-8">
-              <h1 className="text-3xl font-bold text-white mb-2">Logged In</h1>
-              <p className="text-gray-400">UID: {auth.currentUser.uid}</p>
+          <div className="flex flex-col items-center">
+            <h1 className="text-3xl font-bold text-white mb-2">Logged In</h1>
+            <div className="text-center mb-8 text-white flex flex-col justify-start items-start">
+              <p className="">
+                uid:{" "}
+                <span className="text-gray-400">{auth.currentUser.uid}</span>
+              </p>
+              <p className="">
+                Email: <span className="text-gray-400">{userEmail}</span>
+              </p>
+              <p className="">
+                Role: <span className="text-gray-400">{userRole}</span>
+              </p>
             </div>
 
             <button
@@ -70,8 +107,12 @@ const PendingSubsmissionPage = () => {
         ) : (
           <div className="bg-gray-900 rounded-lg shadow-xl p-8 pb-12">
             <div className="text-center mb-8">
-              <h1 className="text-3xl font-bold text-white mb-2">Login</h1>
-              <p className="text-gray-400">Login as Admin</p>
+              <h1 className="text-3xl font-bold text-white mb-2">
+                {isLogin ? "Login" : "Sign Up"}
+              </h1>
+              <p className="text-gray-400">
+                {isLogin ? "Login as Admin" : "Create a new account"}
+              </p>
             </div>
 
             {error && (
@@ -80,7 +121,10 @@ const PendingSubsmissionPage = () => {
               </div>
             )}
 
-            <form onSubmit={handleLogin} className="space-y-6">
+            <form
+              onSubmit={isLogin ? handleLogin : handleSignup}
+              className="space-y-6"
+            >
               <div>
                 <label
                   htmlFor="email"
@@ -128,21 +172,32 @@ const PendingSubsmissionPage = () => {
                     : "bg-blue-600 hover:bg-blue-700"
                 }`}
               >
-                {isLoadingLogin ? "Logging in..." : "Login"}
+                {isLoadingLogin
+                  ? isLogin
+                    ? "Logging in..."
+                    : "Signing up..."
+                  : isLogin
+                  ? "Login"
+                  : "Sign Up"}
               </button>
             </form>
 
-            {/* <div className="mt-6 text-center">
-            <p className="text-sm text-gray-400">
-              Don't have an account?{" "}
-              <button
-                onClick={() => navigate("/signup")}
-                className="text-blue-500 hover:text-blue-400 font-medium"
-              >
-                Sign up
-              </button>
-            </p>
-          </div> */}
+            <div className="mt-6 text-center">
+              <p className="text-sm text-gray-400">
+                {isLogin
+                  ? "Don't have an account? "
+                  : "Already have an account? "}
+                <button
+                  onClick={() => {
+                    setIsLogin(!isLogin);
+                    setError("");
+                  }}
+                  className="text-blue-500 hover:text-blue-400 font-medium"
+                >
+                  {isLogin ? "Sign up" : "Login"}
+                </button>
+              </p>
+            </div>
           </div>
         )}
       </div>

@@ -7,8 +7,10 @@ import {
 } from "firebase/auth";
 import { app } from "./firebaseConfig";
 import { toast } from "react-toastify";
+import { doc, getFirestore, setDoc } from "firebase/firestore";
 
 const auth = getAuth(app);
+const db = getFirestore(app);
 
 const signInWithEmail = async (email, password) => {
   try {
@@ -68,57 +70,17 @@ const signInWithEmail = async (email, password) => {
 
 const signUpWithEmail = async (email, password) => {
   try {
-    const userCredential = await createUserWithEmailAndPassword(
-      auth,
+    const res = await createUserWithEmailAndPassword(auth, email, password);
+    const user = res.user;
+    await setDoc(doc(db, "users", user.uid), {
+      uid: user.uid,
+      role: "user",
+      authProvider: "local",
       email,
-      password
-    );
-    const user = userCredential.user;
-
-    toast.success("Registrasi berhasil!", {
-      position: "top-center",
-      autoClose: 5000,
-      hideProgressBar: false,
-      closeOnClick: false,
-      pauseOnHover: true,
-      draggable: true,
-      progress: undefined,
-      theme: "dark",
     });
-
-    return user;
   } catch (error) {
-    let errorMessage = "Terjadi kesalahan saat registrasi";
-
-    switch (error.code) {
-      case "auth/email-already-in-use":
-        errorMessage = "Email sudah terdaftar";
-        break;
-      case "auth/invalid-email":
-        errorMessage = "Email tidak valid";
-        break;
-      case "auth/operation-not-allowed":
-        errorMessage = "Registrasi dengan email tidak diizinkan";
-        break;
-      case "auth/weak-password":
-        errorMessage = "Password terlalu lemah";
-        break;
-      default:
-        errorMessage = error.message;
-    }
-
-    toast.error(errorMessage, {
-      position: "top-center",
-      autoClose: 5000,
-      hideProgressBar: false,
-      closeOnClick: false,
-      pauseOnHover: true,
-      draggable: true,
-      progress: undefined,
-      theme: "dark",
-    });
-
-    throw error;
+    console.error("Error signing up:", error.message);
+    toast.error(error.code.split("/")[1].split("-").join(" "));
   }
 };
 

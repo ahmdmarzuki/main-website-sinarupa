@@ -782,7 +782,7 @@ const UploadArt = () => {
           </form>
         </div>
         <div className="flex flex-col justify-center items-center">
-          <Link to="/guest">
+          <Link to="/pending">
             <button
               className={
                 "mt-20 mb-10 py-2 px-10 rounded bg-white hover:bg-gray-300 text-black"
