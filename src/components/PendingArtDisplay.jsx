@@ -1,12 +1,179 @@
 import React, { useEffect, useState } from "react";
-import { deleteDoc, doc } from "firebase/firestore";
+import { deleteDoc, doc, setDoc } from "firebase/firestore";
 import { tempArtDatabase } from "../firebase/firestore";
-import { fetchTempArtDatabase, acceptArt } from "../firebase/firestore";
+import {
+  fetchTempArtDatabase,
+  acceptArt,
+  editArt,
+} from "../firebase/firestore";
+import { toast } from "react-hot-toast";
+
+const EditArtModal = ({ isOpen, onClose, art, onSave }) => {
+  const [editedArt, setEditedArt] = useState({
+    id: "",
+    realName: "",
+    profilePictureUrl: "",
+    artTitle: "",
+    artUrl: "",
+    artNameYear: "",
+    artDesc: "",
+    artDimension: "",
+    artMedia: "",
+  });
+  const [isSaving, setIsSaving] = useState(false);
+
+  useEffect(() => {
+    if (art) {
+      setEditedArt(art);
+    }
+  }, [art]);
+
+  useEffect(() => {
+    if (isOpen) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "unset";
+    }
+    return () => {
+      document.body.style.overflow = "unset";
+    };
+  }, [isOpen]);
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setEditedArt((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
+  };
+
+  const handleSave = async () => {
+    setIsSaving(true);
+    try {
+      await onSave(editedArt);
+    } finally {
+      setIsSaving(false);
+    }
+  };
+
+  if (!isOpen || !art) return null;
+
+  return (
+    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
+      <div className="bg-gray-800 rounded-lg w-full max-w-2xl max-h-[90vh] flex flex-col">
+        <div className="p-6 border-b border-gray-700">
+          <h2 className="text-2xl font-bold text-white">Edit Artwork</h2>
+        </div>
+        <div className="p-6 overflow-y-auto flex-1">
+          <div className="space-y-4">
+            <div>
+              <label className="block text-sm font-medium text-gray-300 mb-2">
+                Nama Lengkap
+              </label>
+              <input
+                type="text"
+                name="realName"
+                value={editedArt.realName || ""}
+                onChange={handleChange}
+                className="w-full px-4 py-2 bg-gray-700 border border-gray-600 rounded text-white"
+              />
+            </div>
+            <div>
+              <label className="block text-sm font-medium text-gray-300 mb-2">
+                Judul Karya
+              </label>
+              <input
+                type="text"
+                name="artTitle"
+                value={editedArt.artTitle || ""}
+                onChange={handleChange}
+                className="w-full px-4 py-2 bg-gray-700 border border-gray-600 rounded text-white"
+              />
+            </div>
+            <div>
+              <label className="block text-sm font-medium text-gray-300 mb-2">
+                Deskripsi
+              </label>
+              <textarea
+                name="artDesc"
+                value={editedArt.artDesc || ""}
+                onChange={handleChange}
+                className="w-full px-4 py-2 bg-gray-700 border border-gray-600 rounded text-white"
+                rows="3"
+              />
+            </div>
+            <div>
+              <label className="block text-sm font-medium text-gray-300 mb-2">
+                Nama, Tahun
+              </label>
+              <input
+                type="text"
+                name="artNameYear"
+                value={editedArt.artNameYear || ""}
+                onChange={handleChange}
+                className="w-full px-4 py-2 bg-gray-700 border border-gray-600 rounded text-white"
+              />
+            </div>
+            <div>
+              <label className="block text-sm font-medium text-gray-300 mb-2">
+                Dimensi
+              </label>
+              <input
+                type="text"
+                name="artDimension"
+                value={editedArt.artDimension || ""}
+                onChange={handleChange}
+                className="w-full px-4 py-2 bg-gray-700 border border-gray-600 rounded text-white"
+              />
+            </div>
+            <div>
+              <label className="block text-sm font-medium text-gray-300 mb-2">
+                Media
+              </label>
+              <input
+                type="text"
+                name="artMedia"
+                value={editedArt.artMedia || ""}
+                onChange={handleChange}
+                className="w-full px-4 py-2 bg-gray-700 border border-gray-600 rounded text-white"
+              />
+            </div>
+          </div>
+        </div>
+        <div className="p-6 border-t border-gray-700 flex justify-end gap-4">
+          <button
+            onClick={onClose}
+            disabled={isSaving}
+            className="px-4 py-2 bg-gray-600 text-white rounded hover:bg-gray-700 disabled:opacity-50 disabled:cursor-not-allowed"
+          >
+            Cancel
+          </button>
+          <button
+            onClick={handleSave}
+            disabled={isSaving}
+            className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2"
+          >
+            {isSaving ? (
+              <>
+                <span>Saving</span>
+                <span className="animate-pulse">...</span>
+              </>
+            ) : (
+              "Save Changes"
+            )}
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+};
 
 const PendingArtDisplay = () => {
   const [tempArtList, setTempArtList] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState("");
+  const [selectedArt, setSelectedArt] = useState(null);
+  const [isEditModalOpen, setIsEditModalOpen] = useState(false);
 
   useEffect(() => {
     fetchTempArtData();
@@ -38,26 +205,77 @@ const PendingArtDisplay = () => {
         art.artDimension,
         art.artMedia
       );
-      await fetchTempArtData(); // Refresh the list after accepting
+      await fetchTempArtData();
     } catch (error) {
       console.error("Error accepting art:", error);
       setError("Failed to accept submission");
     }
   };
 
-  const handleReject = async (id) => {
+  const handleEdit = (art) => {
+    setSelectedArt(art);
+    setIsEditModalOpen(true);
+  };
+
+  const handleSaveEdit = async (editedArt) => {
     try {
-      await deleteDoc(doc(tempArtDatabase, id));
-      await fetchTempArtData(); // Refresh the list after rejecting
+      await setDoc(doc(tempArtDatabase, editedArt.id), {
+        ...editedArt,
+      });
+      await fetchTempArtData();
+      setIsEditModalOpen(false);
+      toast.success("Karya berhasil diperbarui!", {
+        position: "top-center",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: false,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "dark",
+      });
     } catch (error) {
-      console.error("Error rejecting art:", error);
-      alert(
-        error ==
-          "FirebaseError: [code=permission-denied]: Missing or insufficient permissions."
-          ? "LOGIN SEBAGAI ADMIN"
-          : { error }
-      );
-      setError("Failed to reject submission");
+      console.error("Error editing art:", error);
+      toast.error("Gagal memperbarui karya: " + error.message, {
+        position: "top-center",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: false,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "dark",
+      });
+    }
+  };
+
+  const handleReject = async (id) => {
+    if (window.confirm("Yakin pengen ditolak nihh😢?")) {
+      try {
+        await deleteDoc(doc(tempArtDatabase, id));
+        toast.success("Karya berhasil ditolak!", {
+          position: "top-center",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: false,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "dark",
+        });
+        fetchTempArtData();
+      } catch (error) {
+        toast.error("Gagal menolak karya: " + error.message, {
+          position: "top-center",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: false,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "dark",
+        });
+      }
     }
   };
 
@@ -99,14 +317,20 @@ const PendingArtDisplay = () => {
               </div>
               <div className="flex flex-row sm:flex-col gap-2 sm:gap-4 w-full sm:w-40">
                 <button
+                  onClick={() => handleEdit(art)}
+                  className="flex-1 sm:flex-none px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 transition-colors text-sm sm:text-base"
+                >
+                  Edit
+                </button>
+                <button
                   onClick={() => handleAccept(art)}
-                  className="flex-1 sm:flex-none px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700 transition-colors text-sm sm:text-base"
+                  className="flex-1 sm:flex-none px-4 py-2 bg-green-500 text-white rounded hover:bg-green-700 transition-colors text-sm sm:text-base"
                 >
                   Accept
                 </button>
                 <button
                   onClick={() => handleReject(art.id)}
-                  className="flex-1 sm:flex-none px-4 py-2 bg-red-600 text-white rounded hover:bg-red-700 transition-colors text-sm sm:text-base"
+                  className="flex-1 sm:flex-none px-4 py-2 bg-red-500 text-white rounded hover:bg-red-700 transition-colors text-sm sm:text-base"
                 >
                   Reject
                 </button>
@@ -120,6 +344,13 @@ const PendingArtDisplay = () => {
           )}
         </>
       )}
+
+      <EditArtModal
+        isOpen={isEditModalOpen}
+        onClose={() => setIsEditModalOpen(false)}
+        art={selectedArt}
+        onSave={handleSaveEdit}
+      />
     </div>
   );
 };

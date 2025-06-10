@@ -15,6 +15,7 @@
     "react": "^19.1.0",
     "react-confirm-alert": "^3.0.6",
     "react-dom": "^19.1.0",
+    "react-hot-toast": "^2.5.2",
     "react-image-crop": "^11.0.10",
     "react-router-dom": "^7.6.2",
     "react-toastify": "^11.0.5",

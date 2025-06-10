@@ -167,6 +167,86 @@ const adminCheck = async (setEmail, setRole, setIsAdmin) => {
   }
 };
 
+const editArt = async (
+  id,
+  realName,
+  profilePictureUrl,
+  artTitle,
+  artUrl,
+  artNameYear,
+  artDesc,
+  artDimension,
+  artMedia
+) => {
+  try {
+    await setDoc(
+      doc(artDatabase, id),
+      {
+        id,
+        realName,
+        profilePictureUrl,
+        artUrl,
+        artTitle,
+        artDesc,
+        artNameYear,
+        artDimension,
+        artMedia,
+      },
+      { merge: true }
+    );
+
+    toast.success("Karya berhasil diperbarui!", {
+      position: "top-center",
+      autoClose: 5000,
+      hideProgressBar: false,
+      closeOnClick: false,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "dark",
+    });
+  } catch (error) {
+    toast.error("Gagal memperbarui karya: " + error.message, {
+      position: "top-center",
+      autoClose: 5000,
+      hideProgressBar: false,
+      closeOnClick: false,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "dark",
+    });
+  }
+};
+
+const deleteArt = async (id) => {
+  try {
+    await deleteDoc(doc(artDatabase, id));
+    toast.success("Karya berhasil dihapus!", {
+      position: "top-center",
+      autoClose: 5000,
+      hideProgressBar: false,
+      closeOnClick: false,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "dark",
+    });
+  } catch (error) {
+    toast.error("Gagal menghapus karya: " + error.message, {
+      position: "top-center",
+      autoClose: 5000,
+      hideProgressBar: false,
+      closeOnClick: false,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "dark",
+    });
+    throw error;
+  }
+};
+
 export {
   db,
   createArt,
@@ -176,4 +256,6 @@ export {
   tempArtDatabase,
   subscribeToArtDatabase,
   adminCheck,
+  editArt,
+  deleteArt,
 };
