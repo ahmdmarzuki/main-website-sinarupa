@@ -849,7 +849,7 @@ const UploadArt = () => {
             </button>
           </form>
         </div>
-        {/* <div className="flex flex-col justify-center items-center">
+        <div className="flex flex-col justify-center items-center">
           <Link to="/pending">
             <button
               className={
@@ -859,7 +859,7 @@ const UploadArt = () => {
               Liat Submission Pending
             </button>
           </Link>
-        </div> */}
+        </div>
       </div>
       <ToastContainer />
     </main>

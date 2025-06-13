@@ -6,17 +6,22 @@ import {
   signUpWithEmail,
 } from "../firebase/auth";
 import { useNavigate } from "react-router-dom";
+import { useMediaQuery } from "../useMediaQuery";
 
 import PendingArtDisplay from "../components/PendingArtDisplay";
 import { onAuthStateChanged } from "firebase/auth";
 import AcceptedArtDisplay from "../components/AcceptedArtDisplay";
 import { adminCheck } from "../firebase/firestore";
 
+import bgDesktop from "/images/bgDesktopRevisi.webp";
+import bgMobile from "/images/bgMobileRevisi.jpg";
+
 const PendingSubsmissionPage = () => {
   const navigate = useNavigate();
   const [isLoadingLogin, setIsLoadingLogin] = useState(false);
   const [error, setError] = useState("");
   const [isLogin, setIsLogin] = useState(true);
+  const isMobile = useMediaQuery("(max-width: 768px)");
 
   const [formData, setFormData] = useState({
     email: "",
@@ -78,39 +83,41 @@ const PendingSubsmissionPage = () => {
   }, []);
 
   return (
-    <div className="bg-gray-900 w-screen min-h-screen mx-auto p-6 flex flex-col justify-center items-center">
+    <div
+      className="w-screen min-h-screen mx-auto p-6 flex flex-col justify-center items-center bg-bottom"
+      style={{ backgroundImage: `url(${isMobile ? bgMobile : bgDesktop})` }}
+    >
       <div className="w-full max-w-md mb-40">
         {isUser ? (
-          <div className="flex flex-col items-center">
-            <h1 className="text-3xl font-bold text-white mb-2">Logged In</h1>
-            <div className="text-center mb-8 text-white flex flex-col justify-start items-start">
+          <div className="flex flex-col items-center bg-[#ffffff80] rounded-lg shadow-xl p-8">
+            <h1 className="text-3xl font-bold text-black mb-2">Logged In</h1>
+            <div className="text-center mb-8 text-black flex flex-col justify-start items-start">
               <p className="">
                 uid:{" "}
-                <span className="text-gray-400">{auth.currentUser.uid}</span>
+                <span className="text-gray-600">{auth.currentUser.uid}</span>
               </p>
               <p className="">
-                Email: <span className="text-gray-400">{userEmail}</span>
+                Email: <span className="text-gray-600">{userEmail}</span>
               </p>
               <p className="">
-                Role: <span className="text-gray-400">{userRole}</span>
+                Role: <span className="text-gray-600">{userRole}</span>
               </p>
             </div>
 
             <button
               onClick={logout}
-              className="w-full py-3 px-4 rounded-lg bg-red-500 hover:bg-red-600 text-white font-medium 
-                "
+              className="w-full py-3 px-4 rounded-lg bg-red-500 hover:bg-red-600 text-white font-medium"
             >
               Logout
             </button>
           </div>
         ) : (
-          <div className="bg-gray-900 rounded-lg shadow-xl p-8 pb-12">
+          <div className="bg-[#ffffff80] rounded-lg shadow-xl p-8 pb-12">
             <div className="text-center mb-8">
-              <h1 className="text-3xl font-bold text-white mb-2">
+              <h1 className="text-3xl font-bold text-black mb-2">
                 {isLogin ? "Login" : "Sign Up"}
               </h1>
-              <p className="text-gray-400">
+              <p className="text-gray-600">
                 {isLogin ? "Login as Admin" : "Create a new account"}
               </p>
             </div>
@@ -128,7 +135,7 @@ const PendingSubsmissionPage = () => {
               <div>
                 <label
                   htmlFor="email"
-                  className="block text-sm font-medium text-gray-300 mb-2"
+                  className="block text-sm font-medium text-black mb-2"
                 >
                   Email
                 </label>
@@ -139,7 +146,7 @@ const PendingSubsmissionPage = () => {
                   value={formData.email}
                   onChange={handleChange}
                   required
-                  className="w-full px-4 py-2 bg-gray-800 border border-gray-700 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition-colors"
+                  className="w-full px-4 py-2 bg-white rounded-lg text-black placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 transition-colors"
                   placeholder="Enter your email"
                 />
               </div>
@@ -147,7 +154,7 @@ const PendingSubsmissionPage = () => {
               <div>
                 <label
                   htmlFor="password"
-                  className="block text-sm font-medium text-gray-300 mb-2"
+                  className="block text-sm font-medium text-black mb-2"
                 >
                   Password
                 </label>
@@ -158,7 +165,7 @@ const PendingSubsmissionPage = () => {
                   value={formData.password}
                   onChange={handleChange}
                   required
-                  className="w-full px-4 py-2 bg-gray-800 border border-gray-700 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition-colors"
+                  className="w-full px-4 py-2 bg-white rounded-lg text-black placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 transition-colors"
                   placeholder="Enter your password"
                 />
               </div>
@@ -183,7 +190,7 @@ const PendingSubsmissionPage = () => {
             </form>
 
             <div className="mt-6 text-center">
-              <p className="text-sm text-gray-400">
+              <p className="text-sm text-gray-600">
                 {isLogin
                   ? "Don't have an account? "
                   : "Already have an account? "}
@@ -192,7 +199,7 @@ const PendingSubsmissionPage = () => {
                     setIsLogin(!isLogin);
                     setError("");
                   }}
-                  className="text-blue-500 hover:text-blue-400 font-medium"
+                  className="text-blue-600 hover:text-blue-700 font-medium"
                 >
                   {isLogin ? "Sign up" : "Login"}
                 </button>
@@ -204,14 +211,18 @@ const PendingSubsmissionPage = () => {
 
       {isUser && (
         <div className="w-full flex flex-col justify-center items-center">
-          <h1 className="text-white text-3xl mt-20 mb-12">
-            - Submission Pending -
-          </h1>
-          <PendingArtDisplay />
-          <h1 className="text-white text-3xl mt-20 mb-12">
-            - Submission Accepted -
-          </h1>
-          <AcceptedArtDisplay />
+          <div className="rounded-lg flex flex-col items-center p-8 w-full">
+            <h1 className="text-gray-800 text-3xl mb-12">
+              - Submission Pending -
+            </h1>
+            <PendingArtDisplay />
+          </div>
+          <div className=" rounded-lg flex flex-col items-center p-8 w-full mt-20">
+            <h1 className="text-gray-800 text-3xl mt-20 mb-12">
+              - Submission Accepted -
+            </h1>
+            <AcceptedArtDisplay />
+          </div>
         </div>
       )}
     </div>
