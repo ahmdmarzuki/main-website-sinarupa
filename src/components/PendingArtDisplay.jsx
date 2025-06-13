@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from "react";
 import { deleteDoc, doc, setDoc } from "firebase/firestore";
-import { tempArtDatabase } from "../firebase/firestore";
+import { adminCheck, tempArtDatabase } from "../firebase/firestore";
 import {
   fetchTempArtDatabase,
   acceptArt,
   editArt,
 } from "../firebase/firestore";
 import { toast } from "react-hot-toast";
+import { TrashIcon } from "@heroicons/react/24/outline";
 
 const EditArtModal = ({ isOpen, onClose, art, onSave }) => {
   const [editedArt, setEditedArt] = useState({
@@ -19,8 +20,18 @@ const EditArtModal = ({ isOpen, onClose, art, onSave }) => {
     artDesc: "",
     artDimension: "",
     artMedia: "",
+    major: "",
+    dimensionType: "",
   });
   const [isSaving, setIsSaving] = useState(false);
+
+  const majors = [
+    "Seni Rupa",
+    "Desain Komunikasi Visual",
+    "Desain Produk",
+    "Desain Interior",
+    "Kriya",
+  ];
 
   useEffect(() => {
     if (art) {
@@ -77,6 +88,53 @@ const EditArtModal = ({ isOpen, onClose, art, onSave }) => {
                 onChange={handleChange}
                 className="w-full px-4 py-2 bg-gray-700 border border-gray-600 rounded text-white"
               />
+            </div>
+            <div>
+              <label className="block text-sm font-medium text-gray-300 mb-2">
+                Jurusan
+              </label>
+              <select
+                name="major"
+                value={editedArt.major || ""}
+                onChange={handleChange}
+                className="w-full px-4 py-2 bg-gray-700 border border-gray-600 rounded text-white"
+              >
+                <option value="">Pilih Jurusan</option>
+                {majors.map((major) => (
+                  <option key={major} value={major}>
+                    {major}
+                  </option>
+                ))}
+              </select>
+            </div>
+            <div>
+              <label className="block text-sm font-medium text-gray-300 mb-2">
+                Tipe Dimensi
+              </label>
+              <div className="flex gap-4">
+                <label className="flex items-center space-x-2">
+                  <input
+                    type="radio"
+                    name="dimensionType"
+                    value="2D"
+                    checked={editedArt.dimensionType === "2D"}
+                    onChange={handleChange}
+                    className="form-radio text-blue-500"
+                  />
+                  <span className="text-gray-300">2D</span>
+                </label>
+                <label className="flex items-center space-x-2">
+                  <input
+                    type="radio"
+                    name="dimensionType"
+                    value="3D"
+                    checked={editedArt.dimensionType === "3D"}
+                    onChange={handleChange}
+                    className="form-radio text-blue-500"
+                  />
+                  <span className="text-gray-300">3D</span>
+                </label>
+              </div>
             </div>
             <div>
               <label className="block text-sm font-medium text-gray-300 mb-2">
@@ -174,9 +232,15 @@ const PendingArtDisplay = () => {
   const [error, setError] = useState("");
   const [selectedArt, setSelectedArt] = useState(null);
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
+  const [acceptingId, setAcceptingId] = useState(null);
+
+  const [email, setEmail] = useState("");
+  const [role, setRole] = useState("");
+  const [isAdmin, setIsAdmin] = useState(false);
 
   useEffect(() => {
     fetchTempArtData();
+    adminCheck(setEmail, setRole, setIsAdmin);
   }, []);
 
   const fetchTempArtData = async () => {
@@ -194,10 +258,13 @@ const PendingArtDisplay = () => {
 
   const handleAccept = async (art) => {
     try {
+      setAcceptingId(art.id);
       await acceptArt(
         art.id,
         art.realName,
         art.profilePictureUrl,
+        art.major,
+        art.dimensionType,
         art.artTitle,
         art.artUrl,
         art.artNameYear,
@@ -205,10 +272,12 @@ const PendingArtDisplay = () => {
         art.artDimension,
         art.artMedia
       );
-      await fetchTempArtData();
+      setTempArtList((prev) => prev.filter((item) => item.id !== art.id));
     } catch (error) {
       console.error("Error accepting art:", error);
       setError("Failed to accept submission");
+    } finally {
+      setAcceptingId(null);
     }
   };
 
@@ -290,51 +359,75 @@ const PendingArtDisplay = () => {
           {tempArtList.map((art) => (
             <div
               key={art.id}
-              className="bg-gray-800 rounded-lg p-3 sm:p-4 flex flex-col sm:flex-row justify-center items-center gap-4"
+              className="bg-gray-800 rounded-lg p-3 sm:p-4 flex flex-col sm:flex-row justify-between items-center gap-4"
             >
-              <img
-                src={art.artUrl}
-                alt={art.artTitle}
-                className="w-full sm:w-32 h-48 sm:h-32 object-cover rounded-lg"
-              />
-              <div className="flex-1 w-full">
-                <div className="flex flex-row gap-3 sm:gap-4 mb-3 sm:mb-4">
-                  <img
-                    src={art.profilePictureUrl}
-                    alt={art.realName}
-                    className="w-8 h-8 border border-white rounded-full object-cover"
-                  />
-                  <h3 className="text-lg sm:text-xl font-semibold text-white mb-2">
-                    {art.realName} ({art.id})
-                  </h3>
+              <div className="flex gap-8 w-full">
+                <img
+                  src={art.artUrl}
+                  alt={art.artTitle}
+                  className="w-full sm:w-32 h-48 sm:h-32 object-cover rounded-lg flex-shrink-0"
+                />
+                <div className="flex-1 min-w-0">
+                  <div className="flex flex-row gap-3 sm:gap-4 mb-3 sm:mb-4">
+                    <img
+                      src={art.profilePictureUrl}
+                      alt={art.realName}
+                      className="w-8 h-8 border border-white rounded-full object-cover flex-shrink-0"
+                    />
+                    <div className="min-w-0">
+                      <h3 className="text-lg sm:text-xl font-semibold text-white mb-1 truncate">
+                        {art.realName} ({art.id})
+                      </h3>
+                      {art.major && (
+                        <p className="text-sm text-gray-400 truncate">
+                          {art.major} • {art.dimensionType}
+                        </p>
+                      )}
+                    </div>
+                  </div>
+                  <p className="text-gray-300 text-base sm:text-lg font-medium mb-2 truncate">
+                    {art.artTitle}
+                  </p>
+                  <p className="text-gray-400 text-sm sm:text-base mb-2 sm:mb-4 line-clamp-2">
+                    {art.artDesc}
+                  </p>
                 </div>
-                <p className="text-gray-300 text-base sm:text-lg">
-                  {art.artTitle}
-                </p>
-                <p className="text-gray-400 text-sm sm:text-base mb-2 sm:mb-4">
-                  {art.artDesc}
-                </p>
               </div>
-              <div className="flex flex-row sm:flex-col gap-2 sm:gap-4 w-full sm:w-40">
-                <button
-                  onClick={() => handleEdit(art)}
-                  className="flex-1 sm:flex-none px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 transition-colors text-sm sm:text-base"
-                >
-                  Edit
-                </button>
-                <button
-                  onClick={() => handleAccept(art)}
-                  className="flex-1 sm:flex-none px-4 py-2 bg-green-500 text-white rounded hover:bg-green-700 transition-colors text-sm sm:text-base"
-                >
-                  Accept
-                </button>
-                <button
-                  onClick={() => handleReject(art.id)}
-                  className="flex-1 sm:flex-none px-4 py-2 bg-red-500 text-white rounded hover:bg-red-700 transition-colors text-sm sm:text-base"
-                >
-                  Reject
-                </button>
-              </div>
+              {isAdmin && (
+                <div className="flex flex-row sm:flex-col gap-2 sm:gap-4 w-full sm:w-40 flex-shrink-0">
+                  <button
+                    onClick={() => handleEdit(art)}
+                    className="w-full px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 transition-colors text-sm sm:text-base"
+                  >
+                    Edit
+                  </button>
+                  <div className="flex gap-2 w-full">
+                    <button
+                      onClick={() => handleAccept(art)}
+                      disabled={acceptingId === art.id}
+                      className={`flex-1 px-4 py-2 bg-green-500 text-white rounded hover:bg-green-700 transition-colors text-sm sm:text-base ${
+                        acceptingId === art.id
+                          ? "opacity-50 cursor-not-allowed"
+                          : ""
+                      }`}
+                    >
+                      {acceptingId === art.id ? "Accepting..." : "Accept"}
+                    </button>
+                    <button
+                      onClick={() => handleReject(art.id)}
+                      disabled={acceptingId === art.id}
+                      className={`flex-none aspect-square px-2 py-2 bg-red-500 text-white rounded hover:bg-red-700 transition-colors flex items-center justify-center ${
+                        acceptingId === art.id
+                          ? "opacity-50 cursor-not-allowed"
+                          : ""
+                      }`}
+                      title="Reject"
+                    >
+                      <TrashIcon className="w-5 h-5" />
+                    </button>
+                  </div>
+                </div>
+              )}
             </div>
           ))}
           {tempArtList.length === 0 && (

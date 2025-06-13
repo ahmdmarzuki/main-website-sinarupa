@@ -7,6 +7,17 @@ import { createArt } from "../firebase/firestore";
 import { Link } from "react-router-dom";
 import ReactCrop, { centerCrop, makeAspectCrop } from "react-image-crop";
 import "react-image-crop/dist/ReactCrop.css";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import { ToastContainer } from "react-toastify";
+import { useMediaQuery } from "../useMediaQuery";
+import CropModalDesktop from "../components/CropModalDesktop";
+import CropModalMobile from "../components/CropModalMobile";
+import ProfileCropModalDesktop from "../components/ProfileCropModalDesktop";
+import ProfileCropModalMobile from "../components/ProfileCropModalMobile";
+
+import bgDesktop from "/images/bgDesktopRevisi.webp";
+import bgMobile from "/images/bgMobileRevisi.jpg";
 
 const imageDb = getStorage(app);
 
@@ -15,7 +26,18 @@ const ASPECT_RATIOS = [
   { label: "1:1", value: 1 / 1 },
   { label: "3:4", value: 3 / 4 },
   { label: "4:3", value: 4 / 3 },
+  { label: "4:5", value: 4 / 5 },
+  { label: "5:4", value: 5 / 4 },
   { label: "16:9", value: 16 / 9 },
+];
+
+// Define available majors
+const MAJORS = [
+  "Seni Rupa",
+  "Desain Komunikasi Visual",
+  "Desain Produk",
+  "Desain Interior",
+  "Kriya",
 ];
 
 const UploadArt = () => {
@@ -23,7 +45,8 @@ const UploadArt = () => {
     nim: "",
     realName: "",
     profileImage: null,
-
+    major: "",
+    dimensionType: "",
     artTitle: "",
     artDesc: "",
     artImage: null,
@@ -32,13 +55,18 @@ const UploadArt = () => {
     artMedia: "",
   });
 
+  const isMobile = useMediaQuery("(max-width: 768px)");
+
   const [artImagePreview, setArtImagePreview] = useState(null);
   const [profileImagePreview, setProfileImagePreview] = useState(null);
   const [showCropModal, setShowCropModal] = useState(false);
   const [showProfileCropModal, setShowProfileCropModal] = useState(false);
-  const [tempImage, setTempImage] = useState(null);
-  const [crop, setCrop] = useState();
-  const [completedCrop, setCompletedCrop] = useState(null);
+  const [artTempImage, setArtTempImage] = useState(null);
+  const [profileTempImage, setProfileTempImage] = useState(null);
+  const [artCrop, setArtCrop] = useState();
+  const [profileCrop, setProfileCrop] = useState();
+  const [artCompletedCrop, setArtCompletedCrop] = useState(null);
+  const [profileCompletedCrop, setProfileCompletedCrop] = useState(null);
   const [selectedRatio, setSelectedRatio] = useState(ASPECT_RATIOS[0]);
   const imgRef = useRef(null);
   const profileImgRef = useRef(null);
@@ -69,36 +97,48 @@ const UploadArt = () => {
   // Function to create a cropped image
   const getCroppedImg = (image, crop) => {
     const canvas = document.createElement("canvas");
-    const scaleX = image.naturalWidth / image.width;
-    const scaleY = image.naturalHeight / image.height;
-    canvas.width = crop.width;
-    canvas.height = crop.height;
     const ctx = canvas.getContext("2d");
 
+    // Calculate the actual pixel values
+    const scaleX = image.naturalWidth / image.width;
+    const scaleY = image.naturalHeight / image.height;
+
+    // Set canvas dimensions to match the crop size
+    canvas.width = Math.floor(crop.width * scaleX);
+    canvas.height = Math.floor(crop.height * scaleY);
+
+    // Draw the cropped image
     ctx.drawImage(
       image,
-      crop.x * scaleX,
-      crop.y * scaleY,
-      crop.width * scaleX,
-      crop.height * scaleY,
+      Math.floor(crop.x * scaleX),
+      Math.floor(crop.y * scaleY),
+      Math.floor(crop.width * scaleX),
+      Math.floor(crop.height * scaleY),
       0,
       0,
-      crop.width,
-      crop.height
+      Math.floor(crop.width * scaleX),
+      Math.floor(crop.height * scaleY)
     );
 
     return new Promise((resolve) => {
-      canvas.toBlob((blob) => {
-        resolve(blob);
-      }, "image/jpeg");
+      canvas.toBlob(
+        (blob) => {
+          resolve(blob);
+        },
+        "image/jpeg",
+        0.95
+      );
     });
   };
 
   const handleCropComplete = async () => {
-    if (!imgRef.current || !completedCrop) return;
+    if (!imgRef.current || !artCompletedCrop) return;
 
     try {
-      const croppedImage = await getCroppedImg(imgRef.current, completedCrop);
+      const croppedImage = await getCroppedImg(
+        imgRef.current,
+        artCompletedCrop
+      );
       const croppedImageUrl = URL.createObjectURL(croppedImage);
 
       const file = new File([croppedImage], "cropped-image.jpg", {
@@ -111,9 +151,9 @@ const UploadArt = () => {
       }));
       setArtImagePreview(croppedImageUrl);
       setShowCropModal(false);
-      setTempImage(null);
-      setCrop(undefined);
-      setCompletedCrop(null);
+      setArtTempImage(null);
+      setArtCrop(undefined);
+      setArtCompletedCrop(null);
     } catch (e) {
       console.error("Error cropping image:", e);
     }
@@ -139,7 +179,8 @@ const UploadArt = () => {
   // Function to handle image load
   function onImageLoad(e) {
     const { width, height } = e.currentTarget;
-    setCrop(centerAspectCrop(width, height, 1));
+    const crop = centerAspectCrop(width, height, selectedRatio.value);
+    setArtCrop(crop);
   }
 
   // Function to handle ratio change
@@ -147,22 +188,21 @@ const UploadArt = () => {
     setSelectedRatio(ratio);
     if (imgRef.current) {
       const { width, height } = imgRef.current;
-      setCrop(centerAspectCrop(width, height, ratio.value));
+      setArtCrop(centerAspectCrop(width, height, ratio.value));
     }
   };
 
   // Function to handle profile crop completion
   const handleProfileCropComplete = async () => {
-    if (!profileImgRef.current || !completedCrop) return;
+    if (!profileImgRef.current || !profileCompletedCrop) return;
 
     try {
       const croppedImage = await getCroppedImg(
         profileImgRef.current,
-        completedCrop
+        profileCompletedCrop
       );
       const croppedImageUrl = URL.createObjectURL(croppedImage);
 
-      // Create a File object from the blob
       const file = new File([croppedImage], "cropped-profile.jpg", {
         type: "image/jpeg",
       });
@@ -173,9 +213,9 @@ const UploadArt = () => {
       }));
       setProfileImagePreview(croppedImageUrl);
       setShowProfileCropModal(false);
-      setTempImage(null);
-      setCrop(undefined);
-      setCompletedCrop(null);
+      setProfileTempImage(null);
+      setProfileCrop(undefined);
+      setProfileCompletedCrop(null);
     } catch (e) {
       console.error("Error cropping profile image:", e);
     }
@@ -184,7 +224,8 @@ const UploadArt = () => {
   // Function to handle profile image load
   function onProfileImageLoad(e) {
     const { width, height } = e.currentTarget;
-    setCrop(centerAspectCrop(width, height, 1));
+    const crop = centerAspectCrop(width, height, 1);
+    setProfileCrop(crop);
   }
 
   // ART FUNCTION
@@ -219,19 +260,17 @@ const UploadArt = () => {
     }
   };
   const handleArtFile = (file) => {
-    // Validasi ukuran file (max 10MB)
     if (file.size > 10 * 1024 * 1024) {
       setError("File size should be less than 10MB");
       return;
     }
-    // Validasi tipe file
     if (!file.type.startsWith("image/")) {
       setError("Please upload an image file");
       return;
     }
 
     setError("");
-    setTempImage(URL.createObjectURL(file));
+    setArtTempImage(URL.createObjectURL(file));
     setShowCropModal(true);
   };
   const handleArtChange = (e) => {
@@ -279,19 +318,17 @@ const UploadArt = () => {
     }
   };
   const handleProfileFile = (file) => {
-    // Validasi ukuran file (max 10MB)
     if (file.size > 10 * 1024 * 1024) {
       setError("File size should be less than 10MB");
       return;
     }
-    // Validasi tipe file
     if (!file.type.startsWith("image/")) {
       setError("Please upload an image file");
       return;
     }
 
     setError("");
-    setTempImage(URL.createObjectURL(file));
+    setProfileTempImage(URL.createObjectURL(file));
     setShowProfileCropModal(true);
   };
   const handleProfileChange = (e) => {
@@ -312,8 +349,8 @@ const UploadArt = () => {
     setIsSubmitting(true);
     setError("");
 
-    if (!formData.artImage && !formData.profileImage) {
-      setError("Pilih gambar terlebih dahulu!");
+    if (!formData.artImage || !formData.profileImage) {
+      setError("Please upload both artwork and profile images");
       setIsSubmitting(false);
       return;
     }
@@ -335,7 +372,8 @@ const UploadArt = () => {
         formData.nim,
         formData.realName,
         profileUrl,
-
+        formData.major,
+        formData.dimensionType,
         formData.artTitle,
         artUrl,
         formData.artNameYear,
@@ -349,7 +387,8 @@ const UploadArt = () => {
         nim: "",
         realName: "",
         profileImage: null,
-
+        major: "",
+        dimensionType: "",
         artTitle: "",
         artDesc: "",
         artImage: null,
@@ -367,6 +406,17 @@ const UploadArt = () => {
       if (profileInputRef.current) {
         profileInputRef.current.value = "";
       }
+
+      toast.success("Berhasil Submit Karya!", {
+        position: "top-center",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: false,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "dark",
+      });
     } catch (err) {
       setError("An error occurred while submitting the form");
     } finally {
@@ -375,10 +425,13 @@ const UploadArt = () => {
   };
 
   return (
-    <main className="bg-gray-950 min-h-screen">
+    <main
+      className="min-h-screen bg-bottom"
+      style={{ backgroundImage: `url(${isMobile ? bgMobile : bgDesktop})` }}
+    >
       <div className="max-w-2xl mx-auto p-6">
-        <div className="bg-gray-900 rounded-lg shadow-xl p-6">
-          <h1 className="text-2xl font-bold mb-6 text-white text-center">
+        <div className="bg-[#ffffff80] rounded-lg shadow-xl p-6 text-black">
+          <h1 className="text-2xl font-bold mb-6 text-black text-center">
             Upload Artwork
           </h1>
 
@@ -389,169 +442,190 @@ const UploadArt = () => {
           )}
 
           {/* Crop Modal */}
-          {showCropModal && (
-            <div className="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center z-50">
-              <div className="bg-gray-900 p-4 rounded-lg w-full flex justify-center flex-row gap-8">
-                <div className="w-[20%]">
-                  <div className="flex flex-col h-[100%] justify-between">
-                    {/* Aspect Ratio Buttons */}
-                    <div className="flex flex-col gap-2 mb-4 overflow-x-auto pb-2">
-                      <h2 className="text-xl font-bold text-white mb-4">
-                        Crop Image
-                      </h2>
-                      {ASPECT_RATIOS.map((ratio) => (
-                        <button
-                          key={ratio.label}
-                          onClick={() => handleRatioChange(ratio)}
-                          className={`px-3 py-1 rounded text-sm whitespace-nowrap ${
-                            selectedRatio.label === ratio.label
-                              ? "bg-blue-600 text-white"
-                              : "bg-gray-700 text-gray-300 hover:bg-gray-600"
-                          }`}
-                        >
-                          {ratio.label}
-                        </button>
-                      ))}
-                    </div>
-                    <div className="flex flex-col justify-end gap-2 mt-4">
-                      <button
-                        onClick={() => {
-                          setShowCropModal(false);
-                          setTempImage(null);
-                          if (artInputRef.current) {
-                            artInputRef.current.value = "";
-                          }
-                        }}
-                        className="px-4 py-2 bg-gray-600 text-white rounded hover:bg-gray-700"
-                      >
-                        Cancel
-                      </button>
-                      <button
-                        onClick={handleCropComplete}
-                        className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
-                      >
-                        Save
-                      </button>
-                    </div>
-                  </div>
-                </div>
-
-                <div className="max-h-[90vh] overflow-hidden">
-                  <ReactCrop
-                    crop={crop}
-                    onChange={(c) => setCrop(c)}
-                    onComplete={(c) => setCompletedCrop(c)}
-                    aspect={selectedRatio.value}
-                  >
-                    <img
-                      ref={imgRef}
-                      src={tempImage}
-                      alt="Crop me"
-                      onLoad={onImageLoad}
-                      className="h-[90vh] object-contain"
-                    />
-                  </ReactCrop>
-                </div>
-              </div>
-            </div>
+          {isMobile ? (
+            <CropModalMobile
+              showModal={showCropModal}
+              title="Crop Image"
+              tempImage={artTempImage}
+              crop={artCrop}
+              setCrop={setArtCrop}
+              setCompletedCrop={setArtCompletedCrop}
+              aspect={selectedRatio.value}
+              imgRef={imgRef}
+              onImageLoad={onImageLoad}
+              onCropComplete={handleCropComplete}
+              onCancel={() => {
+                setShowCropModal(false);
+                setArtTempImage(null);
+                if (artInputRef.current) {
+                  artInputRef.current.value = "";
+                }
+              }}
+              aspectRatios={ASPECT_RATIOS}
+              selectedRatio={selectedRatio}
+              onRatioChange={handleRatioChange}
+            />
+          ) : (
+            <CropModalDesktop
+              showModal={showCropModal}
+              title="Crop Image"
+              tempImage={artTempImage}
+              crop={artCrop}
+              setCrop={setArtCrop}
+              setCompletedCrop={setArtCompletedCrop}
+              aspect={selectedRatio.value}
+              imgRef={imgRef}
+              onImageLoad={onImageLoad}
+              onCropComplete={handleCropComplete}
+              onCancel={() => {
+                setShowCropModal(false);
+                setArtTempImage(null);
+                if (artInputRef.current) {
+                  artInputRef.current.value = "";
+                }
+              }}
+              aspectRatios={ASPECT_RATIOS}
+              selectedRatio={selectedRatio}
+              onRatioChange={handleRatioChange}
+            />
           )}
 
           {/* Profile Crop Modal */}
-          {showProfileCropModal && (
-            <div className="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center z-50">
-              <div className="bg-gray-900 p-4 rounded-lg w-full flex justify-center flex-row gap-8">
-                <div className="w-[20%]">
-                  <div className="flex flex-col h-[100%] justify-between">
-                    <h2 className="text-xl font-bold text-white mb-4">
-                      Crop Profile Picture
-                    </h2>
-
-                    <div className="flex flex-col justify-end gap-2 mt-4">
-                      <button
-                        onClick={() => {
-                          setShowProfileCropModal(false);
-                          setTempImage(null);
-                          if (profileInputRef.current) {
-                            profileInputRef.current.value = "";
-                          }
-                        }}
-                        className="px-4 py-2 bg-gray-600 text-white rounded hover:bg-gray-700"
-                      >
-                        Cancel
-                      </button>
-                      <button
-                        onClick={handleProfileCropComplete}
-                        className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
-                      >
-                        Save
-                      </button>
-                    </div>
-                  </div>
-                </div>
-
-                <div className="max-h-[90vh] overflow-hidden">
-                  <ReactCrop
-                    crop={crop}
-                    onChange={(c) => setCrop(c)}
-                    onComplete={(c) => setCompletedCrop(c)}
-                    aspect={1}
-                  >
-                    <img
-                      ref={profileImgRef}
-                      src={tempImage}
-                      alt="Crop me"
-                      onLoad={onProfileImageLoad}
-                      className="h-[90vh] object-contain"
-                    />
-                  </ReactCrop>
-                </div>
-              </div>
-            </div>
+          {isMobile ? (
+            <ProfileCropModalMobile
+              showModal={showProfileCropModal}
+              title="Crop Profile Picture"
+              description="Profile picture will be cropped in a circle"
+              tempImage={profileTempImage}
+              crop={profileCrop}
+              setCrop={setProfileCrop}
+              setCompletedCrop={setProfileCompletedCrop}
+              imgRef={profileImgRef}
+              onImageLoad={onProfileImageLoad}
+              onCropComplete={handleProfileCropComplete}
+              onCancel={() => {
+                setShowProfileCropModal(false);
+                setProfileTempImage(null);
+                if (profileInputRef.current) {
+                  profileInputRef.current.value = "";
+                }
+              }}
+            />
+          ) : (
+            <ProfileCropModalDesktop
+              showModal={showProfileCropModal}
+              title="Crop Profile Picture"
+              description="Profile picture will be cropped in a circle"
+              tempImage={profileTempImage}
+              crop={profileCrop}
+              setCrop={setProfileCrop}
+              setCompletedCrop={setProfileCompletedCrop}
+              imgRef={profileImgRef}
+              onImageLoad={onProfileImageLoad}
+              onCropComplete={handleProfileCropComplete}
+              onCancel={() => {
+                setShowProfileCropModal(false);
+                setProfileTempImage(null);
+                if (profileInputRef.current) {
+                  profileInputRef.current.value = "";
+                }
+              }}
+            />
           )}
 
           <form onSubmit={handleSubmit} className="space-y-4">
             <div>
-              <label className="block mb-2 text-gray-300">Nama Lengkap:</label>
-              <input
-                type="text"
-                name="realName"
-                value={formData.realName}
-                onChange={handleProfileChange}
-                placeholder="Masukkan namaa"
-                className="w-full p-2 border border-gray-600 rounded bg-gray-800 text-white placeholder-gray-400 focus:outline-none focus:border-blue-500 transition-colors"
-                required
-              />
-            </div>
-
-            <div>
-              <label className="block mb-2 text-gray-300">NIM:</label>
+              <label className="block mb-2 text-black">NIM:</label>
               <input
                 type="text"
                 name="nim"
                 value={formData.nim}
-                onChange={handleProfileChange}
-                placeholder="Boleh tau NIM nya ga?"
-                className="w-full p-2 border border-gray-600 rounded bg-gray-800 text-white placeholder-gray-400 focus:outline-none focus:border-blue-500 transition-colors"
+                onChange={handleArtChange}
+                placeholder="Masukkan NIM"
+                className="w-full p-2 rounded bg-white text-black placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 transition-colors"
                 required
               />
             </div>
 
-            {/*input foto profill */}
             <div>
-              <label className="block mb-2 text-gray-300">Foto Profil:</label>
+              <label className="block mb-2 text-black">Nama Lengkap:</label>
+              <input
+                type="text"
+                name="realName"
+                value={formData.realName}
+                onChange={handleArtChange}
+                placeholder="Masukkan nama lengkap"
+                className="w-full p-2 rounded bg-white text-black placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 transition-colors"
+                required
+              />
+            </div>
+
+            <div>
+              <label className="block mb-2 text-black">Jurusan:</label>
+              <select
+                name="major"
+                value={formData.major}
+                onChange={handleArtChange}
+                className="w-full p-2 rounded bg-white text-black placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 transition-colors"
+                required
+              >
+                <option value="">Pilih Jurusan</option>
+                {MAJORS.map((major) => (
+                  <option key={major} value={major}>
+                    {major}
+                  </option>
+                ))}
+              </select>
+            </div>
+
+            <div>
+              <label className="block mb-2 text-black">Tipe Dimensi:</label>
+              <div className="flex gap-4">
+                <label className="flex items-center space-x-2">
+                  <input
+                    type="radio"
+                    name="dimensionType"
+                    value="2D"
+                    checked={formData.dimensionType === "2D"}
+                    onChange={handleArtChange}
+                    className="form-radio text-blue-500"
+                    required
+                  />
+                  <span className="text-black">2D</span>
+                </label>
+                <label className="flex items-center space-x-2">
+                  <input
+                    type="radio"
+                    name="dimensionType"
+                    value="3D"
+                    checked={formData.dimensionType === "3D"}
+                    onChange={handleArtChange}
+                    className="form-radio text-blue-500"
+                    required
+                  />
+                  <span className="text-black">3D</span>
+                </label>
+              </div>
+            </div>
+
+            <div>
+              <label className="block mb-2 text-black">Profile Picture:</label>
               <div className="mb-4">
                 {profileImagePreview ? (
                   <div className="relative group">
                     <img
                       src={profileImagePreview}
-                      alt="Preview"
-                      className="max-w-full h-64 object-contain border border-gray-600 rounded mb-2"
+                      alt="Profile Preview"
+                      className="w-32 h-32 object-cover rounded-full mb-2"
                     />
                     <button
                       type="button"
                       onClick={() => {
                         setProfileImagePreview(null);
-                        setFormData((prev) => ({ ...prev, image: null }));
+                        setFormData((prev) => ({
+                          ...prev,
+                          profileImage: null,
+                        }));
                         if (profileInputRef.current) {
                           profileInputRef.current.value = "";
                         }
@@ -578,15 +652,16 @@ const UploadArt = () => {
                     onDragLeave={handleProfileDragLeave}
                     onDragOver={handleProfileDragOver}
                     onDrop={handleProfileDrop}
-                    className={`w-full h-64 border-2 border-dashed rounded flex items-center justify-center transition-colors ${
+                    onClick={() => profileInputRef.current?.click()}
+                    className={`w-32 h-32 border-2 border-dashed rounded-full flex items-center justify-center transition-colors cursor-pointer ${
                       profileIsDragging
                         ? "border-blue-500 bg-blue-500/10"
-                        : "border-gray-600 bg-gray-800 hover:border-blue-500"
+                        : "border-gray-600 bg-white hover:border-blue-500"
                     }`}
                   >
-                    <div className="text-center text-gray-400">
+                    <div className="text-center text-gray-500">
                       <svg
-                        className="mx-auto h-12 w-12 text-gray-500"
+                        className="mx-auto h-8 w-8 text-gray-500"
                         stroke="currentColor"
                         fill="none"
                         viewBox="0 0 48 48"
@@ -599,10 +674,7 @@ const UploadArt = () => {
                           strokeLinejoin="round"
                         />
                       </svg>
-                      <p className="mt-1">Click to upload or drag and drop</p>
-                      <p className="text-xs text-gray-500">
-                        PNG, JPG, GIF up to 10MB
-                      </p>
+                      <p className="mt-1 text-xs">Click or drag</p>
                     </div>
                   </div>
                 )}
@@ -613,92 +685,90 @@ const UploadArt = () => {
                 name="profileImage"
                 onChange={handleProfileChange}
                 accept="image/*"
-                className="w-full p-2 border border-gray-600 rounded bg-gray-800 text-gray-300 file:mr-4 file:py-2 file:px-4 file:rounded file:border-0 file:text-sm file:font-semibold file:bg-blue-500 file:text-white hover:file:bg-blue-600 transition-colors"
+                className="w-full p-2 rounded bg-white text-black file:mr-4 file:py-2 file:px-4 file:rounded file:border-0 file:text-sm file:font-semibold file:bg-blue-500 file:text-white hover:file:bg-blue-600 transition-colors"
                 required
               />
             </div>
 
             <div>
-              <label className="block mb-2 text-gray-300">Judul Karya:</label>
+              <label className="block mb-2 text-black">Judul Karya:</label>
               <input
                 type="text"
                 name="artTitle"
                 value={formData.artTitle}
                 onChange={handleArtChange}
                 placeholder="Judul karyanya apa nih?"
-                className="w-full p-2 border border-gray-600 rounded bg-gray-800 text-white placeholder-gray-400 focus:outline-none focus:border-blue-500 transition-colors"
+                className="w-full p-2 rounded bg-white text-black placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 transition-colors"
                 required
               />
             </div>
 
             <div>
-              <label className="block mb-2 text-gray-300">
-                Deskripsi Karya:
-              </label>
+              <label className="block mb-2 text-black">Deskripsi Karya:</label>
               <textarea
                 name="artDesc"
                 value={formData.artDesc}
                 onChange={handleArtChange}
                 placeholder="Masukkin deskripsi karya"
-                className="w-full p-2 border border-gray-600 rounded bg-gray-800 text-white placeholder-gray-400 h-32 focus:outline-none focus:border-blue-500 transition-colors resize-none"
+                className="w-full p-2 rounded bg-white text-black placeholder-gray-400 h-32 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 transition-colors resize-none"
                 required
               />
             </div>
 
             <div>
-              <label className="block mb-2 text-gray-300">Media:</label>
+              <label className="block mb-2 text-black">Media:</label>
               <input
                 type="text"
                 name="artMedia"
                 value={formData.artMedia}
                 onChange={handleArtChange}
                 placeholder="Contoh: Ink on paper"
-                className="w-full p-2 border border-gray-600 rounded bg-gray-800 text-white placeholder-gray-400 focus:outline-none focus:border-blue-500 transition-colors"
+                className="w-full p-2 rounded bg-white text-black placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 transition-colors"
                 required
               />
             </div>
 
             <div>
-              <label className="block mb-2 text-gray-300">Nama, Tahun:</label>
+              <label className="block mb-2 text-black">Nama, Tahun:</label>
               <input
                 type="text"
                 name="artNameYear"
                 value={formData.artNameYear}
                 onChange={handleArtChange}
                 placeholder="(Nama, Tahun)"
-                className="w-full p-2 border border-gray-600 rounded bg-gray-800 text-white placeholder-gray-400 focus:outline-none focus:border-blue-500 transition-colors"
+                className="w-full p-2 rounded bg-white text-black placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 transition-colors"
                 required
               />
             </div>
 
             <div>
-              <label className="block mb-2 text-gray-300">Dimensi Karya:</label>
+              <label className="block mb-2 text-black">Dimensi Karya:</label>
               <input
                 type="text"
                 name="artDimension"
                 value={formData.artDimension}
                 onChange={handleArtChange}
                 placeholder="Ukuran karyanya berapa nih? (format: 30cm x 30cm)"
-                className="w-full p-2 border border-gray-600 rounded bg-gray-800 text-white placeholder-gray-400 focus:outline-none focus:border-blue-500 transition-colors"
+                className="w-full p-2 rounded bg-white text-black placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 transition-colors"
                 required
               />
             </div>
 
             <div>
-              <label className="block mb-2 text-gray-300">Artwork Image:</label>
+              <label className="block mb-2 text-black">Artwork Image:</label>
               <div className="mb-4">
                 {artImagePreview ? (
                   <div className="relative group">
                     <img
                       src={artImagePreview}
                       alt="Preview"
-                      className="max-w-full h-64 object-contain border border-gray-600 rounded mb-2"
+                      className="max-w-full h-64 object-contain rounded mb-2"
                     />
                     <button
                       type="button"
                       onClick={() => {
                         setArtImagePreview(null);
-                        setFormData((prev) => ({ ...prev, image: null }));
+                        setFormData((prev) => ({ ...prev, artImage: null }));
                         if (artInputRef.current) {
                           artInputRef.current.value = "";
                         }
@@ -718,9 +788,6 @@ const UploadArt = () => {
                         />
                       </svg>
                     </button>
-                    <ReactCrop crop={crop} onChange={setCrop}>
-                      <img src={formData.artImage} alt="" />
-                    </ReactCrop>
                   </div>
                 ) : (
                   <div
@@ -728,13 +795,14 @@ const UploadArt = () => {
                     onDragLeave={handleArtDragLeave}
                     onDragOver={handleArtDragOver}
                     onDrop={handleArtDrop}
-                    className={`w-full h-64 border-2 border-dashed rounded flex items-center justify-center transition-colors ${
+                    onClick={() => artInputRef.current?.click()}
+                    className={`w-full h-64 border-2 border-dashed rounded flex items-center justify-center transition-colors cursor-pointer ${
                       artIsDragging
                         ? "border-blue-500 bg-blue-500/10"
-                        : "border-gray-600 bg-gray-800 hover:border-blue-500"
+                        : "border-gray-600 bg-white hover:border-blue-500"
                     }`}
                   >
-                    <div className="text-center text-gray-400">
+                    <div className="text-center text-gray-500">
                       <svg
                         className="mx-auto h-12 w-12 text-gray-500"
                         stroke="currentColor"
@@ -763,7 +831,7 @@ const UploadArt = () => {
                 name="artImage"
                 onChange={handleArtChange}
                 accept="image/*"
-                className="w-full p-2 border border-gray-600 rounded bg-gray-800 text-gray-300 file:mr-4 file:py-2 file:px-4 file:rounded file:border-0 file:text-sm file:font-semibold file:bg-blue-500 file:text-white hover:file:bg-blue-600 transition-colors"
+                className="w-full p-2 rounded bg-white text-black file:mr-4 file:py-2 file:px-4 file:rounded file:border-0 file:text-sm file:font-semibold file:bg-blue-500 file:text-white hover:file:bg-blue-600 transition-colors"
                 required
               />
             </div>
@@ -781,7 +849,7 @@ const UploadArt = () => {
             </button>
           </form>
         </div>
-        <div className="flex flex-col justify-center items-center">
+        {/* <div className="flex flex-col justify-center items-center">
           <Link to="/pending">
             <button
               className={
@@ -791,8 +859,9 @@ const UploadArt = () => {
               Liat Submission Pending
             </button>
           </Link>
-        </div>
+        </div> */}
       </div>
+      <ToastContainer />
     </main>
   );
 };

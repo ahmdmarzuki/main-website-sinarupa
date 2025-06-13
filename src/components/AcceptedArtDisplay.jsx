@@ -4,10 +4,12 @@ import {
   subscribeToArtDatabase,
   deleteArt,
   editArt,
+  artDatabase,
+  adminCheck,
 } from "../firebase/firestore";
 import PendingArtDisplay from "./PendingArtDisplay";
 import { toast } from "react-hot-toast";
-import { deleteDoc, doc } from "firebase/firestore";
+import { collection, deleteDoc, doc, setDoc } from "firebase/firestore"; // ✅ Tambah setDoc import
 
 const EditArtModal = ({ isOpen, onClose, art, onSave }) => {
   const [editedArt, setEditedArt] = useState({
@@ -20,8 +22,18 @@ const EditArtModal = ({ isOpen, onClose, art, onSave }) => {
     artDesc: "",
     artDimension: "",
     artMedia: "",
+    major: "",
+    dimensionType: "",
   });
   const [isSaving, setIsSaving] = useState(false);
+
+  const majors = [
+    "Seni Rupa",
+    "Desain Komunikasi Visual",
+    "Desain Produk",
+    "Desain Interior",
+    "Kriya",
+  ];
 
   useEffect(() => {
     if (art) {
@@ -78,6 +90,53 @@ const EditArtModal = ({ isOpen, onClose, art, onSave }) => {
                 onChange={handleChange}
                 className="w-full px-4 py-2 bg-gray-700 border border-gray-600 rounded text-white"
               />
+            </div>
+            <div>
+              <label className="block text-sm font-medium text-gray-300 mb-2">
+                Jurusan
+              </label>
+              <select
+                name="major"
+                value={editedArt.major || ""}
+                onChange={handleChange}
+                className="w-full px-4 py-2 bg-gray-700 border border-gray-600 rounded text-white"
+              >
+                <option value="">Pilih Jurusan</option>
+                {majors.map((major) => (
+                  <option key={major} value={major}>
+                    {major}
+                  </option>
+                ))}
+              </select>
+            </div>
+            <div>
+              <label className="block text-sm font-medium text-gray-300 mb-2">
+                Tipe Dimensi
+              </label>
+              <div className="flex gap-4">
+                <label className="flex items-center space-x-2">
+                  <input
+                    type="radio"
+                    name="dimensionType"
+                    value="2D"
+                    checked={editedArt.dimensionType === "2D"}
+                    onChange={handleChange}
+                    className="form-radio text-blue-500"
+                  />
+                  <span className="text-gray-300">2D</span>
+                </label>
+                <label className="flex items-center space-x-2">
+                  <input
+                    type="radio"
+                    name="dimensionType"
+                    value="3D"
+                    checked={editedArt.dimensionType === "3D"}
+                    onChange={handleChange}
+                    className="form-radio text-blue-500"
+                  />
+                  <span className="text-gray-300">3D</span>
+                </label>
+              </div>
             </div>
             <div>
               <label className="block text-sm font-medium text-gray-300 mb-2">
@@ -176,8 +235,13 @@ const AcceptedArtDisplay = () => {
   const [selectedArt, setSelectedArt] = useState(null);
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
 
+  const [email, setEmail] = useState("");
+  const [role, setRole] = useState("");
+  const [isAdmin, setIsAdmin] = useState(false);
+
   useEffect(() => {
     setIsLoading(true);
+    adminCheck(setEmail, setRole, setIsAdmin);
 
     // Subscribe to real-time updates
     const unsubscribe = subscribeToArtDatabase((data) => {
@@ -205,7 +269,8 @@ const AcceptedArtDisplay = () => {
           progress: undefined,
           theme: "dark",
         });
-        fetchArt();
+        // ✅ Refresh data setelah delete jika diperlukan
+        await fetchArtDatabase();
       } catch (error) {
         toast.error("Gagal menghapus karya: " + error.message, {
           position: "top-center",
@@ -228,21 +293,39 @@ const AcceptedArtDisplay = () => {
 
   const handleSaveEdit = async (editedArt) => {
     try {
-      await editArt(
-        editedArt.id,
-        editedArt.realName,
-        editedArt.profilePictureUrl,
-        editedArt.artTitle,
-        editedArt.artUrl,
-        editedArt.artNameYear,
-        editedArt.artDesc,
-        editedArt.artDimension,
-        editedArt.artMedia
-      );
+      // ✅ Gunakan setDoc untuk update document
+      await setDoc(doc(artDatabase, editedArt.id), {
+        ...editedArt,
+      });
+
+      // ✅ Tutup modal setelah berhasil save
       setIsEditModalOpen(false);
-      fetchArt();
+
+      toast.success("Karya berhasil diperbarui!", {
+        position: "top-center",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: false,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "dark",
+      });
+
+      // ✅ Refresh data setelah edit
+      await fetchArtDatabase();
     } catch (error) {
-      console.error("Error saving edit:", error);
+      console.error("Error editing art:", error);
+      toast.error("Gagal memperbarui karya: " + error.message, {
+        position: "top-center",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: false,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "dark",
+      });
     }
   };
 
@@ -250,56 +333,63 @@ const AcceptedArtDisplay = () => {
     <div className="space-y-4 w-[100%] px-4 sm:px-8 md:px-12 lg:px-20">
       {isLoading ? (
         <div className="text-center py-4">
-          <p className="text-gray-400">Lagi Loadingg...</p>
-        </div>
-      ) : error ? (
-        <div className="text-center py-4">
-          <p className="text-red-400">{error}</p>
+          <p className="text-gray-400">Loading submissions...</p>
         </div>
       ) : (
         <>
           {artList.map((art) => (
             <div
               key={art.id}
-              className="bg-gray-800 rounded-lg p-3 sm:p-4 flex flex-col sm:flex-row justify-center items-center gap-4"
+              className="bg-gray-800 rounded-lg p-3 sm:p-4 flex flex-col sm:flex-row justify-between items-center gap-4"
             >
-              <img
-                src={art.artUrl}
-                alt={art.artTitle}
-                className="w-full sm:w-32 h-48 sm:h-32 object-cover rounded-lg"
-              />
-              <div className="flex-1 w-full">
-                <div className="flex flex-row gap-3 sm:gap-4 mb-3 sm:mb-4">
-                  <img
-                    src={art.profilePictureUrl}
-                    alt={art.realName}
-                    className="w-8 h-8 border border-white rounded-full object-cover"
-                  />
-                  <h3 className="text-lg sm:text-xl font-semibold text-white mb-2">
-                    {art.realName} ({art.id})
-                  </h3>
+              <div className="flex gap-8 w-full">
+                <img
+                  src={art.artUrl}
+                  alt={art.artTitle}
+                  className="w-full sm:w-32 h-48 sm:h-32 object-cover rounded-lg flex-shrink-0"
+                />
+                <div className="flex-1 min-w-0">
+                  <div className="flex flex-row gap-3 sm:gap-4 mb-3 sm:mb-4">
+                    <img
+                      src={art.profilePictureUrl}
+                      alt={art.realName}
+                      className="w-8 h-8 border border-white rounded-full object-cover flex-shrink-0"
+                    />
+                    <div className="min-w-0">
+                      <h3 className="text-lg sm:text-xl font-semibold text-white mb-1 truncate">
+                        {art.realName} ({art.id})
+                      </h3>
+                      {art.major && (
+                        <p className="text-sm text-gray-400 truncate">
+                          {art.major} • {art.dimensionType}
+                        </p>
+                      )}
+                    </div>
+                  </div>
+                  <p className="text-gray-300 text-base sm:text-lg font-medium mb-2 truncate">
+                    {art.artTitle}
+                  </p>
+                  <p className="text-gray-400 text-sm sm:text-base mb-2 sm:mb-4 line-clamp-2">
+                    {art.artDesc}
+                  </p>
                 </div>
-                <p className="text-gray-300 text-base sm:text-lg">
-                  {art.artTitle}
-                </p>
-                <p className="text-gray-400 text-sm sm:text-base mb-2 sm:mb-4">
-                  {art.artDesc}
-                </p>
               </div>
-              <div className="flex flex-row sm:flex-col gap-2 sm:gap-4 w-full sm:w-40">
-                <button
-                  onClick={() => handleEdit(art)}
-                  className="flex-1 sm:flex-none px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 transition-colors text-sm sm:text-base"
-                >
-                  Edit
-                </button>
-                <button
-                  onClick={() => handleDelete(art.id)}
-                  className="flex-1 sm:flex-none px-4 py-2 bg-gray-400 text-black rounded hover:bg-gray-500 transition-colors text-sm sm:text-base"
-                >
-                  Delete
-                </button>
-              </div>
+              {isAdmin && (
+                <div className="flex flex-row sm:flex-col gap-2 sm:gap-4 w-full sm:w-40 flex-shrink-0">
+                  <button
+                    onClick={() => handleEdit(art)}
+                    className="flex-1 sm:flex-none px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 transition-colors text-sm sm:text-base"
+                  >
+                    Edit
+                  </button>
+                  <button
+                    onClick={() => handleDelete(art.id)}
+                    className="flex-1 sm:flex-none px-4 py-2 bg-gray-400 text-black rounded hover:bg-gray-500 transition-colors text-sm sm:text-base"
+                  >
+                    Delete
+                  </button>
+                </div>
+              )}
             </div>
           ))}
           {artList.length === 0 && (

@@ -7,6 +7,7 @@ import {
   getDocs,
   onSnapshot,
   getDoc,
+  serverTimestamp,
 } from "firebase/firestore";
 import { app } from "./firebaseConfig";
 import { toast } from "react-toastify";
@@ -17,10 +18,12 @@ const usersCollectionRef = collection(db, "users");
 const tempArtDatabase = collection(db, "tempArtDatabase");
 const artDatabase = collection(db, "artDatabase");
 
-const createArt = async (
+export const createArt = async (
   id,
   realName,
   profilePictureUrl,
+  major,
+  dimensionType,
   artTitle,
   artUrl,
   artNameYear,
@@ -33,16 +36,18 @@ const createArt = async (
       id,
       realName,
       profilePictureUrl,
-
-      artUrl,
+      major,
+      dimensionType,
       artTitle,
-      artDesc,
+      artUrl,
       artNameYear,
+      artDesc,
       artDimension,
       artMedia,
+      timestamp: serverTimestamp(),
     });
-
-    toast.success("Berhasil Upload Karya!", {
+  } catch (error) {
+    toast.error("Gagal mengunggah karya: " + error.message, {
       position: "top-center",
       autoClose: 5000,
       hideProgressBar: false,
@@ -52,8 +57,6 @@ const createArt = async (
       progress: undefined,
       theme: "dark",
     });
-  } catch (error) {
-    alert(`error: ${error}`);
   }
 };
 
@@ -61,6 +64,8 @@ const acceptArt = async (
   id,
   realName,
   profilePictureUrl,
+  major,
+  dimensionType,
   artTitle,
   artUrl,
   artNameYear,
@@ -73,18 +78,18 @@ const acceptArt = async (
       id,
       realName,
       profilePictureUrl,
-
-      artUrl,
+      major,
+      dimensionType,
       artTitle,
-      artDesc,
+      artUrl,
       artNameYear,
+      artDesc,
       artDimension,
       artMedia,
+      timestamp: serverTimestamp(),
     });
-
     await deleteDoc(doc(tempArtDatabase, id));
-
-    toast.success("udh di acc", {
+    toast.success("Karya berhasil masuk ke database!", {
       position: "top-center",
       autoClose: 5000,
       hideProgressBar: false,
@@ -95,12 +100,16 @@ const acceptArt = async (
       theme: "dark",
     });
   } catch (error) {
-    alert(
-      error ==
-        "FirebaseError: [code=permission-denied]: Missing or insufficient permissions."
-        ? "LOGIN SEBAGAI ADMIN"
-        : { error }
-    );
+    toast.error("Gagal menerima karya: " + error.message, {
+      position: "top-center",
+      autoClose: 5000,
+      hideProgressBar: false,
+      closeOnClick: false,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "dark",
+    });
   }
 };
 
@@ -171,6 +180,7 @@ const editArt = async (
   id,
   realName,
   profilePictureUrl,
+  major,
   artTitle,
   artUrl,
   artNameYear,
@@ -185,6 +195,7 @@ const editArt = async (
         id,
         realName,
         profilePictureUrl,
+        major,
         artUrl,
         artTitle,
         artDesc,
@@ -249,13 +260,13 @@ const deleteArt = async (id) => {
 
 export {
   db,
-  createArt,
-  acceptArt,
   fetchTempArtDatabase,
   fetchArtDatabase,
   tempArtDatabase,
+  artDatabase,
   subscribeToArtDatabase,
   adminCheck,
   editArt,
   deleteArt,
+  acceptArt,
 };
