@@ -70,15 +70,15 @@ const EditArtModal = ({ isOpen, onClose, art, onSave }) => {
   if (!isOpen || !art) return null;
 
   return (
-    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
-      <div className="bg-gray-800 rounded-lg w-full max-w-2xl max-h-[90vh] flex flex-col">
-        <div className="p-6 border-b border-gray-700">
-          <h2 className="text-2xl font-bold text-white">Edit Artwork</h2>
+    <div className="fixed inset-0 bg-black/70 flex items-center justify-center p-4 z-50">
+      <div className="bg-white rounded-lg w-full max-w-2xl max-h-[90vh] flex flex-col">
+        <div className="p-6 border-b border-gray-200">
+          <h2 className="text-2xl font-bold text-gray-800">Edit Artwork</h2>
         </div>
         <div className="p-6 overflow-y-auto flex-1">
           <div className="space-y-4">
             <div>
-              <label className="block text-sm font-medium text-gray-300 mb-2">
+              <label className="block text-sm font-medium text-gray-700 mb-2">
                 Nama Lengkap
               </label>
               <input
@@ -86,18 +86,18 @@ const EditArtModal = ({ isOpen, onClose, art, onSave }) => {
                 name="realName"
                 value={editedArt.realName || ""}
                 onChange={handleChange}
-                className="w-full px-4 py-2 bg-gray-700 border border-gray-600 rounded text-white"
+                className="w-full px-4 py-2 bg-white border border-gray-300 rounded text-gray-800"
               />
             </div>
             <div>
-              <label className="block text-sm font-medium text-gray-300 mb-2">
+              <label className="block text-sm font-medium text-gray-700 mb-2">
                 Jurusan
               </label>
               <select
                 name="major"
                 value={editedArt.major || ""}
                 onChange={handleChange}
-                className="w-full px-4 py-2 bg-gray-700 border border-gray-600 rounded text-white"
+                className="w-full px-4 py-2 bg-white border border-gray-300 rounded text-gray-800"
               >
                 <option value="">Pilih Jurusan</option>
                 {majors.map((major) => (
@@ -108,7 +108,7 @@ const EditArtModal = ({ isOpen, onClose, art, onSave }) => {
               </select>
             </div>
             <div>
-              <label className="block text-sm font-medium text-gray-300 mb-2">
+              <label className="block text-sm font-medium text-gray-700 mb-2">
                 Tipe Dimensi
               </label>
               <div className="flex gap-4">
@@ -121,7 +121,7 @@ const EditArtModal = ({ isOpen, onClose, art, onSave }) => {
                     onChange={handleChange}
                     className="form-radio text-blue-500"
                   />
-                  <span className="text-gray-300">2D</span>
+                  <span className="text-gray-700">2D</span>
                 </label>
                 <label className="flex items-center space-x-2">
                   <input
@@ -132,12 +132,12 @@ const EditArtModal = ({ isOpen, onClose, art, onSave }) => {
                     onChange={handleChange}
                     className="form-radio text-blue-500"
                   />
-                  <span className="text-gray-300">3D</span>
+                  <span className="text-gray-700">3D</span>
                 </label>
               </div>
             </div>
             <div>
-              <label className="block text-sm font-medium text-gray-300 mb-2">
+              <label className="block text-sm font-medium text-gray-700 mb-2">
                 Judul Karya
               </label>
               <input
@@ -145,23 +145,23 @@ const EditArtModal = ({ isOpen, onClose, art, onSave }) => {
                 name="artTitle"
                 value={editedArt.artTitle || ""}
                 onChange={handleChange}
-                className="w-full px-4 py-2 bg-gray-700 border border-gray-600 rounded text-white"
+                className="w-full px-4 py-2 bg-white border border-gray-300 rounded text-gray-800"
               />
             </div>
             <div>
-              <label className="block text-sm font-medium text-gray-300 mb-2">
+              <label className="block text-sm font-medium text-gray-700 mb-2">
                 Deskripsi
               </label>
               <textarea
                 name="artDesc"
                 value={editedArt.artDesc || ""}
                 onChange={handleChange}
-                className="w-full px-4 py-2 bg-gray-700 border border-gray-600 rounded text-white"
+                className="w-full px-4 py-2 bg-white border border-gray-300 rounded text-gray-800"
                 rows="3"
               />
             </div>
             <div>
-              <label className="block text-sm font-medium text-gray-300 mb-2">
+              <label className="block text-sm font-medium text-gray-700 mb-2">
                 Nama, Tahun
               </label>
               <input
@@ -169,11 +169,11 @@ const EditArtModal = ({ isOpen, onClose, art, onSave }) => {
                 name="artNameYear"
                 value={editedArt.artNameYear || ""}
                 onChange={handleChange}
-                className="w-full px-4 py-2 bg-gray-700 border border-gray-600 rounded text-white"
+                className="w-full px-4 py-2 bg-white border border-gray-300 rounded text-gray-800"
               />
             </div>
             <div>
-              <label className="block text-sm font-medium text-gray-300 mb-2">
+              <label className="block text-sm font-medium text-gray-700 mb-2">
                 Dimensi
               </label>
               <input
@@ -181,11 +181,11 @@ const EditArtModal = ({ isOpen, onClose, art, onSave }) => {
                 name="artDimension"
                 value={editedArt.artDimension || ""}
                 onChange={handleChange}
-                className="w-full px-4 py-2 bg-gray-700 border border-gray-600 rounded text-white"
+                className="w-full px-4 py-2 bg-white border border-gray-300 rounded text-gray-800"
               />
             </div>
             <div>
-              <label className="block text-sm font-medium text-gray-300 mb-2">
+              <label className="block text-sm font-medium text-gray-700 mb-2">
                 Media
               </label>
               <input
@@ -193,16 +193,16 @@ const EditArtModal = ({ isOpen, onClose, art, onSave }) => {
                 name="artMedia"
                 value={editedArt.artMedia || ""}
                 onChange={handleChange}
-                className="w-full px-4 py-2 bg-gray-700 border border-gray-600 rounded text-white"
+                className="w-full px-4 py-2 bg-white border border-gray-300 rounded text-gray-800"
               />
             </div>
           </div>
         </div>
-        <div className="p-6 border-t border-gray-700 flex justify-end gap-4">
+        <div className="p-6 border-t border-gray-200 flex justify-end gap-4">
           <button
             onClick={onClose}
             disabled={isSaving}
-            className="px-4 py-2 bg-gray-600 text-white rounded hover:bg-gray-700 disabled:opacity-50 disabled:cursor-not-allowed"
+            className="px-4 py-2 bg-gray-200 text-gray-800 rounded hover:bg-gray-300 disabled:opacity-50 disabled:cursor-not-allowed"
           >
             Cancel
           </button>

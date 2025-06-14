@@ -84,7 +84,7 @@ const PendingSubsmissionPage = () => {
 
   return (
     <div
-      className="w-screen min-h-screen mx-auto p-6 flex flex-col justify-center items-center bg-bottom"
+      className="w-screen min-h-screen mx-auto p-6 flex flex-col justify-center items-center bg-cover bg-bottom"
       style={{ backgroundImage: `url(${isMobile ? bgMobile : bgDesktop})` }}
     >
       <div className="w-full max-w-md mb-40">
