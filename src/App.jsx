@@ -17,12 +17,30 @@ function App() {
   return (
     <main>
       <Routes>
-        {/* <Route path="/" element={<Homepage />} /> */}
-        <Route path="/" element={<UploadArt />} />
-        <Route path="/login" element={<LoginPage />} />
+        <Route path="/" element={<Homepage />} />
+        <Route path="/upload" element={<UploadArt />} />
         <Route path="/pending" element={<PendingSubsmissionPage />} />
-        <Route path="/guest" element={<GuestViewPendingPage />} />
-        <Route path="/art" element={<ArtDisplay />} />
+        <Route path="/karyabebas" element={<ArtDisplay />} />
+        <Route
+          path="/karyabebas/sr"
+          element={<ArtDisplay initialMajor="Seni Rupa" />}
+        />
+        <Route
+          path="/karyabebas/dkvnvd"
+          element={<ArtDisplay initialMajor="Desain Komunikasi Visual" />}
+        />
+        <Route
+          path="/karyabebas/dp"
+          element={<ArtDisplay initialMajor="Desain Produk" />}
+        />
+        <Route
+          path="/karyabebas/di"
+          element={<ArtDisplay initialMajor="Desain Interior" />}
+        />
+        <Route
+          path="/karyabebas/kr"
+          element={<ArtDisplay initialMajor="Kriya" />}
+        />
       </Routes>
     </main>
   );
