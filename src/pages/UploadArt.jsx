@@ -426,7 +426,7 @@ const UploadArt = () => {
 
   return (
     <main
-      className="min-h-screen bg-bottom"
+      className="min-h-screen bg-cover bg-bottom"
       style={{ backgroundImage: `url(${isMobile ? bgMobile : bgDesktop})` }}
     >
       <div className="max-w-2xl mx-auto p-6">
