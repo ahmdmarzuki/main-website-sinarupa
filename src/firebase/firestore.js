@@ -9,11 +9,13 @@ import {
   getDoc,
   serverTimestamp,
 } from "firebase/firestore";
+import { getStorage, ref, deleteObject } from "firebase/storage";
 import { app } from "./firebaseConfig";
 import { toast } from "react-toastify";
 import { auth } from "./auth";
 
 const db = getFirestore(app);
+const storage = getStorage(app);
 const usersCollectionRef = collection(db, "users");
 const tempArtDatabase = collection(db, "tempArtDatabase");
 const artDatabase = collection(db, "artDatabase");
@@ -230,9 +232,23 @@ const editArt = async (
   }
 };
 
-const deleteArt = async (id) => {
+const deleteArt = async (id, artUrl, profilePictureUrl) => {
   try {
+    // Delete from Firestore
     await deleteDoc(doc(artDatabase, id));
+
+    // Delete art image from Storage
+    if (artUrl) {
+      const artRef = ref(storage, artUrl);
+      await deleteObject(artRef);
+    }
+
+    // Delete profile picture from Storage
+    if (profilePictureUrl) {
+      const profileRef = ref(storage, profilePictureUrl);
+      await deleteObject(profileRef);
+    }
+
     toast.success("Karya berhasil dihapus!", {
       position: "top-center",
       autoClose: 5000,
@@ -258,6 +274,48 @@ const deleteArt = async (id) => {
   }
 };
 
+const rejectArt = async (id, artUrl, profilePictureUrl) => {
+  try {
+    // Delete from Firestore
+    await deleteDoc(doc(tempArtDatabase, id));
+
+    // Delete art image from Storage
+    if (artUrl) {
+      const artRef = ref(storage, artUrl);
+      await deleteObject(artRef);
+    }
+
+    // Delete profile picture from Storage
+    if (profilePictureUrl) {
+      const profileRef = ref(storage, profilePictureUrl);
+      await deleteObject(profileRef);
+    }
+
+    toast.success("Karya berhasil ditolak!", {
+      position: "top-center",
+      autoClose: 5000,
+      hideProgressBar: false,
+      closeOnClick: false,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "dark",
+    });
+  } catch (error) {
+    toast.error("Gagal menolak karya: " + error.message, {
+      position: "top-center",
+      autoClose: 5000,
+      hideProgressBar: false,
+      closeOnClick: false,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "dark",
+    });
+    throw error;
+  }
+};
+
 export {
   db,
   fetchTempArtDatabase,
@@ -269,4 +327,5 @@ export {
   editArt,
   deleteArt,
   acceptArt,
+  rejectArt,
 };

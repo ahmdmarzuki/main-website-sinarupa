@@ -234,10 +234,21 @@ const AcceptedArtDisplay = () => {
   const [error, setError] = useState("");
   const [selectedArt, setSelectedArt] = useState(null);
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
+  const [selectedMajor, setSelectedMajor] = useState("All");
+  const [sortOrder, setSortOrder] = useState("asc"); // "asc" or "desc"
 
   const [email, setEmail] = useState("");
   const [role, setRole] = useState("");
   const [isAdmin, setIsAdmin] = useState(false);
+
+  const majors = [
+    "All",
+    "Seni Rupa",
+    "Desain Komunikasi Visual",
+    "Desain Produk",
+    "Desain Interior",
+    "Kriya",
+  ];
 
   useEffect(() => {
     setIsLoading(true);
@@ -255,33 +266,30 @@ const AcceptedArtDisplay = () => {
     };
   }, []);
 
-  const handleDelete = async (id) => {
+  const filteredArtList = artList
+    .filter((art) => {
+      if (selectedMajor === "All") return true;
+      return art.major === selectedMajor;
+    })
+    .sort((a, b) => {
+      const idA = a.id.toLowerCase();
+      const idB = b.id.toLowerCase();
+      return sortOrder === "asc"
+        ? idA.localeCompare(idB)
+        : idB.localeCompare(idA);
+    });
+
+  const toggleSortOrder = () => {
+    setSortOrder(sortOrder === "asc" ? "desc" : "asc");
+  };
+
+  const handleDelete = async (id, artUrl, profilePictureUrl) => {
     if (window.confirm("yakin pengen dihapus nihh😢?")) {
       try {
-        await deleteDoc(doc(artDatabase, id));
-        toast.success("Karya berhasil dihapus!", {
-          position: "top-center",
-          autoClose: 5000,
-          hideProgressBar: false,
-          closeOnClick: false,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-          theme: "dark",
-        });
-        // ✅ Refresh data setelah delete jika diperlukan
+        await deleteArt(id, artUrl, profilePictureUrl);
         await fetchArtDatabase();
       } catch (error) {
-        toast.error("Gagal menghapus karya: " + error.message, {
-          position: "top-center",
-          autoClose: 5000,
-          hideProgressBar: false,
-          closeOnClick: false,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-          theme: "dark",
-        });
+        console.error("Error deleting art:", error);
       }
     }
   };
@@ -331,13 +339,41 @@ const AcceptedArtDisplay = () => {
 
   return (
     <div className="space-y-4 w-[100%] px-4 sm:px-8 md:px-12 lg:px-20">
+      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-6">
+        {/* Major Filter Tabs */}
+        <div className="flex flex-wrap gap-2">
+          {majors.map((major) => (
+            <button
+              key={major}
+              onClick={() => setSelectedMajor(major)}
+              className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
+                selectedMajor === major
+                  ? "bg-blue-600 text-white"
+                  : "bg-gray-200 text-gray-700 hover:bg-gray-300"
+              }`}
+            >
+              {major}
+            </button>
+          ))}
+        </div>
+
+        {/* Sort Button */}
+        <button
+          onClick={toggleSortOrder}
+          className="px-4 py-2 rounded-lg text-sm font-medium bg-gray-200 text-gray-700 hover:bg-gray-300 transition-colors flex items-center gap-2"
+        >
+          <span>Sort by NIM</span>
+          <span className="text-lg">{sortOrder === "asc" ? "↑" : "↓"}</span>
+        </button>
+      </div>
+
       {isLoading ? (
         <div className="text-center py-4">
           <p className="text-gray-400">Loading submissions...</p>
         </div>
       ) : (
         <>
-          {artList.map((art) => (
+          {filteredArtList.map((art) => (
             <div
               key={art.id}
               className="bg-[#ffffff80] rounded-lg p-3 sm:p-4 flex flex-col sm:flex-row justify-between items-center gap-4"
@@ -383,7 +419,9 @@ const AcceptedArtDisplay = () => {
                     Edit
                   </button>
                   <button
-                    onClick={() => handleDelete(art.id)}
+                    onClick={() =>
+                      handleDelete(art.id, art.artUrl, art.profilePictureUrl)
+                    }
                     className="flex-1 sm:flex-none px-4 py-2 bg-gray-200 text-black rounded hover:bg-gray-300 transition-colors text-sm sm:text-base"
                   >
                     Delete
@@ -392,8 +430,11 @@ const AcceptedArtDisplay = () => {
               )}
             </div>
           ))}
-          {artList.length === 0 && (
-            <p className="text-gray-800 text-center py-4">- Karya Kosong -</p>
+          {filteredArtList.length === 0 && (
+            <p className="text-gray-800 text-center py-4">
+              - No accepted artwork{" "}
+              {selectedMajor !== "All" ? `for ${selectedMajor}` : ""} -
+            </p>
           )}
         </>
       )}

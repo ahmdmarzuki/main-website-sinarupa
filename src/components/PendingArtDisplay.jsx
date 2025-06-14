@@ -5,6 +5,7 @@ import {
   fetchTempArtDatabase,
   acceptArt,
   editArt,
+  rejectArt,
 } from "../firebase/firestore";
 import { toast } from "react-hot-toast";
 import { TrashIcon } from "@heroicons/react/24/outline";
@@ -233,10 +234,21 @@ const PendingArtDisplay = () => {
   const [selectedArt, setSelectedArt] = useState(null);
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const [acceptingId, setAcceptingId] = useState(null);
+  const [selectedMajor, setSelectedMajor] = useState("All");
+  const [sortOrder, setSortOrder] = useState("asc");
 
   const [email, setEmail] = useState("");
   const [role, setRole] = useState("");
   const [isAdmin, setIsAdmin] = useState(false);
+
+  const majors = [
+    "All",
+    "Seni Rupa",
+    "Desain Komunikasi Visual",
+    "Desain Produk",
+    "Desain Interior",
+    "Kriya",
+  ];
 
   useEffect(() => {
     fetchTempArtData();
@@ -254,6 +266,23 @@ const PendingArtDisplay = () => {
     } finally {
       setIsLoading(false);
     }
+  };
+
+  const filteredArtList = tempArtList
+    .filter((art) => {
+      if (selectedMajor === "All") return true;
+      return art.major === selectedMajor;
+    })
+    .sort((a, b) => {
+      const idA = a.id.toLowerCase();
+      const idB = b.id.toLowerCase();
+      return sortOrder === "asc"
+        ? idA.localeCompare(idB)
+        : idB.localeCompare(idA);
+    });
+
+  const toggleSortOrder = () => {
+    setSortOrder(sortOrder === "asc" ? "desc" : "asc");
   };
 
   const handleAccept = async (art) => {
@@ -318,45 +347,54 @@ const PendingArtDisplay = () => {
     }
   };
 
-  const handleReject = async (id) => {
+  const handleReject = async (id, artUrl, profilePictureUrl) => {
     if (window.confirm("Yakin pengen ditolak nihh😢?")) {
       try {
-        await deleteDoc(doc(tempArtDatabase, id));
-        toast.success("Karya berhasil ditolak!", {
-          position: "top-center",
-          autoClose: 5000,
-          hideProgressBar: false,
-          closeOnClick: false,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-          theme: "dark",
-        });
+        await rejectArt(id, artUrl, profilePictureUrl);
         fetchTempArtData();
       } catch (error) {
-        toast.error("Gagal menolak karya: " + error.message, {
-          position: "top-center",
-          autoClose: 5000,
-          hideProgressBar: false,
-          closeOnClick: false,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-          theme: "dark",
-        });
+        console.error("Error rejecting art:", error);
       }
     }
   };
 
   return (
     <div className="space-y-4 w-[100%] px-4 sm:px-8 md:px-12 lg:px-20">
+      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-6">
+        {/* Major Filter Tabs */}
+        <div className="flex flex-wrap gap-2">
+          {majors.map((major) => (
+            <button
+              key={major}
+              onClick={() => setSelectedMajor(major)}
+              className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
+                selectedMajor === major
+                  ? "bg-blue-600 text-white"
+                  : "bg-gray-200 text-gray-700 hover:bg-gray-300"
+              }`}
+            >
+              {major}
+            </button>
+          ))}
+        </div>
+
+        {/* Sort Button */}
+        <button
+          onClick={toggleSortOrder}
+          className="px-4 py-2 rounded-lg text-sm font-medium bg-gray-200 text-gray-700 hover:bg-gray-300 transition-colors flex items-center gap-2"
+        >
+          <span>Sort by NIM</span>
+          <span className="text-lg">{sortOrder === "asc" ? "↑" : "↓"}</span>
+        </button>
+      </div>
+
       {isLoading ? (
         <div className="text-center py-4">
           <p className="text-gray-400">Loading submissions...</p>
         </div>
       ) : (
         <>
-          {tempArtList.map((art) => (
+          {filteredArtList.map((art) => (
             <div
               key={art.id}
               className="bg-[#ffffff80] rounded-lg p-3 sm:p-4 flex flex-col sm:flex-row justify-between items-center gap-4"
@@ -414,7 +452,9 @@ const PendingArtDisplay = () => {
                       {acceptingId === art.id ? "Accepting..." : "Accept"}
                     </button>
                     <button
-                      onClick={() => handleReject(art.id)}
+                      onClick={() =>
+                        handleReject(art.id, art.artUrl, art.profilePictureUrl)
+                      }
                       disabled={acceptingId === art.id}
                       className={`flex-none aspect-square px-2 py-2 bg-red-500 text-white rounded hover:bg-red-700 transition-colors flex items-center justify-center ${
                         acceptingId === art.id
@@ -430,9 +470,10 @@ const PendingArtDisplay = () => {
               )}
             </div>
           ))}
-          {tempArtList.length === 0 && (
+          {filteredArtList.length === 0 && (
             <p className="text-gray-800 text-center py-4">
-              - No pending artwork submissions -
+              - No pending artwork submissions{" "}
+              {selectedMajor !== "All" ? `for ${selectedMajor}` : ""} -
             </p>
           )}
         </>
