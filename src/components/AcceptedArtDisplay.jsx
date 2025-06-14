@@ -393,7 +393,7 @@ const AcceptedArtDisplay = () => {
             </div>
           ))}
           {artList.length === 0 && (
-            <p className="text-gray-400 text-center py-4">- Karya Kosong -</p>
+            <p className="text-gray-800 text-center py-4">- Karya Kosong -</p>
           )}
         </>
       )}

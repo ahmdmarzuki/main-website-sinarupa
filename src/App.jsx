@@ -17,10 +17,7 @@ function App() {
     <main>
       <Routes>
         {/* <Route path="/" element={<Homepage />} /> */}
-        <Route path="/" element={<UploadArt />} />
-        <Route path="/login" element={<LoginPage />} />
-        <Route path="/pending" element={<PendingSubsmissionPage />} />
-        <Route path="/guest" element={<GuestViewPendingPage />} />
+        <Route path="/" element={<PendingSubsmissionPage />} />
       </Routes>
     </main>
   );
