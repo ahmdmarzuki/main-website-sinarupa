@@ -432,7 +432,7 @@ const UploadArt = () => {
       <div className="max-w-2xl mx-auto p-6">
         <div className="bg-[#ffffff80] rounded-lg shadow-xl p-6 text-black">
           <h1 className="text-2xl font-bold mb-6 text-black text-center">
-            Upload Artwork
+            Upload Karya Bebas
           </h1>
 
           {error && (
@@ -692,27 +692,45 @@ const UploadArt = () => {
 
             <div>
               <label className="block mb-2 text-black">Judul Karya:</label>
-              <input
-                type="text"
-                name="artTitle"
-                value={formData.artTitle}
-                onChange={handleArtChange}
-                placeholder="Judul karyanya apa nih?"
-                className="w-full p-2 rounded bg-white text-black placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 transition-colors"
-                required
-              />
+              <div className="relative">
+                <input
+                  type="text"
+                  name="artTitle"
+                  value={formData.artTitle}
+                  onChange={(e) => {
+                    if (e.target.value.length <= 25) {
+                      handleArtChange(e);
+                    }
+                  }}
+                  placeholder="(Maksimal 3 kata)"
+                  className="w-full p-2 pr-16 rounded bg-white text-black placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 transition-colors"
+                  required
+                />
+                <div className="absolute right-2 top-1/2 -translate-y-1/2 text-sm text-gray-500">
+                  {formData.artTitle.length}/25
+                </div>
+              </div>
             </div>
 
             <div>
               <label className="block mb-2 text-black">Deskripsi Karya:</label>
-              <textarea
-                name="artDesc"
-                value={formData.artDesc}
-                onChange={handleArtChange}
-                placeholder="Masukkin deskripsi karya"
-                className="w-full p-2 rounded bg-white text-black placeholder-gray-400 h-32 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 transition-colors resize-none"
-                required
-              />
+              <div className="relative">
+                <textarea
+                  name="artDesc"
+                  value={formData.artDesc}
+                  onChange={(e) => {
+                    if (e.target.value.length <= 350) {
+                      handleArtChange(e);
+                    }
+                  }}
+                  placeholder="Masukkan deskripsi karya (Maksimal 50 kata)"
+                  className="w-full p-2 pr-16 rounded bg-white text-black placeholder-gray-400 h-32 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 transition-colors resize-none"
+                  required
+                />
+                <div className="absolute bottom-2 right-2 text-sm text-gray-500">
+                  {formData.artDesc.length}/350
+                </div>
+              </div>
             </div>
 
             <div>
@@ -748,14 +766,14 @@ const UploadArt = () => {
                 name="artDimension"
                 value={formData.artDimension}
                 onChange={handleArtChange}
-                placeholder="Ukuran karyanya berapa nih? (format: 30cm x 30cm)"
+                placeholder="(Contoh: 30cm x 30cm)"
                 className="w-full p-2 rounded bg-white text-black placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 transition-colors"
                 required
               />
             </div>
 
             <div>
-              <label className="block mb-2 text-black">Artwork Image:</label>
+              <label className="block mb-2 text-black">Gambar Karya:</label>
               <div className="mb-4">
                 {artImagePreview ? (
                   <div className="relative group">
