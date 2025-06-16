@@ -13,7 +13,7 @@ import { onAuthStateChanged } from "firebase/auth";
 import AcceptedArtDisplay from "../components/AcceptedArtDisplay";
 import { adminCheck } from "../firebase/firestore";
 
-import bgDesktop from "/images/bgDesktopRevisi.webp";
+import bgDesktop from "/images/bgDesktopRevisi.png";
 import bgMobile from "/images/bgMobileRevisi.jpg";
 
 const PendingSubsmissionPage = () => {

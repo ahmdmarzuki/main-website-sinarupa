@@ -390,7 +390,7 @@ const PendingArtDisplay = () => {
 
       {isLoading ? (
         <div className="text-center py-4">
-          <p className="text-gray-400">Loading submissions...</p>
+          <p className="text-gray-800">Loading submissions...</p>
         </div>
       ) : (
         <>
@@ -417,7 +417,7 @@ const PendingArtDisplay = () => {
                         {art.realName} ({art.id})
                       </h3>
                       {art.major && (
-                        <p className="text-sm text-gray-400 truncate">
+                        <p className="text-sm text-gray-700 truncate">
                           {art.major} • {art.dimensionType}
                         </p>
                       )}
@@ -426,7 +426,7 @@ const PendingArtDisplay = () => {
                   <p className="text-gray-800  text-base sm:text-lg font-medium mb-2 truncate">
                     {art.artTitle}
                   </p>
-                  <p className="text-gray-400 text-sm sm:text-base mb-2 sm:mb-4 line-clamp-2">
+                  <p className="text-gray-700 text-sm sm:text-base mb-2 sm:mb-4 line-clamp-2">
                     {art.artDesc}
                   </p>
                 </div>
