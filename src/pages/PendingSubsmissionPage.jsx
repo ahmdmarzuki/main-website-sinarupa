@@ -34,6 +34,8 @@ const PendingSubsmissionPage = () => {
   const [userEmail, setUserEmail] = useState("");
   const [userRole, setUserRole] = useState("");
 
+  const [activeTab, setActiveTab] = useState("pending");
+
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData((prev) => ({
@@ -211,17 +213,47 @@ const PendingSubsmissionPage = () => {
 
       {isUser && (
         <div className="w-full flex flex-col justify-center items-center">
-          <div className="rounded-lg flex flex-col items-center p-8 w-full">
-            <h1 className="text-gray-800 text-3xl mb-12">
-              - Submission Pending -
-            </h1>
-            <PendingArtDisplay />
+          {/* Tabs */}
+          <div className="flex gap-4 mb-8 w-full px-16">
+            <button
+              className={`px-6 py-2 rounded-lg font-semibold text-lg transition-colors border-b-2 w-full ${
+                activeTab === "pending"
+                  ? "bg-white text-blue-700 "
+                  : " text-white border-transparent hover:bg-gray-300/50"
+              }`}
+              onClick={() => setActiveTab("pending")}
+            >
+              Pending
+            </button>
+            <button
+              className={`px-6 py-2 rounded-lg font-semibold text-lg transition-colors border-b-2 w-full ${
+                activeTab === "accepted"
+                  ? "bg-white text-blue-700 "
+                  : " text-white border-transparent hover:bg-gray-300/50"
+              }`}
+              onClick={() => setActiveTab("accepted")}
+            >
+              Accepted
+            </button>
           </div>
-          <div className=" rounded-lg flex flex-col items-center p-8 w-full mt-20">
-            <h1 className="text-gray-800 text-3xl mt-20 mb-12">
-              - Submission Accepted -
-            </h1>
-            <AcceptedArtDisplay />
+
+          {/* Tab Content */}
+          <div className="rounded-lg flex flex-col items-center p-8 w-full">
+            {activeTab === "pending" ? (
+              <>
+                <h1 className="text-gray-800 text-3xl mb-12">
+                  - Submission Pending -
+                </h1>
+                <PendingArtDisplay />
+              </>
+            ) : (
+              <>
+                <h1 className="text-gray-800 text-3xl mb-12">
+                  - Submission Accepted -
+                </h1>
+                <AcceptedArtDisplay />
+              </>
+            )}
           </div>
         </div>
       )}

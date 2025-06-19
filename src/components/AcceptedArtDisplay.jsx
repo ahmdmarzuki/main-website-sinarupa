@@ -339,32 +339,39 @@ const AcceptedArtDisplay = () => {
 
   return (
     <div className="space-y-4 w-[100%] px-4 sm:px-8 md:px-12 lg:px-20">
-      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-6">
-        {/* Major Filter Tabs */}
-        <div className="flex flex-wrap gap-2">
-          {majors.map((major) => (
-            <button
-              key={major}
-              onClick={() => setSelectedMajor(major)}
-              className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
-                selectedMajor === major
-                  ? "bg-blue-600 text-white"
-                  : "bg-gray-200 text-gray-700 hover:bg-gray-300"
-              }`}
-            >
-              {major}
-            </button>
-          ))}
-        </div>
+      <div className="flex flex-col">
+        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-6">
+          {/* Major Filter Tabs */}
 
-        {/* Sort Button */}
-        <button
-          onClick={toggleSortOrder}
-          className="px-4 py-2 rounded-lg text-sm font-medium bg-gray-200 text-gray-700 hover:bg-gray-300 transition-colors flex items-center gap-2"
-        >
-          <span>Sort by NIM</span>
-          <span className="text-lg">{sortOrder === "asc" ? "↑" : "↓"}</span>
-        </button>
+          <div className="flex flex-wrap gap-2">
+            {majors.map((major) => (
+              <button
+                key={major}
+                onClick={() => setSelectedMajor(major)}
+                className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
+                  selectedMajor === major
+                    ? "bg-blue-600 text-white"
+                    : "bg-gray-200 text-gray-700 hover:bg-gray-300"
+                }`}
+              >
+                {major}
+              </button>
+            ))}
+          </div>
+
+          {/* Sort Button */}
+          <button
+            onClick={toggleSortOrder}
+            className="px-4 py-2 rounded-lg text-sm font-medium bg-gray-200 text-gray-700 hover:bg-gray-300 transition-colors flex items-center gap-2"
+          >
+            <span>Sort by NIM</span>
+            <span className="text-lg">{sortOrder === "asc" ? "↑" : "↓"}</span>
+          </button>
+        </div>
+      </div>
+      {/* Total Art Count */}
+      <div className="mb-2 text-white font-semibold text-lg">
+        Total Karya: {filteredArtList.length}
       </div>
 
       {isLoading ? (
