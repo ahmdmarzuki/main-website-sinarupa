@@ -49,7 +49,8 @@ const UploadArt = () => {
     dimensionType: "",
     artTitle: "",
     artDesc: "",
-    artImage: null,
+    artFile: null,
+    artFileType: "",
     artNameYear: "",
     artDimension: "",
     artMedia: "",
@@ -57,7 +58,7 @@ const UploadArt = () => {
 
   const isMobile = useMediaQuery("(max-width: 768px)");
 
-  const [artImagePreview, setArtImagePreview] = useState(null);
+  const [artFilePreview, setArtFilePreview] = useState(null);
   const [profileImagePreview, setProfileImagePreview] = useState(null);
   const [showCropModal, setShowCropModal] = useState(false);
   const [showProfileCropModal, setShowProfileCropModal] = useState(false);
@@ -94,10 +95,25 @@ const UploadArt = () => {
     };
   }, [showCropModal, showProfileCropModal]);
 
+  // Add useEffect to update crop area when selectedRatio changes
+  useEffect(() => {
+    if (imgRef.current && showCropModal) {
+      const { width, height } = imgRef.current;
+      const crop = centerAspectCrop(width, height, selectedRatio.value);
+      setArtCrop(crop);
+      // Also update completed crop when ratio changes
+      setArtCompletedCrop(crop);
+    }
+  }, [selectedRatio, showCropModal]);
+
   // Function to create a cropped image
   const getCroppedImg = (image, crop) => {
     const canvas = document.createElement("canvas");
     const ctx = canvas.getContext("2d");
+
+    if (!crop || !image) {
+      return Promise.reject(new Error("No crop or image data"));
+    }
 
     // Calculate the actual pixel values
     const scaleX = image.naturalWidth / image.width;
@@ -106,6 +122,11 @@ const UploadArt = () => {
     // Set canvas dimensions to match the crop size
     canvas.width = Math.floor(crop.width * scaleX);
     canvas.height = Math.floor(crop.height * scaleY);
+
+    // Ensure we have valid dimensions
+    if (canvas.width <= 0 || canvas.height <= 0) {
+      return Promise.reject(new Error("Invalid crop dimensions"));
+    }
 
     // Draw the cropped image
     ctx.drawImage(
@@ -132,13 +153,22 @@ const UploadArt = () => {
   };
 
   const handleCropComplete = async () => {
-    if (!imgRef.current || !artCompletedCrop) return;
+    if (!imgRef.current || !artCompletedCrop) {
+      console.error("Missing image reference or crop data");
+      return;
+    }
 
     try {
       const croppedImage = await getCroppedImg(
         imgRef.current,
         artCompletedCrop
       );
+
+      if (!croppedImage) {
+        console.error("Failed to create cropped image");
+        return;
+      }
+
       const croppedImageUrl = URL.createObjectURL(croppedImage);
 
       const file = new File([croppedImage], "cropped-image.jpg", {
@@ -147,40 +177,76 @@ const UploadArt = () => {
 
       setFormData((prev) => ({
         ...prev,
-        artImage: file,
+        artFile: file,
+        artFileType: "image",
       }));
-      setArtImagePreview(croppedImageUrl);
+      setArtFilePreview(croppedImageUrl);
       setShowCropModal(false);
       setArtTempImage(null);
       setArtCrop(undefined);
       setArtCompletedCrop(null);
     } catch (e) {
       console.error("Error cropping image:", e);
+      setError("Failed to crop image. Please try again.");
     }
   };
 
   // Function to center the crop on the image
   function centerAspectCrop(mediaWidth, mediaHeight, aspect) {
-    return centerCrop(
-      makeAspectCrop(
-        {
-          unit: "%",
-          width: 90,
-        },
-        aspect,
-        mediaWidth,
-        mediaHeight
-      ),
-      mediaWidth,
-      mediaHeight
-    );
+    if (!mediaWidth || !mediaHeight || !aspect) {
+      return undefined;
+    }
+
+    // Calculate the maximum possible crop size that fits within the image
+    let cropWidth, cropHeight;
+
+    if (aspect > 1) {
+      // Landscape ratio (e.g., 16:9, 4:3)
+      cropHeight = mediaHeight * 0.9; // Use 90% of height
+      cropWidth = cropHeight * aspect;
+
+      // If width exceeds image width, scale down
+      if (cropWidth > mediaWidth * 0.9) {
+        cropWidth = mediaWidth * 0.9;
+        cropHeight = cropWidth / aspect;
+      }
+    } else if (aspect < 1) {
+      // Portrait ratio (e.g., 3:4, 4:5)
+      cropWidth = mediaWidth * 0.9; // Use 90% of width
+      cropHeight = cropWidth / aspect;
+
+      // If height exceeds image height, scale down
+      if (cropHeight > mediaHeight * 0.9) {
+        cropHeight = mediaHeight * 0.9;
+        cropWidth = cropHeight * aspect;
+      }
+    } else {
+      // Square ratio (1:1)
+      const size = Math.min(mediaWidth, mediaHeight) * 0.9;
+      cropWidth = size;
+      cropHeight = size;
+    }
+
+    // Center the crop
+    const x = (mediaWidth - cropWidth) / 2;
+    const y = (mediaHeight - cropHeight) / 2;
+
+    return {
+      unit: "px",
+      x: x,
+      y: y,
+      width: cropWidth,
+      height: cropHeight,
+    };
   }
 
   // Function to handle image load
   function onImageLoad(e) {
     const { width, height } = e.currentTarget;
+    // Use the current selected ratio for crop calculation
     const crop = centerAspectCrop(width, height, selectedRatio.value);
     setArtCrop(crop);
+    setArtCompletedCrop(crop);
   }
 
   // Function to handle ratio change
@@ -188,7 +254,9 @@ const UploadArt = () => {
     setSelectedRatio(ratio);
     if (imgRef.current) {
       const { width, height } = imgRef.current;
-      setArtCrop(centerAspectCrop(width, height, ratio.value));
+      const newCrop = centerAspectCrop(width, height, ratio.value);
+      setArtCrop(newCrop);
+      setArtCompletedCrop(newCrop);
     }
   };
 
@@ -264,19 +332,49 @@ const UploadArt = () => {
       setError("File size should be less than 10MB");
       return;
     }
-    if (!file.type.startsWith("image/")) {
-      setError("Please upload an image file");
+
+    const isImage = file.type.startsWith("image/");
+    const isVideo = file.type.startsWith("video/");
+
+    if (!isImage && !isVideo) {
+      setError("Please upload an image or video file");
       return;
     }
 
     setError("");
-    setArtTempImage(URL.createObjectURL(file));
-    setShowCropModal(true);
+
+    if (isImage) {
+      // Handle image with cropping
+      // Reset crop ratio to default when new image is uploaded
+      setSelectedRatio(ASPECT_RATIOS[0]);
+      // Reset crop area
+      setArtCrop(undefined);
+      setArtCompletedCrop(null);
+      setArtTempImage(URL.createObjectURL(file));
+      setShowCropModal(true);
+    } else {
+      // Handle video directly
+      console.log("Processing video file:", file.name, file.type);
+      const videoUrl = URL.createObjectURL(file);
+      console.log("Video URL created:", videoUrl);
+
+      setFormData((prev) => ({
+        ...prev,
+        artFile: file,
+        artFileType: "video",
+      }));
+      setArtFilePreview(videoUrl);
+
+      // Clear any existing image-related states
+      setArtTempImage(null);
+      setArtCrop(undefined);
+      setArtCompletedCrop(null);
+    }
   };
   const handleArtChange = (e) => {
     const { name, value, files } = e.target;
 
-    if (name === "artImage" && files && files[0]) {
+    if (name === "artFile" && files && files[0]) {
       handleArtFile(files[0]);
     } else {
       setFormData((prev) => ({
@@ -349,20 +447,20 @@ const UploadArt = () => {
     setIsSubmitting(true);
     setError("");
 
-    if (!formData.artImage || !formData.profileImage) {
-      setError("Please upload both artwork and profile images");
+    if (!formData.artFile || !formData.profileImage) {
+      setError("Please upload both artwork file and profile image");
       setIsSubmitting(false);
       return;
     }
 
-    const artRef = ref(imageDb, `artArchive/${formData.artImage.name + v4()}`);
+    const artRef = ref(imageDb, `artArchive/${formData.artFile.name + v4()}`);
     const profileRef = ref(
       imageDb,
       `profilePicture/${formData.profileImage.name + v4()}`
     );
 
     try {
-      await uploadBytes(artRef, formData.artImage);
+      await uploadBytes(artRef, formData.artFile);
       await uploadBytes(profileRef, formData.profileImage);
 
       const artUrl = await getDownloadURL(artRef);
@@ -391,12 +489,13 @@ const UploadArt = () => {
         dimensionType: "",
         artTitle: "",
         artDesc: "",
-        artImage: null,
+        artFile: null,
+        artFileType: "",
         artNameYear: "",
         artDimension: "",
         artMedia: "",
       });
-      setArtImagePreview(null);
+      setArtFilePreview(null);
       setProfileImagePreview(null);
 
       // Clear file input
@@ -500,6 +599,7 @@ const UploadArt = () => {
               crop={profileCrop}
               setCrop={setProfileCrop}
               setCompletedCrop={setProfileCompletedCrop}
+              aspect={1}
               imgRef={profileImgRef}
               onImageLoad={onProfileImageLoad}
               onCropComplete={handleProfileCropComplete}
@@ -520,6 +620,7 @@ const UploadArt = () => {
               crop={profileCrop}
               setCrop={setProfileCrop}
               setCompletedCrop={setProfileCompletedCrop}
+              aspect={1}
               imgRef={profileImgRef}
               onImageLoad={onProfileImageLoad}
               onCropComplete={handleProfileCropComplete}
@@ -773,20 +874,51 @@ const UploadArt = () => {
             </div>
 
             <div>
-              <label className="block mb-2 text-black">Gambar Karya:</label>
+              <label className="block mb-2 text-black">
+                File Karya (Gambar/Video):
+              </label>
               <div className="mb-4">
-                {artImagePreview ? (
+                {artFilePreview ? (
                   <div className="relative group">
-                    <img
-                      src={artImagePreview}
-                      alt="Preview"
-                      className="max-w-full h-64 object-contain rounded mb-2"
-                    />
+                    {formData.artFileType === "video" ? (
+                      <video
+                        src={artFilePreview}
+                        controls
+                        preload="metadata"
+                        className="max-w-full h-64 object-contain rounded mb-2 bg-gray-100"
+                        onError={(e) => {
+                          console.error("Video preview error:", e);
+                          setError("Failed to load video preview");
+                        }}
+                        onLoadedMetadata={() => {
+                          console.log("Video metadata loaded successfully");
+                        }}
+                      />
+                    ) : (
+                      <img
+                        src={artFilePreview}
+                        alt="Preview"
+                        className="max-w-full h-64 object-cover rounded mb-2"
+                        style={{
+                          objectPosition: "center",
+                          backgroundColor: "#f3f4f6",
+                        }}
+                      />
+                    )}
                     <button
                       type="button"
                       onClick={() => {
-                        setArtImagePreview(null);
-                        setFormData((prev) => ({ ...prev, artImage: null }));
+                        setArtFilePreview(null);
+                        setFormData((prev) => ({
+                          ...prev,
+                          artFile: null,
+                          artFileType: "",
+                        }));
+                        // Reset crop-related states
+                        setSelectedRatio(ASPECT_RATIOS[0]);
+                        setArtCrop(undefined);
+                        setArtCompletedCrop(null);
+                        setArtTempImage(null);
                         if (artInputRef.current) {
                           artInputRef.current.value = "";
                         }
@@ -837,7 +969,7 @@ const UploadArt = () => {
                       </svg>
                       <p className="mt-1">Click to upload or drag and drop</p>
                       <p className="text-xs text-gray-500">
-                        PNG, JPG, GIF up to 10MB
+                        PNG, JPG, GIF, MP4, MOV up to 10MB
                       </p>
                     </div>
                   </div>
@@ -846,9 +978,9 @@ const UploadArt = () => {
               <input
                 ref={artInputRef}
                 type="file"
-                name="artImage"
+                name="artFile"
                 onChange={handleArtChange}
-                accept="image/*"
+                accept="image/*,video/*"
                 className="w-full p-2 rounded bg-white text-black file:mr-4 file:py-2 file:px-4 file:rounded file:border-0 file:text-sm file:font-semibold file:bg-blue-500 file:text-white hover:file:bg-blue-600 transition-colors"
                 required
               />
