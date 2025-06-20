@@ -328,11 +328,6 @@ const UploadArt = () => {
     }
   };
   const handleArtFile = (file) => {
-    if (file.size > 10 * 1024 * 1024) {
-      setError("File size should be less than 10MB");
-      return;
-    }
-
     const isImage = file.type.startsWith("image/");
     const isVideo = file.type.startsWith("video/");
 
@@ -416,10 +411,6 @@ const UploadArt = () => {
     }
   };
   const handleProfileFile = (file) => {
-    if (file.size > 10 * 1024 * 1024) {
-      setError("File size should be less than 10MB");
-      return;
-    }
     if (!file.type.startsWith("image/")) {
       setError("Please upload an image file");
       return;
@@ -969,7 +960,7 @@ const UploadArt = () => {
                       </svg>
                       <p className="mt-1">Click to upload or drag and drop</p>
                       <p className="text-xs text-gray-500">
-                        PNG, JPG, GIF, MP4, MOV up to 10MB
+                        PNG, JPG, GIF, MP4, MOV
                       </p>
                     </div>
                   </div>
