@@ -7,6 +7,7 @@ import UploadArt from "./pages/UploadArt";
 import LoginPage from "./pages/LoginPage";
 import PendingSubsmissionPage from "./pages/PendingSubsmissionPage";
 import GuestViewPendingPage from "./pages/GuestViewPendingPage";
+import ChatPage from "./pages/ChatPage";
 
 function App() {
   useEffect(() => {
@@ -21,6 +22,7 @@ function App() {
         <Route path="/login" element={<LoginPage />} />
         <Route path="/pending" element={<PendingSubsmissionPage />} />
         <Route path="/guest" element={<GuestViewPendingPage />} />
+        <Route path="/chat" element={<ChatPage />} />
       </Routes>
     </main>
   );
