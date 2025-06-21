@@ -3,32 +3,32 @@ import Accordion from "../components/Accordion";
 
 const faqData = [
   {
-    question: "Apa itu Sinarupa?",
+    question: "Lorem ipsum dolor sit amet?",
     answer:
       "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed euismod, nunc ut laoreet tincidunt, nunc nisl aliquam nunc, eget aliquam nunc nisl eu nunc.",
   },
   {
-    question: "Bagaimana cara mengikuti event?",
+    question: "Lorem ipsum dolor sit amet?",
     answer:
       "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque euismod, nisi eu consectetur consectetur, nisl nisi consectetur nisi, eu consectetur nisl nisi eu nisi.",
   },
   {
-    question: "Apakah karya harus orisinil?",
+    question: "Lorem ipsum dolor sit amet?",
     answer:
       "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla facilisi. Etiam euismod, nisi eu consectetur consectetur, nisl nisi consectetur nisi, eu consectetur nisl nisi eu nisi.",
   },
   {
-    question: "Kapan pengumuman pemenang?",
+    question: "Lorem ipsum dolor sit amet?",
     answer:
       "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse potenti. Etiam euismod, nisi eu consectetur consectetur, nisl nisi consectetur nisi, eu consectetur nisl nisi eu nisi.",
   },
   {
-    question: "Apakah ada biaya pendaftaran?",
+    question: "Lorem ipsum dolor sit amet?",
     answer:
       "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae.",
   },
   {
-    question: "Bagaimana cara submit karya?",
+    question: "Lorem ipsum dolor sit amet?",
     answer:
       "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin ac neque nec erat cursus posuere.",
   },

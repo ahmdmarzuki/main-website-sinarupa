@@ -62,11 +62,11 @@ const MajorSection = () => {
   };
 
   return (
-    <div className="w-full h-screen flex flex-col justify-center items-center py-8">
+    <div className="w-full h-screen flex flex-col justify-center items-center py-8 ">
       <h2 className="text-2xl font-bold mb-6 text-center text-gray-800">
         Prodi
       </h2>
-      <div className="flex items-center gap-2 w-full justify-center">
+      <div className="flex items-center gap-2 w-full justify-center md:px-16">
         <button
           onClick={handlePrev}
           className="p-2 rounded-full bg-gray-200 hover:bg-gray-300 text-xl hidden sm:block"
@@ -76,8 +76,8 @@ const MajorSection = () => {
         </button>
         <div
           ref={scrollRef}
-          className="flex gap-4 overflow-x-auto no-scrollbar py-4 sm:justify-center sm:gap-4 scroll-px-6 sm:scroll-px-0"
-          style={{ scrollSnapType: "x mandatory", maxWidth: 700 }}
+          className="w-full flex gap-4 overflow-x-auto no-scrollbar py-4 sm:justify-center sm:gap-4 scroll-px-6 sm:scroll-px-0"
+          style={{ scrollSnapType: "x mandatory" }}
         >
           {/* Dummy div untuk space kiri */}
           <div

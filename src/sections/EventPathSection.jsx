@@ -11,13 +11,35 @@ const points = [
   { label: "Arkhevia", asset: "/logo.png" },
 ];
 
+// Koordinat yang sudah ditentukan untuk path yang konsisten
+const predefinedPoints = {
+  desktop: [
+    { x: 60, y: 150 },
+    { x: 230, y: 80 },
+    { x: 420, y: 220 },
+    { x: 600, y: 130 },
+    { x: 780, y: 200 },
+    { x: 970, y: 90 },
+    { x: 1140, y: 150 },
+  ],
+  mobile: [
+    { x: 140, y: 50 },
+    { x: 80, y: 200 },
+    { x: 200, y: 350 },
+    { x: 110, y: 500 },
+    { x: 190, y: 650 },
+    { x: 90, y: 800 },
+    { x: 140, y: 950 },
+  ],
+};
+
 const vWidth = 280; // lebar SVG vertikal
 const vHeight = 1000; // tinggi SVG vertikal
 const hWidth = 1200; // lebar SVG horizontal
 const hHeight = 300; // tinggi SVG horizontal
 const margin = 40;
 const pointRadius = 12;
-const iconSize = 40;
+const iconSize = 60;
 
 // Hook untuk deteksi desktop/mobile
 function useIsDesktop() {
@@ -55,13 +77,15 @@ function useRandomZigzagPoints(isDesktop, n) {
 
 const EventPathSection = () => {
   const isDesktop = useIsDesktop();
-  const zigzagPoints = useRandomZigzagPoints(isDesktop, points.length);
+  const zigzagPoints = isDesktop
+    ? predefinedPoints.desktop
+    : predefinedPoints.mobile;
 
   // Polyline points string
   const polylinePoints = zigzagPoints.map((pt) => `${pt.x},${pt.y}`).join(" ");
 
   return (
-    <div className="min-h-screen flex justify-center">
+    <div className="min-h-screen flex justify-center px-4 sm:px-6 lg:px-8">
       <div
         className="w-full flex justify-center items-center py-8"
         style={{ minHeight: isDesktop ? hHeight : vHeight }}
@@ -99,7 +123,7 @@ const EventPathSection = () => {
                 )}
                 <text
                   x={x}
-                  y={y + (idx % 2 === 0 ? iconSize / 1.2 : -18)}
+                  y={y + (idx % 2 === 0 ? iconSize / 1.1 : -44)}
                   textAnchor="middle"
                   fontSize={15}
                   fill="#000"
@@ -143,9 +167,9 @@ const EventPathSection = () => {
                   />
                 )}
                 <text
-                  x={x + (idx % 2 === 0 ? iconSize / 1.2 : -iconSize / 1.2)}
+                  x={x > vWidth / 2 ? x - iconSize / 1.5 : x + iconSize / 1.5}
                   y={y + 5}
-                  textAnchor={idx % 2 === 0 ? "start" : "end"}
+                  textAnchor={x > vWidth / 2 ? "end" : "start"}
                   fontSize={15}
                   fill="#000"
                   fontWeight="bold"
