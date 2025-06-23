@@ -1,6 +1,8 @@
 import React, { useState, useRef, useEffect } from "react";
 import { geminiModel } from "../firebase/geminiService";
 
+const geminiBrief = "";
+
 const ChatPage = () => {
   const [messages, setMessages] = useState([
     { sender: "ai", text: "Halo! Saya AI, ada yang bisa saya bantu?" },
@@ -19,7 +21,10 @@ const ChatPage = () => {
     setMessages((prev) => [...prev, userMessage]);
     setInput("");
 
-    const result = await geminiModel.generateContent(userMessage.text);
+    const result = await geminiModel.generateContent([
+      userMessage.text,
+      geminiBrief,
+    ]);
     const response = result.response;
     const text = response.text();
 
@@ -40,7 +45,7 @@ const ChatPage = () => {
     <div className="min-h-screen bg-gradient-to-br from-indigo-50 to-orange-50 flex flex-col items-center py-8 px-2">
       <div className="w-full max-w-xl bg-white rounded-xl shadow-lg flex flex-col h-[80vh]">
         <div className="px-4 py-3 border-b text-2xl font-bold text-indigo-700">
-          Chatbot Demo
+          Chatbot Sinarupa
         </div>
         <div className="flex-1 overflow-y-auto px-4 py-2 space-y-3">
           {messages.map((msg, idx) => (
