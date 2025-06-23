@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 const LandingPage = () => {
   return (
     <div
-      className="min-h-screen w-full text-[#311b92] font-sans overflow-y-auto px-4 pt-6"
+      className="min-h-screen w-full text-[#311b92] font-sans px-4 pt-6"
       style={{
         backgroundImage: "url('/images/layer.png')",
         backgroundSize: "cover",
@@ -20,34 +20,39 @@ const LandingPage = () => {
       </div>
 
       {/* DAY 1 & DAY 2 */}
-<div className="grid grid-cols-1 sm:grid-cols-2 gap-6 justify-center items-start mt-10">
-  {/* DAY 1 */}
-  <div className="flex flex-col items-center transition-transform hover:scale-105 active:scale-95">
-    <Link to="/form" className="relative w-[500px] h-[360px] grid place-items-center bg-no-repeat bg-center bg-contain"
-      style={{ backgroundImage: "url('/images/frameday1.png')" }}>
-      <img
-        src="/images/day1.JPG"
-        alt="Day 1"
-        className="w-[170px] h-[270px] object-cover z-10 -translate-x-2.5 -translate-y-5"
-      />
-    </Link>
-    <div className="text-xl font-extrabold mt-2">DAY 1</div>
-  </div>
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 justify-center items-start mt-10">
+        {/* DAY 1 */}
+        <div className="flex flex-col items-center transition-transform hover:scale-105 active:scale-95">
+          <Link
+            to="/form"
+            className="relative w-[500px] h-[360px] grid place-items-center bg-no-repeat bg-center bg-contain"
+            style={{ backgroundImage: "url('/images/frameday1.png')" }}
+          >
+            <img
+              src="/images/day1.JPG"
+              alt="Day 1"
+              className="w-[170px] h-[270px] object-cover z-10 -translate-x-2.5 -translate-y-5"
+            />
+          </Link>
+          <div className="text-xl font-extrabold mt-2">DAY 1</div>
+        </div>
 
-  {/* DAY 2 */}
-  <div className="flex flex-col items-center transition-transform hover:scale-105 active:scale-95">
-    <Link to="/form" className="relative w-[500px] h-[360px] grid place-items-center bg-no-repeat bg-center bg-contain"
-      style={{ backgroundImage: "url('/images/frameday2.png')" }}>
-      <img
-        src="/images/day2.JPG"
-        alt="Day 2"
-        className="w-[170px] h-[270px] object-cover z-10 translate-x-2.5 translate-y-5"
-      />
-    </Link>
-    <div className="text-xl font-extrabold mt-2">DAY 2</div>
-  </div>
-</div>
-
+        {/* DAY 2 */}
+        <div className="flex flex-col items-center transition-transform hover:scale-105 active:scale-95">
+          <Link
+            to="/form"
+            className="relative w-[500px] h-[360px] grid place-items-center bg-no-repeat bg-center bg-contain"
+            style={{ backgroundImage: "url('/images/frameday2.png')" }}
+          >
+            <img
+              src="/images/day2.JPG"
+              alt="Day 2"
+              className="w-[170px] h-[270px] object-cover z-10 translate-x-2.5 translate-y-5"
+            />
+          </Link>
+          <div className="text-xl font-extrabold mt-2">DAY 2</div>
+        </div>
+      </div>
 
       {/* Side-events Title */}
       <h2 className="mt-24 sm:mt-32 text-3xl font-bold text-left pl-2 sm:pl-6">
@@ -63,57 +68,67 @@ const LandingPage = () => {
           className="absolute inset-0 w-full h-auto object-contain z-0"
         />
 
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 mt-10 relative z-10">
+          {/* ITEM 1 - Acrylic Pouring */}
+          <Link
+            to="/workshop"
+            className="relative aspect-[3/4] w-full transition-transform hover:scale-105 active:scale-95 active:translate-y-1"
+          >
+            <img
+              src="/images/Frame3.png"
+              className="absolute top-[90%] left-[55%] -translate-x-1/2 w-[100%] z-10 object-contain"
+              alt="Acrylic Pouring Art Workshop"
+            />
+            <div className="absolute bottom-[10%] left-2 right-2 text-[0.6rem] sm:text-xs md:text-sm text-[#FDE36E] text-justify z-20">
+              <h3 className="font-bold text-[#FDE36E]">
+                Acrylic Pouring Art Workshop
+              </h3>
+              <p>
+                Acrylic Pouring Art Workshop bareng Artemedia. Toko peralatan
+                seni terbaik di Indonesia yang ngajak kamu tumpahin isi hati
+                lewat media akrilik yang satisfying!
+              </p>
+            </div>
+          </Link>
 
+          <Link
+            to="/workshop"
+            className="relative aspect-[3/4] w-full transition-transform hover:scale-105 active:scale-95 active:translate-y-1"
+          >
+            <img
+              src="/images/Frame4.png"
+              className="absolute top-[90%] left-[51%] -translate-x-1/2 w-[99%] z-10 object-contain"
+              alt="Cyanotype Printing Workshop"
+            />
+            <div className="absolute bottom-[10%] left-2 right-2 text-[0.6rem] sm:text-xs md:text-sm text-[#FDE36E] text-justify z-20">
+              <h3 className="font-bold text-[#FDE36E]">
+                Cyanotype Printing Workshop
+              </h3>
+              <p>Cyanotype Printing Workshop bareng Fauzan Rafli...</p>
+            </div>
+          </Link>
 
-<div className="grid grid-cols-1 sm:grid-cols-3 gap-6 mt-10 relative z-10">
-
-  {/* ITEM 1 - Acrylic Pouring */}
-  <Link to="/workshop" className="relative aspect-[3/4] w-full transition-transform hover:scale-105 active:scale-95 active:translate-y-1">
-  <img
-    src="/images/Frame3.png"
-    className="absolute top-[90%] left-[55%] -translate-x-1/2 w-[100%] z-10 object-contain"
-    alt="Acrylic Pouring Art Workshop"
-  />
-  <div className="absolute bottom-[10%] left-2 right-2 text-[0.6rem] sm:text-xs md:text-sm text-[#FDE36E] text-justify z-20">
-    <h3 className="font-bold text-[#FDE36E]">Acrylic Pouring Art Workshop</h3>
-    <p>
-        Acrylic Pouring Art Workshop bareng Artemedia. Toko peralatan seni terbaik di Indonesia yang ngajak kamu tumpahin isi hati lewat media akrilik yang satisfying!
-      </p>
+          <Link
+            to="/talkshow"
+            className="relative aspect-[3/4] w-full transition-transform hover:scale-105 active:scale-95 active:translate-y-1"
+          >
+            <img
+              src="/images/Frame1.png"
+              className="absolute top-[54%] left-[46%] -translate-x-1/2 w-[100%] z-10 object-contain"
+              alt="Talkshow - Evan Wijaya"
+            />
+            <div className="absolute bottom-[10%] left-2 right-2 text-[0.6rem] sm:text-xs md:text-sm text-[#FDE36E] text-justify z-20">
+              <h3 className="font-bold text-[#FDE36E]">
+                Talkshow - Evan Wijaya
+              </h3>
+              <p>
+                "Menemukan Kekuatan dalam Berekspresi" bareng Evan Wijaya...
+              </p>
+            </div>
+          </Link>
+        </div>
+      </div>
     </div>
-  </Link>
-
-  <Link to="/workshop" className="relative aspect-[3/4] w-full transition-transform hover:scale-105 active:scale-95 active:translate-y-1">
-  <img
-    src="/images/Frame4.png"
-    className="absolute top-[90%] left-[51%] -translate-x-1/2 w-[99%] z-10 object-contain"
-    alt="Cyanotype Printing Workshop"
-  />
-  <div className="absolute bottom-[10%] left-2 right-2 text-[0.6rem] sm:text-xs md:text-sm text-[#FDE36E] text-justify z-20">
-    <h3 className="font-bold text-[#FDE36E]">Cyanotype Printing Workshop</h3>
-    <p>
-      Cyanotype Printing Workshop bareng Fauzan Rafli...
-    </p>
-  </div>
-</Link>
-
-
-<Link to="/talkshow" className="relative aspect-[3/4] w-full transition-transform hover:scale-105 active:scale-95 active:translate-y-1">
-  <img
-    src="/images/Frame1.png"
-    className="absolute top-[54%] left-[46%] -translate-x-1/2 w-[100%] z-10 object-contain"
-    alt="Talkshow - Evan Wijaya"
-  />
-  <div className="absolute bottom-[10%] left-2 right-2 text-[0.6rem] sm:text-xs md:text-sm text-[#FDE36E] text-justify z-20">
-    <h3 className="font-bold text-[#FDE36E]">Talkshow - Evan Wijaya</h3>
-    <p>
-      "Menemukan Kekuatan dalam Berekspresi" bareng Evan Wijaya...
-    </p>
-  </div>
-</Link>
-
-</div>
-  </div>
-  </div>
   );
 };
 
