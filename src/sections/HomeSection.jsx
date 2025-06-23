@@ -9,13 +9,10 @@ import ModalDisclaimer from "../components/ModalDisclaimer";
 
 const HomeSection = () => {
   return (
-    <div className="relative w-screen h-screen font-sans overflow-hidden">
-      {/* Background Mobile */}
-      <div className="absolute inset-0 w-full h-full bg-cover bg-center bg-no-repeat md:hidden" />
-
-      {/* Background Desktop */}
-      <div className="absolute inset-0 w-full h-full bg-cover bg-center bg-no-repeat hidden md:block" />
-
+    <div
+      id="home"
+      className="relative w-screen min-h-screen font-sans overflow-hidden"
+    >
       {/* === MOBILE LAYOUT === */}
       <div className="relative z-10 flex flex-col h-full w-full px-6 pt-[22vh] md:hidden">
         {/* Logo utama */}
@@ -27,11 +24,19 @@ const HomeSection = () => {
           />
         </div>
 
+        {/* Maskot kiri bawah */}
+        <img
+          src="/images/tompa.png"
+          alt="Maskot"
+          className="absolute -bottom-45 -left-25 w-[470px] pointer-events-none select-none"
+        />
+
         {/* Tombol DAFTAR */}
-        <div className="flex justify-center mt-6">
+        <div className="flex justify-center mt-6 z-20">
           <Link
             to="/landing"
-            className="relative w-[190px] hover:scale-105 transition"
+            className="relative w-[190px] hover:scale-105 transition z-20"
+            style={{ zIndex: 20 }}
           >
             <img src="/images/button1.png" alt="Daftar" className="w-full" />
             <div className="absolute inset-0 flex items-center justify-center">
@@ -40,15 +45,8 @@ const HomeSection = () => {
           </Link>
         </div>
 
-        {/* Maskot kiri bawah */}
-        <img
-          src="/images/tompa.png"
-          alt="Maskot"
-          className="absolute -bottom-45 -left-25 w-[470px]"
-        />
-
         {/* Tombol kanan bawah */}
-        <div className="absolute bottom-6 right-4 flex flex-col items-end gap-3">
+        <div className="bottom-6 right-4 flex flex-col items-end gap-3">
           {["MERCH", "CHATBOT", "GAME"].map((label, i) => (
             <Link
               to="#"

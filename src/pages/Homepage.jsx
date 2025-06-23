@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import Navbar from "../components/Navbar";
 import HomeSection from "../sections/HomeSection";
 import AboutSection from "../sections/AboutSection";
 import ChatPopup from "../components/ChatPopup";
@@ -7,6 +8,8 @@ import ModalDisclaimer from "../components/ModalDisclaimer";
 import bgDesktop from "/images/bg_desktop.png";
 import bgMobile from "/images/bg_mobile.png";
 import { useMediaQuery } from "../useMediaQuery";
+import Footer from "../sections/Footer";
+import Contact from "../sections/Contact";
 
 const Homepage = () => {
   const isMobile = useMediaQuery("(max-width: 768px)");
@@ -34,11 +37,16 @@ const Homepage = () => {
 
   return (
     <div
-      className="relative min-h-screen bg-gray-100 bg-cover"
+      className="relative min-h-screen bg-gray-100 bg-cover pt-20"
       style={{ backgroundImage: `url(${isMobile ? bgMobile : bgDesktop})` }}
     >
+      <Navbar />
       <HomeSection />
-      <AboutSection />
+      {/* <div id="about">
+        <AboutSection />
+      </div> */}
+
+      <Contact />
 
       {!isChatOpen && (
         <button
