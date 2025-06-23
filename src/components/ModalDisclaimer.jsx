@@ -1,8 +1,8 @@
 import React, { useEffect, useRef, useState } from "react";
-
-const isMobile = () => window.innerWidth < 768;
+import { useMediaQuery } from "../useMediaQuery";
 
 const ModalDisclaimer = ({ onAgree, onClose }) => {
+  const isMobile = useMediaQuery("(max-width: 768px)");
   const [showDisclaimer, setShowDisclaimer] = useState(false);
   const videoRef = useRef(null);
 
@@ -25,7 +25,7 @@ const ModalDisclaimer = ({ onAgree, onClose }) => {
       {/* Video Intro Fullscreen */}
       {!showDisclaimer && (
         <video
-          src={"/videos/intro-dekstop.mp4"}
+          src={videoSrc}
           autoPlay
           muted
           playsInline
