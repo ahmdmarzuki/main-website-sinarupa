@@ -41,7 +41,7 @@ const FaqSection = () => {
   const col2 = faqData.slice(mid);
 
   return (
-    <div className="w-full max-w-4xl mx-auto py-10 px-4">
+    <div className="w-full mx-auto py-10 px-16">
       <h2 className="text-2xl font-bold mb-6 text-center text-gray-800">FAQ</h2>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         {/* Kolom 1 */}
