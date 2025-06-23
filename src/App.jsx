@@ -18,11 +18,11 @@ function App() {
     <main>
       <Routes>
         <Route path="/" element={<Homepage />} />
-        <Route path="upload" element={<UploadArt />} />
+        {/* <Route path="upload" element={<UploadArt />} />
         <Route path="/login" element={<LoginPage />} />
         <Route path="/pending" element={<PendingSubsmissionPage />} />
         <Route path="/guest" element={<GuestViewPendingPage />} />
-        <Route path="/chat" element={<ChatPage />} />
+        <Route path="/chat" element={<ChatPage />} /> */}
       </Routes>
     </main>
   );

@@ -1,8 +1,9 @@
 import React, { useState, useRef, useEffect } from "react";
 import ReactMarkdown from "react-markdown";
+// Pastikan path ini benar
 import { geminiModel } from "../firebase/geminiService";
 
-const geminiBrief = `
+const sinarupaBrief = `
 Kamu adalah asisten AI bernama Tompa untuk Pameran Sinarupa 2025, pameran tahunan mahasiswa TPB FSRD ITB 2024.
 Jawablah pertanyaan hanya berdasarkan data berikut:
 
@@ -71,35 +72,17 @@ const quickReplies = [
   "Apa itu Sinarupa?",
   "Kapan dan di mana pameran Sinarupa diadakan?",
   "Apakah Sinarupa terbuka untuk umum?",
-  "Bagaimana cara daftar jadi peserta pameran?",
-  "Apakah ada biaya untuk ikut pameran?",
-  "Bagaimana cara datang ke venue?",
-  "Apa dresscode atau tema outfit ke pameran?",
   "Bagaimana cara daftar talkshow?",
-  "Topik apa aja di talkshow-nya?",
-  "Apakah talkshow-nya gratis?",
   "Bagaimana cara daftar workshop?",
-  "Apa aja jenis workshop-nya?",
-  "Apakah workshop-nya terbuka untuk umum?",
-  "Di mana saya bisa lihat rundown acara?",
   "Ada merchandise Sinarupa?",
-  "Bagaimana cara beli merch-nya?",
-  "Apa metode pembayarannya?",
-  "Apakah boleh bawa kamera untuk foto-foto?",
-  "Boleh bawa temen atau keluarga?",
-  "Apakah ada makanan/minuman di venue?",
-  "Siapa saja pengisi acara?",
-  "Apakah saya boleh share ke sosial media?",
-  "Apakah Sinarupa ada akun Instagram?",
-  "Berapa lama durasi acara berlangsung?",
-  "Bolehkah datang lebih dari satu kali?",
-  "Apakah karya-karya bisa dibeli?",
-  "Apakah ada info di tempat untuk pengunjung disabilitas?",
 ];
 
-const ChatPage = () => {
+const ChatPopup = ({ onClose }) => {
   const [messages, setMessages] = useState([
-    { sender: "ai", text: "Halo! Aku Tompa, ada yang bisa saya bantu?" },
+    {
+      sender: "ai",
+      text: "Hai! Aku Tompa, asisten AI Sinarupa. Ada yang bisa dibantu?",
+    },
   ]);
   const [input, setInput] = useState("");
   const [isAITyping, setIsAITyping] = useState(false);
@@ -117,23 +100,34 @@ const ChatPage = () => {
     setInput("");
     setIsAITyping(true);
 
-    const result = await geminiModel.generateContent([
-      userMessage.text,
-      geminiBrief,
-    ]);
-    const response = result.response;
-    const text = response.text();
+    try {
+      const chatHistory = messages.map((msg) => ({
+        role: msg.sender === "user" ? "user" : "model",
+        parts: [{ text: msg.text }],
+      }));
 
-    setTimeout(() => {
+      const contents = [
+        { role: "user", parts: [{ text: sinarupaBrief }] },
+        ...chatHistory,
+        { role: "user", parts: [{ text: userMessage.text }] },
+      ];
+
+      const result = await geminiModel.generateContent({ contents });
+      const response = result.response;
+      const text = response.text();
+      setMessages((prev) => [...prev, { sender: "ai", text }]);
+    } catch (error) {
+      console.error("Error generating content:", error);
       setMessages((prev) => [
         ...prev,
         {
           sender: "ai",
-          text: text,
+          text: "Maaf, sepertinya ada sedikit gangguan. Coba lagi nanti ya.",
         },
       ]);
+    } finally {
       setIsAITyping(false);
-    }, 700);
+    }
   };
 
   const handleQuickReply = (msg) => {
@@ -141,53 +135,51 @@ const ChatPage = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-indigo-50 to-orange-50 flex flex-col items-center py-8 px-2">
-      <div className="w-full max-w-xl bg-white rounded-xl shadow-lg flex flex-col h-[80vh]">
-        <div className="px-4 py-3 border-b text-2xl font-bold text-indigo-700">
-          Chatbot Sinarupa
-        </div>
-        <div className="flex-1 overflow-y-auto px-4 py-2 space-y-3">
-          {messages.map((msg, idx) => (
+    <div className="fixed bottom-20 right-5 z-50 flex h-[70vh] w-[90vw] max-w-sm flex-col rounded-xl bg-white shadow-2xl">
+      <div className="flex justify-between items-center px-4 py-3 border-b bg-indigo-600 text-white rounded-t-xl">
+        <h3 className="text-lg font-bold">Chat dengan Tompa</h3>
+        <button
+          onClick={onClose}
+          className="font-bold text-xl hover:text-gray-300 p-1 leading-none"
+        >
+          &times;
+        </button>
+      </div>
+      <div className="flex-1 overflow-y-auto px-4 py-2 space-y-3">
+        {messages.map((msg, idx) => (
+          <div
+            key={idx}
+            className={`flex ${
+              msg.sender === "user" ? "justify-end" : "justify-start"
+            }`}
+          >
             <div
-              key={idx}
-              className={`flex ${
-                msg.sender === "user" ? "justify-end" : "justify-start"
+              className={`px-3 py-2 rounded-lg max-w-[85%] prose prose-sm ${
+                msg.sender === "user" ? "bg-orange-200" : "bg-gray-100"
               }`}
             >
-              <div
-                className={`px-4 py-2 rounded-2xl max-w-[80%] whitespace-pre-line text-sm shadow prose
-                  ${
-                    msg.sender === "user"
-                      ? "bg-orange-200 text-right"
-                      : "bg-indigo-100 text-left"
-                  }`}
-              >
-                <ReactMarkdown>{msg.text}</ReactMarkdown>
-              </div>
+              <ReactMarkdown>{msg.text}</ReactMarkdown>
             </div>
-          ))}
-          {/* Typing indicator */}
-          {isAITyping && (
-            <div className="flex justify-start">
-              <div className="px-4 py-2 rounded-2xl bg-indigo-100 text-left text-sm shadow flex items-center gap-2">
-                <span className="block w-2 h-2 bg-indigo-400 rounded-full animate-bounce [animation-delay:0s]"></span>
-                <span className="block w-2 h-2 bg-indigo-400 rounded-full animate-bounce [animation-delay:0.2s]"></span>
-                <span className="block w-2 h-2 bg-indigo-400 rounded-full animate-bounce [animation-delay:0.4s]"></span>
-                <span className="ml-2 text-indigo-400">
-                  Tompa sedang mengetik...
-                </span>
-              </div>
+          </div>
+        ))}
+        {isAITyping && (
+          <div className="flex justify-start">
+            <div className="px-3 py-2 rounded-lg bg-gray-100 text-sm shadow flex items-center gap-2">
+              <span className="block w-2 h-2 bg-gray-400 rounded-full animate-bounce [animation-delay:0s]"></span>
+              <span className="block w-2 h-2 bg-gray-400 rounded-full animate-bounce [animation-delay:0.2s]"></span>
+              <span className="block w-2 h-2 bg-gray-400 rounded-full animate-bounce [animation-delay:0.4s]"></span>
             </div>
-          )}
-          <div ref={messagesEndRef} />
-        </div>
-        {/* Quick Replies */}
-        <div className="px-4 py-2 border-t border-b bg-indigo-50 overflow-x-auto whitespace-nowrap flex gap-2">
+          </div>
+        )}
+        <div ref={messagesEndRef} />
+      </div>
+      <div className="border-t bg-gray-50 rounded-b-xl">
+        <div className="p-2 overflow-x-auto whitespace-nowrap flex gap-2">
           {quickReplies.map((msg, idx) => (
             <button
               key={idx}
               type="button"
-              className="bg-orange-200 hover:bg-orange-300 text-sm rounded-full px-4 py-1 font-medium transition-colors border border-orange-300"
+              className="bg-indigo-100 hover:bg-indigo-200 text-xs rounded-full px-3 py-1 font-medium transition-colors"
               onClick={() => handleQuickReply(msg)}
               disabled={isAITyping}
             >
@@ -195,25 +187,29 @@ const ChatPage = () => {
             </button>
           ))}
         </div>
-        <form
-          onSubmit={handleSend}
-          className="flex items-center gap-2 p-4 border-t"
-        >
+        <form onSubmit={handleSend} className="flex items-center gap-2 p-3">
           <input
             type="text"
-            className="flex-1 border rounded-full px-4 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-300"
+            className="flex-1 border rounded-full px-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-300"
             placeholder="Tulis pesan..."
             value={input}
             onChange={(e) => setInput(e.target.value)}
-            autoFocus
             disabled={isAITyping}
+            autoFocus
           />
           <button
             type="submit"
-            className="bg-indigo-600 text-white px-5 py-2 rounded-full font-semibold disabled:opacity-50"
+            className="bg-indigo-600 text-white p-2 rounded-full font-semibold disabled:opacity-50 flex items-center justify-center transition-transform transform hover:scale-110"
             disabled={!input.trim() || isAITyping}
           >
-            Kirim
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 20 20"
+              fill="currentColor"
+              className="w-5 h-5"
+            >
+              <path d="M3.105 2.289a.75.75 0 00-.826.95l1.414 4.949a.75.75 0 00.95.826L11.25 7.5l-6.607-1.486a.75.75 0 00-.95-.826zM12.5 11.25a.75.75 0 00.826-.95l-1.414-4.949a.75.75 0 00-.95-.826L3.75 6.25l6.607 1.486a.75.75 0 00.95.826z" />
+            </svg>
           </button>
         </form>
       </div>
@@ -221,4 +217,4 @@ const ChatPage = () => {
   );
 };
 
-export default ChatPage;
+export default ChatPopup;
