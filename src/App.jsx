@@ -6,7 +6,6 @@ import {
   BrowserRouter as Router,
 } from "react-router-dom";
 
-import Homepage from "./pages/Homepage";
 import UploadArt from "./pages/UploadArt";
 import LoginPage from "./pages/LoginPage";
 import PendingSubsmissionPage from "./pages/PendingSubsmissionPage";
@@ -21,6 +20,8 @@ import Workshop from "./pages/Workshop";
 import QRWorkshop from "./pages/QRWorkshop";
 import Talkshow from "./pages/Talkshow";
 import QRTalkshow from "./pages/QRTalkshow";
+
+import Homepage from "./pages/Homepage";
 
 export const FORM_PAMERAN_URL =
   "https://docs.google.com/forms/d/e/1FAIpQLSdHASWTjIx4uBC72LEmKhQkLtjTOizDBNTkohWjycpLLsYILQ/formResponse";
@@ -67,7 +68,6 @@ export default function App() {
     localStorage.setItem("formData", JSON.stringify(data)); // ⬅️ Tambah ini
     navigate("/qr");
   };
-
 
   const handleWorkshopSubmit = (data) => {
     const formDataObj = new FormData(); // ganti dari URLSearchParams ke FormData
@@ -180,7 +180,6 @@ export default function App() {
         <Route path="/login" element={<LoginPage />} />
         <Route path="/pending" element={<PendingSubsmissionPage />} />
         <Route path="/guest" element={<GuestViewPendingPage />} />
-
       </Routes>
     </div>
   );

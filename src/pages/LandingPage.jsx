@@ -1,25 +1,21 @@
-
 import React from "react";
 import { Link } from "react-router-dom";
+import { useMediaQuery } from "../useMediaQuery";
+
+import bgDesktop from "/images/bg_desktop.png";
+import bgMobile from "/images/bg_mobile.png";
 
 const LandingPage = () => {
+  const isMobile = useMediaQuery("(max-width: 768px)");
   return (
-    <div className="relative min-h-screen w-full text-[#311b92] font-sans overflow-hidden">
-
-      {/* === BACKGROUND === */}
-      <div
-        className="absolute inset-0 bg-no-repeat bg-cover bg-center md:hidden z-0"
-        style={{ backgroundImage: "url('/images/mobilebg.png')" }}
-      />
-      <div
-        className="absolute inset-0 bg-no-repeat bg-cover bg-center hidden md:block z-0"
-        style={{ backgroundImage: "url('/images/desktopbg.png')" }}
-      />
-
+    <div
+      className="relative min-h-screen w-full text-[#311b92] font-sans overflow-hidden bg-cover bg-no-repeat"
+      style={{ backgroundImage: `url(${isMobile ? bgMobile : bgDesktop})` }}
+    >
       {/* === KONTEN === */}
       <div className="relative z-10 px-4 pt-6">
         {/* Judul */}
-        <div className="text-center">
+        <div className="text-center font-oddval">
           <h1 className="text-3xl sm:text-5xl md:text-6xl font-extrabold my-6 inline-block">
             PENDAFTARAN
           </h1>
@@ -90,7 +86,9 @@ const LandingPage = () => {
                   Acrylic Pouring Art Workshop
                 </h3>
                 <p>
-                Acrylic Pouring Art Workshop Bareng Artemedia. Toko peralatan seni terbaik di Indonesia yang mengajak kamu buat tumpahin isi hati lewat media akrilik yang super satisfying!
+                  Acrylic Pouring Art Workshop Bareng Artemedia. Toko peralatan
+                  seni terbaik di Indonesia yang mengajak kamu buat tumpahin isi
+                  hati lewat media akrilik yang super satisfying!
                 </p>
               </div>
             </Link>
@@ -109,10 +107,11 @@ const LandingPage = () => {
                 <h3 className="font-bold text-[#FDE36E]">
                   Cyanotype Printing Workshop
                 </h3>
-                <p>Cyanotype Printing Workshop
-Bareng Fauzan Rafli. Bikin karya seni dari sinar matahari dan bawa pulang totebag dengan hasil yang unik buatanmu sendiri!
-
-</p>
+                <p>
+                  Cyanotype Printing Workshop Bareng Fauzan Rafli. Bikin karya
+                  seni dari sinar matahari dan bawa pulang totebag dengan hasil
+                  yang unik buatanmu sendiri!
+                </p>
               </div>
             </Link>
 
@@ -131,9 +130,11 @@ Bareng Fauzan Rafli. Bikin karya seni dari sinar matahari dan bawa pulang toteba
                   Talkshow - Evan Wijaya
                 </h3>
                 <p>
-                  "Talkshow: "Menemukan Kekuatan dalam Berekspresi"
-Bareng Evan Wijaya desainer poster film ternama seperti Agak Laen dan SORE: Istri dari Masa Depan. Yuk dengerin kisah menarik di balik layar dan temukan semangat berekspresi versi kamu sendiri!
-
+                  "Talkshow: "Menemukan Kekuatan dalam Berekspresi" Bareng Evan
+                  Wijaya desainer poster film ternama seperti Agak Laen dan
+                  SORE: Istri dari Masa Depan. Yuk dengerin kisah menarik di
+                  balik layar dan temukan semangat berekspresi versi kamu
+                  sendiri!
                 </p>
               </div>
             </Link>
@@ -145,4 +146,3 @@ Bareng Evan Wijaya desainer poster film ternama seperti Agak Laen dan SORE: Istr
 };
 
 export default LandingPage;
-
