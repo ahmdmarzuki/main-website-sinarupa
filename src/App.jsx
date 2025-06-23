@@ -11,6 +11,9 @@ import UploadArt from "./pages/UploadArt";
 import LoginPage from "./pages/LoginPage";
 import PendingSubsmissionPage from "./pages/PendingSubsmissionPage";
 import GuestViewPendingPage from "./pages/GuestViewPendingPage";
+
+import ChatPage from "./pages/ChatPage";
+
 import LandingPage from "./pages/LandingPage";
 import FormPage from "./pages/FormPage";
 import QRPage from "./pages/QRPage";
@@ -65,6 +68,7 @@ export default function App() {
     navigate("/qr");
   };
 
+
   const handleWorkshopSubmit = (data) => {
     const formDataObj = new FormData(); // ganti dari URLSearchParams ke FormData
 
@@ -110,6 +114,7 @@ export default function App() {
     <div className="min-h-screen flex items-center justify-center bg-transparent">
       <Routes>
         <Route path="/" element={<Homepage />} />
+
         <Route
           path="/landing"
           element={<LandingPage onSelect={handleSelect} />}
@@ -175,6 +180,7 @@ export default function App() {
         <Route path="/login" element={<LoginPage />} />
         <Route path="/pending" element={<PendingSubsmissionPage />} />
         <Route path="/guest" element={<GuestViewPendingPage />} />
+
       </Routes>
     </div>
   );

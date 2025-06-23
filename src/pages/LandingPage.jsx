@@ -1,3 +1,4 @@
+
 import React from "react";
 import { Link } from "react-router-dom";
 
@@ -144,3 +145,4 @@ Bareng Evan Wijaya desainer poster film ternama seperti Agak Laen dan SORE: Istr
 };
 
 export default LandingPage;
+

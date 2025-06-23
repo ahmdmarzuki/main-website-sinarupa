@@ -1,7 +1,17 @@
-import React from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
 
+import HomeSection from "../sections/HomeSection";
+import AboutSection from "../sections/AboutSection";
+// import MajorSection from "../sections/MajorSection";
+// import EventPathSection from "../sections/EventPathSection";
+// import FaqSection from "../sections/FaqSection";
+import ChatPopup from "../components/ChatPopup";
+import ModalDisclaimer from "../components/ModalDisclaimer";
+
+
 const Homepage = () => {
+
   return (
     <div className="relative w-screen h-screen font-sans overflow-hidden">
 
@@ -101,6 +111,7 @@ const Homepage = () => {
     })}
   </div>
 </div>
+
 
     </div>
   );
