@@ -16,7 +16,7 @@ const HomeSection = () => {
   return (
     <div
       id="home"
-      className="relative w-screen min-h-screen font-sans overflow-hidden"
+      className="relative w-screen min-h-screen font-sans overflow-visible"
     >
       {/* === MOBILE LAYOUT === */}
       <div className="relative z-10 flex flex-col h-full w-full px-6 pt-[22vh] md:hidden">
@@ -33,7 +33,7 @@ const HomeSection = () => {
         <img
           src="/images/tompa.png"
           alt="Maskot"
-          className="absolute -bottom-45 -left-25 w-[470px] pointer-events-none select-none mt-10"
+          className="absolute -bottom-70 -left-25 w-[470px] pointer-events-none select-none mt-10"
         />
 
         {/* Tombol DAFTAR & KEONG RACUN */}
@@ -57,7 +57,7 @@ const HomeSection = () => {
               return (
                 <button
                   key={label}
-                  className="relative w-[160px] hover:scale-105 transition focus:outline-none"
+                  className="relative w-[150px] hover:scale-105 transition focus:outline-none"
                   onClick={handleOpenChat}
                   type="button"
                 >
@@ -78,7 +78,7 @@ const HomeSection = () => {
               <Link
                 to="#"
                 key={label}
-                className="relative w-[160px] hover:scale-105 transition"
+                className="relative w-[150px] hover:scale-105 transition"
               >
                 <img
                   src="/images/button1.png"
