@@ -10,6 +10,7 @@ import bgMobile from "/images/bg_mobile.png";
 import { useMediaQuery } from "../useMediaQuery";
 import Footer from "../sections/Footer";
 import Contact from "../sections/Contact";
+import EventPathSection from "../sections/EventPathSection";
 
 const Homepage = () => {
   const isMobile = useMediaQuery("(max-width: 768px)");
@@ -42,6 +43,7 @@ const Homepage = () => {
     >
       <Navbar />
       <HomeSection />
+      <EventPathSection />
       {/* <div id="about">
         <AboutSection />
       </div> */}
