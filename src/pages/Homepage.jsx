@@ -42,6 +42,7 @@ const Homepage = () => {
     >
       <Navbar />
       <HomeSection />
+      <AboutSection />
       {/* <div id="about">
         <AboutSection />
       </div> */}
