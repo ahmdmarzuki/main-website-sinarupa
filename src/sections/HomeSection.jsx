@@ -33,7 +33,7 @@ const HomeSection = () => {
         <img
           src="/images/tompa.png"
           alt="Maskot"
-          className="absolute -bottom-70 -left-25 w-[470px] pointer-events-none select-none mt-10"
+          className="absolute -bottom-48 -left-25 w-[470px] pointer-events-none select-none mt-10"
         />
 
         {/* Tombol DAFTAR & KEONG RACUN */}
@@ -51,7 +51,7 @@ const HomeSection = () => {
         </div>
 
         {/* Tombol kanan bawah */}
-        <div className="bottom-6 right-4 flex flex-col items-end gap-3">
+        <div className="pt-14 bottom-6 right-4 flex flex-col items-end gap-3">
           {["MERCH", "CHATBOT", "GAME"].map((label, i) => {
             if (label === "CHATBOT") {
               return (
