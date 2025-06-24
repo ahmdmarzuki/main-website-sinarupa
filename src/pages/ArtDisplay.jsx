@@ -32,6 +32,30 @@ const pathToMajor = {
   kr: "Kriya",
 };
 
+// Komponen skeleton shimmer
+const ArtSkeleton = () => (
+  <div className="w-full aspect-[4/5] bg-gray-200 animate-pulse rounded-lg" />
+);
+
+// Komponen gambar dengan skeleton loading
+function ArtImageWithSkeleton({ src, alt }) {
+  const [loaded, setLoaded] = useState(false);
+  return (
+    <div className="relative w-full">
+      {!loaded && <ArtSkeleton />}
+      <img
+        src={src}
+        alt={alt}
+        className={`w-full h-auto object-cover rounded-lg transition-opacity duration-300 ${
+          loaded ? "opacity-100" : "opacity-0"
+        }`}
+        loading="lazy"
+        onLoad={() => setLoaded(true)}
+      />
+    </div>
+  );
+}
+
 const ArtDisplay = ({ initialMajor = "" }) => {
   const [artList, setArtList] = useState([]);
   const [filteredArtList, setFilteredArtList] = useState([]);
@@ -250,11 +274,7 @@ const ArtDisplay = ({ initialMajor = "" }) => {
                   className="overflow-hidden duration-300 text-white"
                 >
                   <div className="relative group flex flex-col gap-1">
-                    <img
-                      src={art.artUrl}
-                      alt={art.artTitle}
-                      className="w-full h-auto object-cover rounded-lg"
-                    />
+                    <ArtImageWithSkeleton src={art.artUrl} alt={art.artTitle} />
                     <div className="flex flex-row justify-between">
                       {/* <p className="text-black mt-2 font-medium">
                         {art.artTitle}
