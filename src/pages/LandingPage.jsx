@@ -6,12 +6,11 @@ import bgDesktop from "/images/bg_desktop.png";
 import bgMobile from "/images/bg_mobile.png";
 
 const LandingPage = () => {
-
   const isMobile = useMediaQuery("(max-width: 900px)");
 
   return (
     <div
-      className="relative min-h-[200vh] w-full text-[#311b92] font-sans overflow-hidden bg-cover bg-no-repeat"
+      className="relative min-h-[250vh] w-full text-[#311b92] font-sans overflow-hidden bg-cover bg-no-repeat"
       style={{ backgroundImage: `url(${isMobile ? bgMobile : bgDesktop})` }}
     >
       <div className="relative z-10 px-4 pt-6">
@@ -78,7 +77,9 @@ const LandingPage = () => {
                   Acrylic Pouring Art
                 </a>
                 <p>
-                  Acrylic Pouring Art Workshop bareng Artemedia. Toko peralatan seni terbaik di Indonesia yang mengajak kamu buat tumpahin isi hati lewat media akrilik yang super satisfying!
+                  Acrylic Pouring Art Workshop bareng Artemedia. Toko peralatan
+                  seni terbaik di Indonesia yang mengajak kamu buat tumpahin isi
+                  hati lewat media akrilik yang super satisfying!
                 </p>
               </div>
             </div>
@@ -95,7 +96,9 @@ const LandingPage = () => {
                   Cyanotype Workshop
                 </a>
                 <p>
-                  Cyanotype Printing Workshop bareng Fauzan Rafli. Bikin karya seni dari sinar matahari dan bawa pulang totebag dengan hasil yang unik buatanmu sendiri!
+                  Cyanotype Printing Workshop bareng Fauzan Rafli. Bikin karya
+                  seni dari sinar matahari dan bawa pulang totebag dengan hasil
+                  yang unik buatanmu sendiri!
                 </p>
               </div>
             </div>
@@ -103,17 +106,18 @@ const LandingPage = () => {
             {/* Kolom 3 */}
             <div className="relative w-[360px] h-[480px] bg-[url('/images/evan.png')] bg-contain bg-center bg-no-repeat">
               <div className="absolute -bottom-32 left-2 right-1 text-[#FDE36E] text-sm leading-relaxed text-justify">
-                <h3 className="font-bold text-lg mb-1 text-left">Talkshow Evan</h3>
+                <h3 className="font-bold text-lg mb-1 text-left">
+                  Talkshow Evan
+                </h3>
                 <p>
-                  Talkshow: "Menemukan Kekuatan dalam Berekspresi" bareng Evan Wijaya, desainer poster film seperti Agak Laen dan SORE. Dengerin kisah inspiratifnya dan temukan semangat berekspresi versi kamu!
+                  Talkshow: "Menemukan Kekuatan dalam Berekspresi" bareng Evan
+                  Wijaya, desainer poster film seperti Agak Laen dan SORE.
+                  Dengerin kisah inspiratifnya dan temukan semangat berekspresi
+                  versi kamu!
                 </p>
               </div>
             </div>
           </div>
-
-
-
-
 
           {/* === MOBILE Layout (3 kolom horizontal) === */}
           <div className="sm:hidden relative z-10 grid grid-cols-3 gap-2 px-2 mt-6">
@@ -129,7 +133,9 @@ const LandingPage = () => {
                   Acrylic Pouring Art
                 </a>
                 <p>
-                  Acrylic Pouring Art Workshop Bareng Artemedia. Toko peralatan seni terbaik di Indonesia yang mengajak kamu buat tumpahin isi hati lewat media akrilik yang super satisfying!
+                  Acrylic Pouring Art Workshop Bareng Artemedia. Toko peralatan
+                  seni terbaik di Indonesia yang mengajak kamu buat tumpahin isi
+                  hati lewat media akrilik yang super satisfying!
                 </p>
               </div>
             </div>
@@ -146,7 +152,9 @@ const LandingPage = () => {
                   Cyanotype Workshop
                 </a>
                 <p>
-                  Cyanotype Printing Workshop Bareng Fauzan Rafli. Bikin karya seni dari sinar matahari dan bawa pulang totebag dengan hasil yang unik buatanmu sendiri!
+                  Cyanotype Printing Workshop Bareng Fauzan Rafli. Bikin karya
+                  seni dari sinar matahari dan bawa pulang totebag dengan hasil
+                  yang unik buatanmu sendiri!
                 </p>
               </div>
             </div>
@@ -156,13 +164,72 @@ const LandingPage = () => {
               <div className="absolute -bottom-20 left-1 -right-3 text-[#FDE36E] text-[7px] leading-snug text-justify">
                 <h3 className="font-bold mb-1">Talkshow Evan</h3>
                 <p>
-                  Talkshow: "Menemukan Kekuatan dalam Berekspresi" Bareng Evan Wijaya desainer poster film ternama seperti Agak Laen dan SORE: Istri dari Masa Depan. Yuk dengerin kisah menarik di balik layar dan temukan semangat berekspresi versi kamu sendiri!
+                  Talkshow: "Menemukan Kekuatan dalam Berekspresi" Bareng Evan
+                  Wijaya desainer poster film ternama seperti Agak Laen dan
+                  SORE: Istri dari Masa Depan. Yuk dengerin kisah menarik di
+                  balik layar dan temukan semangat berekspresi versi kamu
+                  sendiri!
                 </p>
               </div>
             </div>
           </div>
-
         </div>
+
+        {/* <div className="bg-amber-100 flex flex-row p-4 my-50">
+          <div className="flex flex-col">
+            <div>
+              <img src="/images" alt="" />
+              <a
+                href="https://docs.google.com/forms/d/e/1FAIpQLSed0dNdOOc6NyQJfpTV1naqxw06b5qITg96-rn_0jBKLdOVAw/viewform"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="block font-bold text-lg mb-1 underline hover:text-yellow-300 text-left"
+              >
+                Acrylic Pouring Art
+              </a>
+              <p>
+                Acrylic Pouring Art Workshop bareng Artemedia. Toko peralatan
+                seni terbaik di Indonesia yang mengajak kamu buat tumpahin isi
+                hati lewat media akrilik yang super satisfying!
+              </p>
+            </div>
+          </div>
+          <div className="flex flex-col">
+            <div>
+              <a
+                href="https://forms.gle/64Q81Qp7t6eUcW2P8"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="block font-bold text-lg mb-1 underline hover:text-yellow-300 text-left"
+              >
+                Cyanotype Workshop
+              </a>
+              <p>
+                Cyanotype Printing Workshop bareng Fauzan Rafli. Bikin karya
+                seni dari sinar matahari dan bawa pulang totebag dengan hasil
+                yang unik buatanmu sendiri!
+              </p>
+            </div>
+            <img
+              src="/images/fauzan.png"
+              alt="Fauzan Rafli"
+              className="w-full h-auto mt-2"
+            />
+          </div>
+          <div className="flex flex-col">
+            <div>
+              <h3 className="font-bold text-lg mb-1 text-left">
+                Talkshow Evan
+              </h3>
+              <p>
+                Talkshow: "Menemukan Kekuatan dalam Berekspresi" bareng Evan
+                Wijaya, desainer poster film seperti Agak Laen dan SORE.
+                Dengerin kisah inspiratifnya dan temukan semangat berekspresi
+                versi kamu!
+              </p>
+            </div>
+          </div>
+        </div> */}
       </div>
     </div>
   );
