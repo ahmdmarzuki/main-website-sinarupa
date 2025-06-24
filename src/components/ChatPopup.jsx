@@ -193,12 +193,19 @@ const ChatPopup = ({ onClose }) => {
             </button>
           </div>
         ) : showDisclaimer ? (
-          <ModalDisclaimer onAgree={handleAgreeDisclaimer} onClose={handleCloseDisclaimer} />
+          <ModalDisclaimer
+            onAgree={handleAgreeDisclaimer}
+            onClose={handleCloseDisclaimer}
+          />
         ) : (
           <>
             <div className="flex justify-between items-center px-4 py-3 border-b bg-indigo-600 text-white rounded-t-xl">
               <div className="flex items-center gap-2">
-                <img src="/images/profile-tompa.png" alt="Tompa" className="w-8 h-8 rounded-full" />
+                <img
+                  src="/images/profile-tompa.png"
+                  alt="Tompa"
+                  className="w-8 h-8 rounded-full"
+                />
                 <h3 className="text-lg font-bold font-oddval">Tompa</h3>
               </div>
               <button
@@ -250,7 +257,10 @@ const ChatPopup = ({ onClose }) => {
                   </button>
                 ))}
               </div>
-              <form onSubmit={handleSend} className="flex items-center gap-2 p-3">
+              <form
+                onSubmit={handleSend}
+                className="flex items-center gap-2 p-3"
+              >
                 <input
                   type="text"
                   className="flex-1 border rounded-full px-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-300"

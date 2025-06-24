@@ -117,7 +117,7 @@ const HomeSection = () => {
         </div>
 
         {/* Tombol DAFTAR & KEONG RACUN */}
-        <div className="flex flex-col items-center gap-4 mt-6 z-20">
+        <div className="flex flex-row items-center gap-4 z-20">
           <Link
             to="/landing"
             className="relative w-[190px] hover:scale-105 transition z-20"
@@ -126,6 +126,36 @@ const HomeSection = () => {
             <img src="/images/button1.png" alt="Daftar" className="w-full" />
             <div className="absolute inset-0 flex items-center justify-center">
               <span className="text-[#FDE36E] font-bold text-lg">DAFTAR</span>
+            </div>
+          </Link>
+          <Link
+            to="/"
+            className="relative w-[190px] hover:scale-105 transition z-20"
+            style={{ zIndex: 20 }}
+          >
+            <img src="/images/button1.png" alt="Daftar" className="w-full" />
+            <div className="absolute inset-0 flex items-center justify-center">
+              <span className="text-[#FDE36E] font-bold text-lg">MERCH</span>
+            </div>
+          </Link>
+          <Link
+            onClick={handleOpenChat}
+            className="relative w-[190px] hover:scale-105 transition z-20"
+            style={{ zIndex: 20 }}
+          >
+            <img src="/images/button1.png" alt="Daftar" className="w-full" />
+            <div className="absolute inset-0 flex items-center justify-center">
+              <span className="text-[#FDE36E] font-bold text-lg">CHATBOT</span>
+            </div>
+          </Link>
+          <Link
+            to="/"
+            className="relative w-[190px] hover:scale-105 transition z-20"
+            style={{ zIndex: 20 }}
+          >
+            <img src="/images/button1.png" alt="Daftar" className="w-full" />
+            <div className="absolute inset-0 flex items-center justify-center">
+              <span className="text-[#FDE36E] font-bold text-lg">GAME</span>
             </div>
           </Link>
         </div>

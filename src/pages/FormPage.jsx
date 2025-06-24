@@ -82,12 +82,11 @@ export default function FormPage({ onSubmit, onBack }) {
           className="w-full h-32 bg-cover bg-center flex items-center justify-center mb-6"
           style={{ backgroundImage: 'url("/images/bg1.png")' }}
         >
-          <h1 className="text-[28px] sm:text-[32px] md:text-[36px] font-bold text-[#FDE36E] drop-shadow-lg">
+          <h1 className="text-[28px] sm:text-[32px] md:text-[36px] font-host font-bold text-[#FDE36E] drop-shadow-lg">
             Pendaftaran Pameran
           </h1>
         </div>
 
- 
         <div
           className="p-8 rounded-lg"
           style={{
@@ -97,30 +96,41 @@ export default function FormPage({ onSubmit, onBack }) {
             backgroundRepeat: "no-repeat",
           }}
         >
-          
           <div className="mb-6">
-            <label className="block font-bold mb-1 text-[#FDE36E]">Nama Lengkap</label>
+            <label className="block font-bold mb-1 font-host text-[#FDE36E]">
+              Nama Lengkap
+            </label>
             <input
               name="nama"
               value={formData.nama}
               onChange={handleChange}
               placeholder="Masukkan Nama"
-              className="w-full px-4 py-2 rounded border-2 border-[#E6A938] bg-transparent text-[#FDE36E] placeholder-[#FDE36E] italic focus:outline-none focus:ring-2 focus:ring-[#E6A938]"
+              className="w-full px-4 py-2 font-host rounded border-2 border-[#E6A938] bg-transparent text-[#FDE36E] placeholder-[#FDE36E] italic focus:outline-none focus:ring-2 focus:ring-[#E6A938]"
             />
           </div>
 
           {/* Peran */}
           <div className="mb-6">
-            <label className="block font-bold mb-1 text-[#FDE36E]">Datang Sebagai</label>
+            <label className="block font-bold font-host mb-1 text-[#FDE36E]">
+              Datang Sebagai
+            </label>
             <select
               name="peran"
               value={formData.peran}
               onChange={handleChange}
-              className="w-full px-4 py-2 rounded border-2 border-[#E6A938] bg-transparent text-[#FDE36E] focus:outline-none focus:ring-2 focus:ring-[#E6A938]"
+              className="w-full px-4 py-2 rounded border-2 font-host border-[#E6A938] bg-transparent text-[#FDE36E] focus:outline-none focus:ring-2 focus:ring-[#E6A938]"
             >
               <option value="">Pilih salah satu</option>
-              {["Mahasiswa", "Pelajar", "Guru/Dosen", "Orang Tua/Wali", "Umum/Masyarakat"].map((opt) => (
-                <option key={opt} value={opt}>{opt}</option>
+              {[
+                "Mahasiswa",
+                "Pelajar",
+                "Guru/Dosen",
+                "Orang Tua/Wali",
+                "Umum/Masyarakat",
+              ].map((opt) => (
+                <option key={opt} value={opt}>
+                  {opt}
+                </option>
               ))}
             </select>
           </div>
@@ -128,20 +138,23 @@ export default function FormPage({ onSubmit, onBack }) {
           {/* Instansi */}
           {["Mahasiswa", "Pelajar", "Guru/Dosen"].includes(formData.peran) && (
             <div className="mb-6">
-              <label className="block font-bold mb-1 text-[#FDE36E]">Asal Instansi</label>
+              <label className="block font-bold mb-1 font-host text-[#FDE36E]">
+                Asal Instansi
+              </label>
               <input
                 name="instansi"
                 value={formData.instansi}
                 onChange={handleChange}
                 placeholder="Masukkan asal institusi"
-                className="w-full px-4 py-2 rounded border-2 border-[#E6A938] bg-transparent text-[#FDE36E] placeholder-[#FDE36E] italic focus:outline-none focus:ring-2 focus:ring-[#E6A938]"
+                className="w-full px-4 py-2 font-host rounded border-2 border-[#E6A938] bg-transparent text-[#FDE36E] placeholder-[#FDE36E] italic focus:outline-none focus:ring-2 focus:ring-[#E6A938]"
               />
             </div>
           )}
 
-
           <div className="mb-6">
-            <label className="block font-bold mb-1 text-[#FDE36E]">Jumlah Tiket</label>
+            <label className="block font-bold mb-1 text-[#FDE36E] font-host">
+              Jumlah Tiket
+            </label>
             <input
               type="number"
               name="jumlah"
@@ -150,19 +163,23 @@ export default function FormPage({ onSubmit, onBack }) {
               placeholder="Masukkan angka"
               min="1"
               max="3"
-              className="w-full px-4 py-2 rounded border-2 border-[#E6A938] bg-transparent text-[#FDE36E] placeholder-[#FDE36E] italic focus:outline-none focus:ring-2 focus:ring-[#E6A938]"
+              className="w-full px-4 py-2 font-host rounded border-2 border-[#E6A938] bg-transparent text-[#FDE36E] placeholder-[#FDE36E] italic focus:outline-none focus:ring-2 focus:ring-[#E6A938]"
             />
-            <p className="text-sm text-[#FDE36E] mt-1 italic">
+            <p className="text-sm text-[#FDE36E] font-host mt-1 italic">
               *maksimal 3 pemesanan tiket
             </p>
           </div>
 
-   
           <div className="mb-6">
-            <span className="block font-bold mb-2 text-[#FDE36E]">Hari Kunjungan</span>
+            <span className="block font-bold mb-2 text-[#FDE36E] font-host">
+              Hari Kunjungan
+            </span>
             <div className="flex gap-6 flex-wrap">
               {schedule.map((day) => (
-                <label key={day} className="flex items-center gap-2 cursor-pointer font-bold text-[#FDE36E]">
+                <label
+                  key={day}
+                  className="flex items-center gap-2 font-host cursor-pointer font-bold text-[#FDE36E]"
+                >
                   <input
                     type="checkbox"
                     name="hari"
@@ -178,33 +195,35 @@ export default function FormPage({ onSubmit, onBack }) {
           </div>
 
           <div className="flex justify-center gap-10 items-center mt-10">
+            <div
+              className="relative w-36 text-center cursor-pointer"
+              onClick={onBack}
+            >
+              <p className="absolute top-2 left-1/2 -translate-x-1/2 text-[#5C3CAF] font-bold font-host text-lg z-10">
+                Kembali
+              </p>
+              <img
+                src="/images/buttonbiru.png"
+                alt="Kembali"
+                className="w-full hover:opacity-80 transition"
+              />
+            </div>
 
-  <div className="relative w-36 text-center cursor-pointer" onClick={onBack}>
-    <p className="absolute top-2 left-1/2 -translate-x-1/2 text-[#5C3CAF] font-bold text-lg z-10">
-      Kembali
-    </p>
-    <img
-      src="/images/buttonbiru.png"
-      alt="Kembali"
-      className="w-full hover:opacity-80 transition"
-    />
-  </div>
-
-
-  <div className="relative w-36 text-center cursor-pointer" onClick={handleSubmit}>
-    <p className="absolute top-2 left-1/2 -translate-x-1/2 text-[#5C3CAF] font-bold text-lg z-10">
-      Submit
-    </p>
-    <img
-      src="/images/buttonbiru.png"
-      alt="Submit"
-      className="w-full hover:opacity-80 transition"
-    />
-  </div>
-</div>
-
-
-      </div>
+            <div
+              className="relative w-36 text-center cursor-pointer"
+              onClick={handleSubmit}
+            >
+              <p className="absolute top-2 left-1/2 -translate-x-1/2 text-[#5C3CAF] font-bold font-host text-lg z-10">
+                Submit
+              </p>
+              <img
+                src="/images/buttonbiru.png"
+                alt="Submit"
+                className="w-full hover:opacity-80 transition"
+              />
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   );
