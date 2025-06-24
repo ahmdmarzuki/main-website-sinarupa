@@ -51,8 +51,8 @@ const HomeSection = () => {
         </div>
 
         {/* Tombol kanan bawah */}
-        <div className="pt-14 bottom-6 right-4 flex flex-col items-end gap-3">
-          {["MERCH", "CHATBOT", "GAME"].map((label, i) => {
+        <div className="pt-14 bottom-6 right-4 flex flex-col items-end gap-3 z-20 mb-10">
+          {["CHATBOT", "GAME"].map((label, i) => {
             if (label === "CHATBOT") {
               return (
                 <button
@@ -126,16 +126,6 @@ const HomeSection = () => {
             <img src="/images/button1.png" alt="Daftar" className="w-full" />
             <div className="absolute inset-0 flex items-center justify-center">
               <span className="text-[#FDE36E] font-bold text-lg">DAFTAR</span>
-            </div>
-          </Link>
-          <Link
-            to="/"
-            className="relative w-[190px] hover:scale-105 transition z-20"
-            style={{ zIndex: 20 }}
-          >
-            <img src="/images/button1.png" alt="Daftar" className="w-full" />
-            <div className="absolute inset-0 flex items-center justify-center">
-              <span className="text-[#FDE36E] font-bold text-lg">MERCH</span>
             </div>
           </Link>
           <Link

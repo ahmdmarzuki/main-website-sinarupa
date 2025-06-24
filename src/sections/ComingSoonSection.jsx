@@ -16,7 +16,7 @@ const ComingSoonSection = () => {
         />
         {/* Glow kuning di belakang teks */}
         <div className="relative mb-4 flex items-center justify-center">
-          <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-72 h-16 md:w-[32rem] md:h-20 rounded-full z-0 pointer-events-none" />
+          <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-72 h-16 md:w-[32rem] md:h-20 rounded-full z-0 pointer-events-none bg-yellow-300 blur-2xl opacity-70" />
           <p className="text-base md:text-xl text-[#4f3dce] font-semibold m-0 px-4 md:max-w-[50vw]">
             Nantikan hal menarik yang akan tersedia!
           </p>

@@ -11,7 +11,9 @@ Pameran ini menampilkan karya eksplorasi dan adaptasi mahasiswa selama dua semes
 
 Lokasi: GSG Kampus ITB Jatinangor
 Tanggal: Sabtu-Minggu, 28-29 Juni 2025
-Waktu: 10.30 - 17.00 WIB
+Waktu:
+- Day 1: 9.30 - 17.00 WIB
+- Day 2: 9.30 - 17.55 WIB
 Tiket: Gratis & terbuka untuk umum
 
 Jadwal Acara Utama:
@@ -20,9 +22,11 @@ Jadwal Acara Utama:
 - Workshop:
   1. Pouring Art: Sabtu, 28 Juni 2025 | 13.00-15.00 WIB | Rp150.000 | CP: Kalila (+62 813-9826-1655)
   2. Cyanotype Painting: Minggu, 29 Juni 2025 | 10.00-12.00 WIB | Rp170.000 | CP: Hanna (+62 812-8423-4374)
-  3. 3D Layer Art: Sabtu, 28 Juni 2025 | 13.00-15.00 WIB
 - Talkshow: "Menemukan Kekuatan dalam Berekspresi" | Evan Wijaya | Minggu, 29 Juni 2025 | 13.00-15.00 WIB | Gratis
 - Gigs Performance (Live Music): Minggu, 29 Juni 2025 | 16.15-17.00 WIB | GSG ITB Jatinangor
+  Pengisi: OSD HMT-ITB, Benjamin, Off Step
+
+Catatan: Tidak ada 3D Layer Art.
 
 Cara ke Venue:
 Alamat: GSG ITB Jatinangor, Jl. Let. Jend. Purn. Dr. (HC) Mashudi No.1, Sayang, Sumedang, Jawa Barat 45363

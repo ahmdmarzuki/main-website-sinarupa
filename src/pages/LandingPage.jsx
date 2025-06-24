@@ -22,19 +22,6 @@ const LandingPage = () => {
 
         {/* === DAY 1 & DAY 2 === */}
         <div className="flex flex-col sm:flex-row justify-center items-center gap-10 mt-10">
-          {/* DAY 1 */}
-          <div className="flex flex-col items-center transition-transform hover:scale-105 active:scale-95">
-            <Link
-              to="/form"
-              className="relative w-[280px] sm:w-[360px] md:w-[420px] h-[400px] sm:h-[480px] bg-no-repeat bg-center bg-contain"
-              style={{ backgroundImage: "url('/images/day01.png')" }}
-            >
-              <div className="absolute -bottom-10 left-1/2 -translate-x-1/2 text-2xl font-extrabold font-host text-[#4f3dce]">
-                DAY 1
-              </div>
-            </Link>
-          </div>
-
           {/* DAY 2 */}
           <div className="flex flex-col items-center transition-transform hover:scale-105 active:scale-95 sm:-ml-6 md:-ml-10">
             <Link
@@ -43,7 +30,7 @@ const LandingPage = () => {
               style={{ backgroundImage: "url('/images/day02.png')" }}
             >
               <div className="absolute font-host -bottom-10 left-1/2 -translate-x-1/2 text-2xl font-extrabold text-[#4f3dce]">
-                DAY 2
+                PAMERAN
               </div>
             </Link>
           </div>
@@ -73,7 +60,7 @@ const LandingPage = () => {
                 href="https://docs.google.com/forms/d/e/1FAIpQLSed0dNdOOc6NyQJfpTV1naqxw06b5qITg96-rn_0jBKLdOVAw/viewform"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="rounded-xl shadow-lg p-4 flex flex-col items-center relative overflow-hidden"
+                className="rounded-xl shadow-2xl hover:shadow-3xl p-4 flex flex-col items-center relative overflow-hidden transition-shadow duration-300 cursor-pointer hover:opacity-80"
                 style={{
                   backgroundImage: "url('/images/bg-ungu.png')",
                   backgroundSize: "cover",
@@ -106,7 +93,7 @@ const LandingPage = () => {
                 href="https://docs.google.com/forms/d/e/1FAIpQLSdFL8GIneQJrlgvcjiEa-dnBOT1sZYdn1x0COb1ZC7mNfOygg/viewform"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="rounded-xl shadow-lg p-4 flex flex-col items-center relative overflow-hidden cursor-pointer hover:shadow-xl transition-shadow duration-300"
+                className="rounded-xl shadow-2xl hover:shadow-3xl p-4 flex flex-col items-center relative overflow-hidden transition-shadow duration-300 cursor-pointer hover:opacity-80"
                 style={{
                   backgroundImage: "url('/images/bg-ungu.png')",
                   backgroundSize: "cover",
@@ -120,7 +107,7 @@ const LandingPage = () => {
                 />
                 <div className="relative z-10 w-full flex flex-col items-center">
                   <img
-                    src="/images/Frame4.png"
+                    src="/images/frame-cyanotype.png"
                     alt="Cyanotype Workshop"
                     className="w-full max-h-40 object-contain mb-2"
                   />
@@ -140,7 +127,7 @@ const LandingPage = () => {
                 href="https://docs.google.com/forms/d/e/1FAIpQLSerMAXI1MbG4rR5SgMIMnLyP7tc2xZDWqntfHajsVSRtZqorg/viewform"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="rounded-xl shadow-lg p-4 flex flex-col items-center relative overflow-hidden cursor-pointer hover:shadow-xl transition-shadow duration-300"
+                className="rounded-xl shadow-2xl hover:shadow-3xl p-4 flex flex-col items-center relative overflow-hidden transition-shadow duration-300 cursor-pointer hover:opacity-80"
                 style={{
                   backgroundImage: "url('/images/bg-ungu.png')",
                   backgroundSize: "cover",
