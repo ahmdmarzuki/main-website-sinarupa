@@ -20,6 +20,7 @@ import Workshop from "./pages/Workshop";
 import QRWorkshop from "./pages/QRWorkshop";
 import Talkshow from "./pages/Talkshow";
 import QRTalkshow from "./pages/QRTalkshow";
+import KeongRacun from "./pages/KeongRacun";
 
 import Homepage from "./pages/Homepage";
 
@@ -39,6 +40,12 @@ export const FORM_TALKSHOW_URL =
 export const TALKSHOW_VIEWFORM_URL =
   "https://docs.google.com/forms/d/e/1FAIpQLSeOXreyl2wlh-qevLfQ2v4yjtVbrT7KrOM_8-mG188QuCZwVw/viewform";
 
+export const FORM_KEONG_RACUN_URL =
+  "https://docs.google.com/forms/d/e/1FAIpQLSeLN4GtPBYj-SHbTrMEYpxNrHVH9SXmcdO_F61PzXhli8sCgw/formResponse";
+
+export const KEONG_RACUN_VIEWFORM_URL =
+  "https://docs.google.com/forms/d/e/1FAIpQLSeLN4GtPBYj-SHbTrMEYpxNrHVH9SXmcdO_F61PzXhli8sCgw/viewform";
+
 export default function App() {
   const [formData, setFormData] = useState(null);
   const navigate = useNavigate();
@@ -47,6 +54,7 @@ export default function App() {
     if (type === "pameran") navigate("/form");
     else if (type === "workshop") navigate("/workshop");
     else if (type === "talkshow") navigate("/talkshow");
+    else if (type === "keongracun") navigate("/keongracun");
   };
 
   const handleFormSubmit = (data) => {
@@ -108,6 +116,26 @@ export default function App() {
 
     setFormData(data);
     navigate("/qrtalkshow");
+  };
+
+  const handleKeongRacunSubmit = (data) => {
+    const formDataObj = new URLSearchParams();
+
+    formDataObj.append("entry.1171502749", data.nama); // Nama
+    formDataObj.append("entry.1213189411", data.peran); // Peran
+    formDataObj.append("entry.1795582366", data.instansi); // Instansi
+
+    fetch(FORM_KEONG_RACUN_URL, {
+      method: "POST",
+      mode: "no-cors",
+      headers: {
+        "Content-Type": "application/x-www-form-urlencoded",
+      },
+      body: formDataObj.toString(),
+    });
+
+    setFormData(data);
+    navigate("/qrkeongracun");
   };
 
   return (
@@ -180,6 +208,15 @@ export default function App() {
         <Route path="/login" element={<LoginPage />} />
         <Route path="/pending" element={<PendingSubsmissionPage />} />
         <Route path="/guest" element={<GuestViewPendingPage />} />
+        <Route
+          path="/keongracun"
+          element={
+            <KeongRacun
+              onSubmit={handleKeongRacunSubmit}
+              onBack={() => navigate("/")}
+            />
+          }
+        />
       </Routes>
     </div>
   );

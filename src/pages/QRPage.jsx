@@ -5,18 +5,21 @@ export default function QRPage() {
   const location = useLocation();
   const navigate = useNavigate();
 
-  const formData = location.state || JSON.parse(localStorage.getItem("formData"));
+  const formData =
+    location.state || JSON.parse(localStorage.getItem("formData"));
 
   if (!formData) {
     return (
       <div className="min-h-screen flex flex-col items-center justify-center bg-gray-100 text-center px-4">
-        <p className="text-xl text-red-600 font-semibold mb-4">Data tidak ditemukan.</p>
+        <p className="text-xl text-red-600 font-semibold mb-4 font-host">
+          Data tidak ditemukan.
+        </p>
         <button
           onClick={() => {
             localStorage.removeItem("formData");
             navigate("/");
           }}
-          className="mt-10 px-8 py-3 bg-indigo-700 text-white font-semibold text-lg rounded-full shadow-xl hover:bg-indigo-800 transition"
+          className="mt-10 px-8 py-3 bg-[#4f3dce] text-[#4f3dce] font-semibold text-lg rounded-full shadow-xl hover:bg-indigo-800 font-host transition"
         >
           Kembali ke Beranda
         </button>
@@ -45,24 +48,23 @@ export default function QRPage() {
 
   return (
     <div className="relative min-h-screen w-full flex items-center justify-center px-6 text-center overflow-hidden">
-
       {/* === BACKGROUND === */}
       <div
         className="absolute inset-0 bg-no-repeat bg-cover bg-center md:hidden z-0"
-        style={{ backgroundImage: "url('/images/mobilebg.png')" }}
+        style={{ backgroundImage: "url('/images/bg_mobile.png')" }}
       />
       <div
         className="absolute inset-0 bg-no-repeat bg-cover bg-center hidden md:block z-0"
-        style={{ backgroundImage: "url('/images/desktopbg.png')" }}
+        style={{ backgroundImage: "url('/images/bg_mobile.png')" }}
       />
 
       {/* === KONTEN === */}
       <div className="relative z-10 flex flex-col items-center justify-center">
-        <h1 className="text-4xl md:text-5xl font-bold text-indigo-800 mb-10">
+        <h1 className="text-4xl font-host md:text-5xl font-bold text-[#4f3dce] mb-10">
           Pendaftaran Pameran Berhasil
         </h1>
 
-        <div className="bg-[#412EC8] p-4">
+        <div className="bg-[#4f3dce] p-4">
           <QRCode
             value={prefilledUrl}
             size={280}
@@ -71,7 +73,7 @@ export default function QRPage() {
           />
         </div>
 
-        <p className="mt-6 text-indigo-800 italic">
+        <p className="mt-6 text-[#4f3dce] font-host font-bold italic">
           Screenshoot QR untuk ditunjukkan pada saat memasuki area pameran
         </p>
 
@@ -79,7 +81,7 @@ export default function QRPage() {
           className="mt-12 relative w-fit hover:scale-105 transition cursor-pointer"
           onClick={() => navigate("/")}
         >
-          <span className="absolute inset-0 flex items-center justify-center text-indigo-900 font-bold text-lg z-10">
+          <span className="absolute inset-0 flex items-center font-host justify-center text-[#4f3dce] font-bold text-lg z-10">
             Kembali ke Beranda
           </span>
           <img
