@@ -8,7 +8,7 @@ import MapsLocationSection from "../sections/MapsLocationSection";
 
 import EventPathSection from "../sections/EventPathSection";
 import AboutSection from "../sections/AboutSection";
-
+import MajorSection from "../sections/MajorSection";
 
 const Homepage = () => {
   return (
@@ -18,7 +18,6 @@ const Homepage = () => {
         backgroundImage: `url('/images/bg_mobile.png')`,
       }}
     >
-
       {/* Responsive background for md and above */}
       <style>{`
         @media (min-width: 768px) {
@@ -33,6 +32,7 @@ const Homepage = () => {
 
         <AboutSection />
         <MapsLocationSection />
+        <MajorSection />
         <ComingSoonSection />
         <Footer />
       </div>
