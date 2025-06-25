@@ -15,7 +15,7 @@ const majors = [
   {
     name: "Desain Interior",
     desc: "Interior Design",
-    href: "#desain-interior",
+    href: "DI",
   },
   {
     name: "Desain Komunikasi Visual",
