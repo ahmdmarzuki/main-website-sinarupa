@@ -23,6 +23,7 @@ import QRTalkshow from "./pages/QRTalkshow";
 import KeongRacun from "./pages/KeongRacun";
 
 import Homepage from "./pages/Homepage";
+import SR from "./pages/SR";
 
 export const FORM_PAMERAN_URL =
   "https://docs.google.com/forms/d/e/1FAIpQLSdHASWTjIx4uBC72LEmKhQkLtjTOizDBNTkohWjycpLLsYILQ/formResponse";
@@ -142,6 +143,7 @@ export default function App() {
     <div className="min-h-screen flex items-center justify-center bg-transparent">
       <Routes>
         <Route path="/" element={<Homepage />} />
+        <Route path="/sr" element={<SR />} />
 
         <Route
           path="/landing"
