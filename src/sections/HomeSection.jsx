@@ -52,45 +52,51 @@ const HomeSection = () => {
 
         {/* Tombol kanan bawah */}
         <div className="pt-14 bottom-6 right-4 flex flex-col items-end gap-3 z-20 mb-10">
-          {["CHATBOT", "GAME"].map((label, i) => {
-            if (label === "CHATBOT") {
+          {[
+            { label: "CHATBOT", type: "button" },
+            { label: "GAME", type: "link" },
+          ].map((item, i) => {
+            if (item.label === "CHATBOT") {
               return (
                 <button
-                  key={label}
+                  key={item.label}
                   className="relative w-[150px] hover:scale-105 transition focus:outline-none"
                   onClick={handleOpenChat}
                   type="button"
                 >
                   <img
                     src="/images/button1.png"
-                    alt={`Button ${label}`}
+                    alt={`Button ${item.label}`}
                     className="w-full"
                   />
                   <div className="absolute inset-0 flex items-center justify-center">
                     <span className="text-[#FDE36E] font-bold text-lg">
-                      {label}
+                      {item.label}
                     </span>
                   </div>
                 </button>
               );
             }
+            // GAME button
             return (
-              <Link
-                to="#"
-                key={label}
+              <a
+                href="https://minigame.sinarupa.com"
+                key={item.label}
                 className="relative w-[150px] hover:scale-105 transition"
+                target="_blank"
+                rel="noopener noreferrer"
               >
                 <img
                   src="/images/button1.png"
-                  alt={`Button ${label}`}
+                  alt={`Button ${item.label}`}
                   className="w-full"
                 />
                 <div className="absolute inset-0 flex items-center justify-center">
                   <span className="text-[#FDE36E] font-bold text-lg">
-                    {label}
+                    {item.label}
                   </span>
                 </div>
-              </Link>
+              </a>
             );
           })}
         </div>
@@ -138,16 +144,18 @@ const HomeSection = () => {
               <span className="text-[#FDE36E] font-bold text-lg">CHATBOT</span>
             </div>
           </Link>
-          <Link
-            to="/"
+          <a
+            href="https://minigame.sinarupa.com"
             className="relative w-[190px] hover:scale-105 transition z-20"
             style={{ zIndex: 20 }}
+            target="_blank"
+            rel="noopener noreferrer"
           >
-            <img src="/images/button1.png" alt="Daftar" className="w-full" />
+            <img src="/images/button1.png" alt="Game" className="w-full" />
             <div className="absolute inset-0 flex items-center justify-center">
               <span className="text-[#FDE36E] font-bold text-lg">GAME</span>
             </div>
-          </Link>
+          </a>
         </div>
 
         {/* Tombol horizontal center (desktop) */}
