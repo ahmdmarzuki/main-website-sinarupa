@@ -26,6 +26,11 @@ import Homepage from "./pages/Homepage";
 import SR from "./pages/SR";
 import DKVPage from "./pages/DKVPage";
 
+import KriyaArsip from "./pages/KriyaArsip";
+
+import DI from "./pages/DI";
+
+
 export const FORM_PAMERAN_URL =
   "https://docs.google.com/forms/d/e/1FAIpQLSdHASWTjIx4uBC72LEmKhQkLtjTOizDBNTkohWjycpLLsYILQ/formResponse";
 export const FORM_PAMERAN_VIEWFORM_URL =
@@ -145,7 +150,12 @@ export default function App() {
       <Routes>
         <Route path="/" element={<Homepage />} />
         <Route path="/sr" element={<SR />} />
+
         <Route path="/dkv" element={<DKVPage />} />
+
+
+        <Route path="/di" element={<DI />} />
+      
 
         <Route
           path="/landing"
@@ -221,6 +231,7 @@ export default function App() {
             />
           }
         />
+        <Route path="/kriyaarsip" element={<KriyaArsip />} />
       </Routes>
     </div>
   );
