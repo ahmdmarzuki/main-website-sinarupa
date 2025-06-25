@@ -4,6 +4,7 @@ import HomeSection from "../sections/HomeSection";
 import ComingSoonSection from "../sections/ComingSoonSection";
 import Footer from "../sections/Footer";
 import EventPathSection from "../sections/EventPathSection";
+import AboutSection from "../sections/AboutSection";
 
 const Homepage = () => {
   return (
@@ -13,7 +14,6 @@ const Homepage = () => {
         backgroundImage: `url('/images/bg_mobile.png')`,
       }}
     >
-
       {/* Responsive background for md and above */}
       <style>{`
         @media (min-width: 768px) {
@@ -29,7 +29,6 @@ const Homepage = () => {
         <ComingSoonSection />
         <Footer />
       </div>
-
     </div>
   );
 };

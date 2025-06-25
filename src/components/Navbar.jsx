@@ -2,7 +2,15 @@ import React from "react";
 
 const Navbar = () => {
   return (
-    <nav className="w-full h-[80px] md:h-[120px] relative overflow-hidden flex items-center px-4" style={{backgroundImage: "url('/images/navbar-revisi.png')", backgroundSize: 'cover', backgroundPosition: 'center', backgroundRepeat: 'no-repeat'}}>
+    <nav
+      className="w-full h-[80px] md:h-[120px] relative overflow-hidden flex items-center px-4"
+      style={{
+        backgroundImage: "url('/images/navbar-revisi.png')",
+        backgroundSize: "cover",
+        backgroundPosition: "center",
+        backgroundRepeat: "no-repeat",
+      }}
+    >
       <div className="flex flex-row items-center gap-4">
         <img
           src="/images/logo-sinarupa.png"

@@ -19,7 +19,7 @@ const HomeSection = () => {
       className="relative w-screen min-h-screen font-sans overflow-visible"
     >
       {/* === MOBILE LAYOUT === */}
-      <div className="relative z-10 flex flex-col h-full w-full px-6 pt-[22vh] md:hidden">
+      <div className="relative z-10 flex flex-col h-full w-full px-6 pt-[10vh] md:hidden">
         {/* Logo utama */}
         <div className="flex justify-center">
           <img
@@ -104,7 +104,7 @@ const HomeSection = () => {
       </div>
 
       {/* === DESKTOP LAYOUT === */}
-      <div className="relative z-10 hidden md:flex flex-col items-center justify-center h-full w-full px-10 md:gap-16">
+      <div className="relative z-10 hidden md:flex flex-col items-center justify-center h-full w-full px-10">
         {/* Logo + Maskot di tengah */}
         <div className="flex justify-center items-center gap-6">
           {/* Logo */}
@@ -123,7 +123,7 @@ const HomeSection = () => {
         </div>
 
         {/* Tombol DAFTAR & KEONG RACUN */}
-        <div className="flex flex-row items-center gap-4 z-20">
+        <div className="flex flex-row items-center gap-4 z-20 -translate-y-20">
           <Link
             to="/landing"
             className="relative w-[190px] hover:scale-105 transition z-20"
