@@ -24,7 +24,11 @@ import KeongRacun from "./pages/KeongRacun";
 
 import Homepage from "./pages/Homepage";
 import SR from "./pages/SR";
+
+import KriyaArsip from "./pages/KriyaArsip";
+
 import DI from "./pages/DI";
+
 
 export const FORM_PAMERAN_URL =
   "https://docs.google.com/forms/d/e/1FAIpQLSdHASWTjIx4uBC72LEmKhQkLtjTOizDBNTkohWjycpLLsYILQ/formResponse";
@@ -221,6 +225,7 @@ export default function App() {
             />
           }
         />
+        <Route path="/kriyaarsip" element={<KriyaArsip />} />
       </Routes>
     </div>
   );

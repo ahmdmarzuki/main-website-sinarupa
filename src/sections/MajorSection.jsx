@@ -1,4 +1,5 @@
 import React, { useState, useRef, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 
 const majors = [
   {
@@ -24,7 +25,7 @@ const majors = [
   {
     name: "Kriya",
     desc: "Crafts",
-    href: "#kriya",
+    href: "/kriyaarsip",
   },
 ];
 
@@ -32,6 +33,7 @@ const MajorSection = () => {
   const [activeIdx, setActiveIdx] = useState(2); // start from center
   const scrollRef = useRef(null);
   const cardRefs = useRef([]);
+  const navigate = useNavigate();
 
   // Snap to active card on change
   useEffect(() => {
@@ -47,7 +49,7 @@ const MajorSection = () => {
   // Handle click: if card aktif, redirect ke href, kalau tidak, set aktif
   const handleCardClick = (idx, href) => {
     if (idx === activeIdx) {
-      window.location.href = href;
+      navigate(href);
     } else {
       setActiveIdx(idx);
     }
