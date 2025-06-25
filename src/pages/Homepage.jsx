@@ -13,6 +13,7 @@ const Homepage = () => {
         backgroundImage: `url('/images/bg_mobile.png')`,
       }}
     >
+
       {/* Responsive background for md and above */}
       <style>{`
         @media (min-width: 768px) {
@@ -24,9 +25,11 @@ const Homepage = () => {
       <div className="homepage-bg min-h-screen w-full bg-cover bg-no-repeat">
         <Navbar />
         <HomeSection />
+        <AboutSection />
         <ComingSoonSection />
         <Footer />
       </div>
+
     </div>
   );
 };
