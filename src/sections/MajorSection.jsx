@@ -20,7 +20,7 @@ const majors = [
   {
     name: "Desain Komunikasi Visual",
     desc: "Visual Communication Design",
-    href: "#dkv",
+    href: "/dkv",
   },
   {
     name: "Kriya",

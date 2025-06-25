@@ -24,6 +24,7 @@ import KeongRacun from "./pages/KeongRacun";
 
 import Homepage from "./pages/Homepage";
 import SR from "./pages/SR";
+import DKVPage from "./pages/DKVPage";
 
 import KriyaArsip from "./pages/KriyaArsip";
 
@@ -149,8 +150,13 @@ export default function App() {
       <Routes>
         <Route path="/" element={<Homepage />} />
         <Route path="/sr" element={<SR />} />
+
+        <Route path="/dkv" element={<DKVPage />} />
+
+
         <Route path="/di" element={<DI />} />
       
+
         <Route
           path="/landing"
           element={<LandingPage onSelect={handleSelect} />}
