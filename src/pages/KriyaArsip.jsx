@@ -5,7 +5,7 @@ const srImages = [
   "KR2.jpg",
   "KR3.png",
   "KR4.png",
-  "KR5.png",
+  "KR5.PNG",
   "KR6.png",
   "KR7.jpg",
   "KR8.png",
@@ -15,7 +15,12 @@ const KR = () => {
   return (
     <div
       className="min-h-screen w-full bg-cover bg-center flex flex-col items-center px-2 py-8"
-      style={{ backgroundImage: "url('/images/KR/bg-kr.png')" }}
+      style={{ 
+        backgroundImage: "url('/images/bg-kr.png')",
+        backgroundSize: '105% 110%',
+        backgroundPosition: 'center',
+        backgroundRepeat: 'no-repeat'
+      }}
     >
       <div className="max-w-3xl w-full mx-auto text-center mt-8">
         <h1 className="text-5xl md:text-6xl font-extrabold text-yellow-300 mb-6 drop-shadow-lg">KRIYA</h1>
