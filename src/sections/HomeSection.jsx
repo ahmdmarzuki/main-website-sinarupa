@@ -19,13 +19,13 @@ const HomeSection = () => {
       className="relative w-screen min-h-screen font-sans overflow-visible"
     >
       {/* === MOBILE LAYOUT === */}
-      <div className="relative z-10 flex flex-col h-full w-full px-6 pt-[10vh] md:hidden">
+      <div className="relative z-10 flex flex-col h-full w-full px-6 pt-[4vh] md:hidden">
         {/* Logo utama */}
         <div className="flex justify-center">
           <img
             src="/images/Sinarupa.png"
             alt="Sinarupa"
-            className="w-[400px]"
+            className="w-[300px]"
           />
         </div>
 
@@ -33,7 +33,7 @@ const HomeSection = () => {
         <img
           src="/images/tompa.png"
           alt="Maskot"
-          className="absolute -bottom-48 -left-25 w-[470px] pointer-events-none select-none mt-10"
+          className="absolute -bottom-47 -left-20 w-[365px] pointer-events-none select-none mt-10"
         />
 
         {/* Tombol DAFTAR & KEONG RACUN */}
@@ -111,19 +111,19 @@ const HomeSection = () => {
           <img
             src="/images/Sinarupa.png"
             alt="Sinarupa"
-            className="w-[500px] translate-x-15"
+            className="w-[500px] translate-x-15 -mt-30"
           />
 
           {/* Maskot */}
           <img
             src="/images/tompa.png"
             alt="Maskot"
-            className="w-[500px] -translate-x-15 mt-10"
+            className="w-[500px] -translate-x-15 -mt-25"
           />
         </div>
 
         {/* Tombol DAFTAR & KEONG RACUN */}
-        <div className="flex flex-row items-center gap-4 z-20 -translate-y-20">
+        <div className="flex flex-row items-center gap-4 z-20 -translate-y-40">
           <Link
             to="/landing"
             className="relative w-[190px] hover:scale-105 transition z-20"
