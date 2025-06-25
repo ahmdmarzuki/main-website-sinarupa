@@ -1,5 +1,6 @@
 import React, { useState, useRef, useEffect } from "react";
 import ReactMarkdown from "react-markdown";
+import ModalDisclaimer from "./ModalDisclaimer";
 // Pastikan path ini benar
 import { geminiModel } from "../firebase/geminiService";
 
@@ -12,7 +13,9 @@ Pameran ini menampilkan karya eksplorasi dan adaptasi mahasiswa selama dua semes
 
 Lokasi: GSG Kampus ITB Jatinangor
 Tanggal: Sabtu-Minggu, 28-29 Juni 2025
-Waktu: 10.30 - 17.00 WIB
+Waktu:
+- Day 1: 9.30 - 17.00 WIB
+- Day 2: 9.30 - 17.55 WIB
 Tiket: Gratis & terbuka untuk umum
 
 Jadwal Acara Utama:
@@ -21,9 +24,11 @@ Jadwal Acara Utama:
 - Workshop:
   1. Pouring Art: Sabtu, 28 Juni 2025 | 13.00-15.00 WIB | Rp150.000 | CP: Kalila (+62 813-9826-1655)
   2. Cyanotype Painting: Minggu, 29 Juni 2025 | 10.00-12.00 WIB | Rp170.000 | CP: Hanna (+62 812-8423-4374)
-  3. 3D Layer Art: Sabtu, 28 Juni 2025 | 13.00-15.00 WIB
 - Talkshow: "Menemukan Kekuatan dalam Berekspresi" | Evan Wijaya | Minggu, 29 Juni 2025 | 13.00-15.00 WIB | Gratis
 - Gigs Performance (Live Music): Minggu, 29 Juni 2025 | 16.15-17.00 WIB | GSG ITB Jatinangor
+  Pengisi: OSD HMT-ITB, Benjamin, Off Step
+
+Catatan: Tidak ada 3D Layer Art.
 
 Cara ke Venue:
 Alamat: GSG ITB Jatinangor, Jl. Let. Jend. Purn. Dr. (HC) Mashudi No.1, Sayang, Sumedang, Jawa Barat 45363
@@ -78,6 +83,9 @@ const quickReplies = [
 ];
 
 const ChatPopup = ({ onClose }) => {
+  const [showIntro, setShowIntro] = useState(true);
+  const [showDisclaimer, setShowDisclaimer] = useState(false);
+  const videoRef = useRef(null);
   const [messages, setMessages] = useState([
     {
       sender: "ai",
@@ -134,84 +142,157 @@ const ChatPopup = ({ onClose }) => {
     setInput(msg);
   };
 
+  // Handler untuk selesai intro
+  const handleIntroEnd = () => {
+    setShowIntro(false);
+    setShowDisclaimer(true);
+  };
+  const handleSkipIntro = () => {
+    if (videoRef.current) videoRef.current.pause();
+    setShowIntro(false);
+    setShowDisclaimer(true);
+  };
+  const handleAgreeDisclaimer = () => setShowDisclaimer(false);
+  const handleCloseDisclaimer = () => {
+    setShowDisclaimer(false);
+    onClose();
+  };
+
+  // Responsive video source
+  const isMobile = window.innerWidth < 768;
+  const videoSrc = isMobile
+    ? "/videos/intro-mobile.mp4"
+    : "/videos/intro-dekstop.mp4";
+
   return (
-    <div className="fixed bottom-20 right-5 z-50 flex h-[70vh] w-[90vw] max-w-sm flex-col rounded-xl bg-white shadow-2xl">
-      <div className="flex justify-between items-center px-4 py-3 border-b bg-indigo-600 text-white rounded-t-xl">
-        <h3 className="text-lg font-bold">Chat dengan Tompa</h3>
-        <button
-          onClick={onClose}
-          className="font-bold text-xl hover:text-gray-300 p-1 leading-none"
-        >
-          &times;
-        </button>
-      </div>
-      <div className="flex-1 overflow-y-auto px-4 py-2 space-y-3">
-        {messages.map((msg, idx) => (
-          <div
-            key={idx}
-            className={`flex ${
-              msg.sender === "user" ? "justify-end" : "justify-start"
-            }`}
-          >
-            <div
-              className={`px-3 py-2 rounded-lg max-w-[85%] prose prose-sm ${
-                msg.sender === "user" ? "bg-orange-200" : "bg-gray-100"
-              }`}
-            >
-              <ReactMarkdown>{msg.text}</ReactMarkdown>
-            </div>
-          </div>
-        ))}
-        {isAITyping && (
-          <div className="flex justify-start">
-            <div className="px-3 py-2 rounded-lg bg-gray-100 text-sm shadow flex items-center gap-2">
-              <span className="block w-2 h-2 bg-gray-400 rounded-full animate-bounce [animation-delay:0s]"></span>
-              <span className="block w-2 h-2 bg-gray-400 rounded-full animate-bounce [animation-delay:0.2s]"></span>
-              <span className="block w-2 h-2 bg-gray-400 rounded-full animate-bounce [animation-delay:0.4s]"></span>
-            </div>
-          </div>
-        )}
-        <div ref={messagesEndRef} />
-      </div>
-      <div className="border-t bg-gray-50 rounded-b-xl">
-        <div className="p-2 overflow-x-auto whitespace-nowrap flex gap-2">
-          {quickReplies.map((msg, idx) => (
+    <div
+      className="fixed bottom-20 right-5 z-[9999] flex h-[70vh] w-[90vw] max-w-sm flex-col rounded-xl shadow-2xl bg-cover bg-center bg-no-repeat"
+      style={{
+        backgroundImage: "url('/images/bg-chat-mobile.png')",
+      }}
+    >
+      <style>{`
+        @media (min-width: 768px) {
+          .chat-popup-bg {
+            background-image: url('/images/bg-chat-desktop.png') !important;
+          }
+        }
+      `}</style>
+      <div className="chat-popup-bg flex flex-col h-full w-full rounded-xl">
+        {/* Intro video overlay */}
+        {showIntro ? (
+          <div className="flex flex-col items-center justify-center h-full w-full bg-black bg-opacity-80 rounded-xl relative z-20">
+            <video
+              ref={videoRef}
+              src={videoSrc}
+              className="w-full h-full object-cover rounded-xl"
+              autoPlay
+              onEnded={handleIntroEnd}
+              controls={false}
+            />
             <button
-              key={idx}
-              type="button"
-              className="bg-indigo-100 hover:bg-indigo-200 text-xs rounded-full px-3 py-1 font-medium transition-colors"
-              onClick={() => handleQuickReply(msg)}
-              disabled={isAITyping}
+              onClick={handleSkipIntro}
+              className="absolute top-4 right-4 bg-white bg-opacity-80 text-indigo-700 font-bold px-4 py-2 rounded-full shadow hover:bg-opacity-100 transition"
             >
-              {msg}
+              Lewati Intro
             </button>
-          ))}
-        </div>
-        <form onSubmit={handleSend} className="flex items-center gap-2 p-3">
-          <input
-            type="text"
-            className="flex-1 border rounded-full px-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-300"
-            placeholder="Tulis pesan..."
-            value={input}
-            onChange={(e) => setInput(e.target.value)}
-            disabled={isAITyping}
-            autoFocus
+          </div>
+        ) : showDisclaimer ? (
+          <ModalDisclaimer
+            onAgree={handleAgreeDisclaimer}
+            onClose={handleCloseDisclaimer}
           />
-          <button
-            type="submit"
-            className="bg-indigo-600 text-white p-2 rounded-full font-semibold disabled:opacity-50 flex items-center justify-center transition-transform transform hover:scale-110"
-            disabled={!input.trim() || isAITyping}
-          >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              viewBox="0 0 20 20"
-              fill="currentColor"
-              className="w-5 h-5"
-            >
-              <path d="M3.105 2.289a.75.75 0 00-.826.95l1.414 4.949a.75.75 0 00.95.826L11.25 7.5l-6.607-1.486a.75.75 0 00-.95-.826zM12.5 11.25a.75.75 0 00.826-.95l-1.414-4.949a.75.75 0 00-.95-.826L3.75 6.25l6.607 1.486a.75.75 0 00.95.826z" />
-            </svg>
-          </button>
-        </form>
+        ) : (
+          <>
+            <div className="flex justify-between items-center px-4 py-3 border-b bg-indigo-600 text-white rounded-t-xl">
+              <div className="flex items-center gap-2">
+                <img
+                  src="/images/profile-tompa.png"
+                  alt="Tompa"
+                  className="w-8 h-8 rounded-full"
+                />
+                <h3 className="text-lg font-bold font-oddval">Tompa</h3>
+              </div>
+              <button
+                onClick={onClose}
+                className="font-bold text-xl hover:text-gray-300 p-1 leading-none"
+              >
+                &times;
+              </button>
+            </div>
+            <div className="flex-1 overflow-y-auto px-4 py-2 space-y-3">
+              {messages.map((msg, idx) => (
+                <div
+                  key={idx}
+                  className={`flex ${
+                    msg.sender === "user" ? "justify-end" : "justify-start"
+                  }`}
+                >
+                  <div
+                    className={`px-3 py-2 rounded-lg max-w-[85%] prose prose-sm ${
+                      msg.sender === "user" ? "bg-orange-200" : "bg-gray-100"
+                    }`}
+                  >
+                    <ReactMarkdown>{msg.text}</ReactMarkdown>
+                  </div>
+                </div>
+              ))}
+              {isAITyping && (
+                <div className="flex justify-start">
+                  <div className="px-3 py-2 rounded-lg bg-gray-100 text-sm shadow flex items-center gap-2">
+                    <span className="block w-2 h-2 bg-gray-400 rounded-full animate-bounce [animation-delay:0s]"></span>
+                    <span className="block w-2 h-2 bg-gray-400 rounded-full animate-bounce [animation-delay:0.2s]"></span>
+                    <span className="block w-2 h-2 bg-gray-400 rounded-full animate-bounce [animation-delay:0.4s]"></span>
+                  </div>
+                </div>
+              )}
+              <div ref={messagesEndRef} />
+            </div>
+            <div className="border-t bg-gray-50 rounded-b-xl">
+              <div className="p-2 overflow-x-auto whitespace-nowrap flex gap-2">
+                {quickReplies.map((msg, idx) => (
+                  <button
+                    key={idx}
+                    type="button"
+                    className="bg-indigo-100 hover:bg-indigo-200 text-xs rounded-full px-3 py-1 font-medium transition-colors"
+                    onClick={() => handleQuickReply(msg)}
+                    disabled={isAITyping}
+                  >
+                    {msg}
+                  </button>
+                ))}
+              </div>
+              <form
+                onSubmit={handleSend}
+                className="flex items-center gap-2 p-3"
+              >
+                <input
+                  type="text"
+                  className="flex-1 border rounded-full px-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-300"
+                  placeholder="Tulis pesan..."
+                  value={input}
+                  onChange={(e) => setInput(e.target.value)}
+                  disabled={isAITyping}
+                  autoFocus
+                />
+                <button
+                  type="submit"
+                  className="bg-indigo-600 text-white p-2 rounded-full font-semibold disabled:opacity-50 flex items-center justify-center transition-transform transform hover:scale-110"
+                  disabled={!input.trim() || isAITyping}
+                >
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 20 20"
+                    fill="currentColor"
+                    className="w-5 h-5"
+                  >
+                    <path d="M3.105 2.289a.75.75 0 00-.826.95l1.414 4.949a.75.75 0 00.95.826L11.25 7.5l-6.607-1.486a.75.75 0 00-.95-.826zM12.5 11.25a.75.75 0 00.826-.95l-1.414-4.949a.75.75 0 00-.95-.826L3.75 6.25l6.607 1.486a.75.75 0 00.95.826z" />
+                  </svg>
+                </button>
+              </form>
+            </div>
+          </>
+        )}
       </div>
     </div>
   );

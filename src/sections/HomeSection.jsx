@@ -8,10 +8,15 @@ import ChatPopup from "../components/ChatPopup";
 import ModalDisclaimer from "../components/ModalDisclaimer";
 
 const HomeSection = () => {
+  const [isChatOpen, setIsChatOpen] = useState(false);
+
+  const handleOpenChat = () => setIsChatOpen(true);
+  const handleCloseChat = () => setIsChatOpen(false);
+
   return (
     <div
       id="home"
-      className="relative w-screen min-h-screen font-sans overflow-hidden"
+      className="relative w-screen min-h-screen font-sans overflow-visible"
     >
       {/* === MOBILE LAYOUT === */}
       <div className="relative z-10 flex flex-col h-full w-full px-6 pt-[22vh] md:hidden">
@@ -28,11 +33,11 @@ const HomeSection = () => {
         <img
           src="/images/tompa.png"
           alt="Maskot"
-          className="absolute -bottom-45 -left-25 w-[470px] pointer-events-none select-none"
+          className="absolute -bottom-48 -left-25 w-[470px] pointer-events-none select-none mt-10"
         />
 
-        {/* Tombol DAFTAR */}
-        <div className="flex justify-center mt-6 z-20">
+        {/* Tombol DAFTAR & KEONG RACUN */}
+        <div className="flex flex-col items-center gap-4 mt-6 z-20">
           <Link
             to="/landing"
             className="relative w-[190px] hover:scale-105 transition z-20"
@@ -46,26 +51,50 @@ const HomeSection = () => {
         </div>
 
         {/* Tombol kanan bawah */}
-        <div className="bottom-6 right-4 flex flex-col items-end gap-3">
-          {["MERCH", "CHATBOT", "GAME"].map((label, i) => (
-            <Link
-              to="#"
-              key={i}
-              className="relative w-[160px] hover:scale-105 transition"
-            >
-              <img
-                src="/images/button1.png"
-                alt={`Button ${label}`}
-                className="w-full"
-              />
-              <div className="absolute inset-0 flex items-center justify-center">
-                <span className="text-[#FDE36E] font-bold text-lg">
-                  {label}
-                </span>
-              </div>
-            </Link>
-          ))}
+        <div className="pt-14 bottom-6 right-4 flex flex-col items-end gap-3 z-20 mb-10">
+          {["CHATBOT", "GAME"].map((label, i) => {
+            if (label === "CHATBOT") {
+              return (
+                <button
+                  key={label}
+                  className="relative w-[150px] hover:scale-105 transition focus:outline-none"
+                  onClick={handleOpenChat}
+                  type="button"
+                >
+                  <img
+                    src="/images/button1.png"
+                    alt={`Button ${label}`}
+                    className="w-full"
+                  />
+                  <div className="absolute inset-0 flex items-center justify-center">
+                    <span className="text-[#FDE36E] font-bold text-lg">
+                      {label}
+                    </span>
+                  </div>
+                </button>
+              );
+            }
+            return (
+              <Link
+                to="#"
+                key={label}
+                className="relative w-[150px] hover:scale-105 transition"
+              >
+                <img
+                  src="/images/button1.png"
+                  alt={`Button ${label}`}
+                  className="w-full"
+                />
+                <div className="absolute inset-0 flex items-center justify-center">
+                  <span className="text-[#FDE36E] font-bold text-lg">
+                    {label}
+                  </span>
+                </div>
+              </Link>
+            );
+          })}
         </div>
+        {isChatOpen && <ChatPopup onClose={handleCloseChat} />}
       </div>
 
       {/* === DESKTOP LAYOUT === */}
@@ -83,34 +112,47 @@ const HomeSection = () => {
           <img
             src="/images/tompa.png"
             alt="Maskot"
-            className="w-[500px] -translate-x-15"
+            className="w-[500px] -translate-x-15 mt-10"
           />
         </div>
 
-        {/* Tombol horizontal center */}
-        <div className="flex justify-center gap-6 mt-10 -translate-y-50">
-          {["DAFTAR"].map((label, i) => {
-            const links = ["/landing"];
-            return (
-              <Link
-                to={links[i]}
-                key={i}
-                className="relative w-[180px] hover:scale-105 transition"
-              >
-                <img
-                  src="/images/button1.png"
-                  alt={`Button ${label}`}
-                  className="w-full"
-                />
-                <div className="absolute inset-0 flex items-center justify-center">
-                  <span className="text-[#FDE36E] font-bold text-lg">
-                    {label}
-                  </span>
-                </div>
-              </Link>
-            );
-          })}
+        {/* Tombol DAFTAR & KEONG RACUN */}
+        <div className="flex flex-row items-center gap-4 z-20">
+          <Link
+            to="/landing"
+            className="relative w-[190px] hover:scale-105 transition z-20"
+            style={{ zIndex: 20 }}
+          >
+            <img src="/images/button1.png" alt="Daftar" className="w-full" />
+            <div className="absolute inset-0 flex items-center justify-center">
+              <span className="text-[#FDE36E] font-bold text-lg">DAFTAR</span>
+            </div>
+          </Link>
+          <Link
+            onClick={handleOpenChat}
+            className="relative w-[190px] hover:scale-105 transition z-20"
+            style={{ zIndex: 20 }}
+          >
+            <img src="/images/button1.png" alt="Daftar" className="w-full" />
+            <div className="absolute inset-0 flex items-center justify-center">
+              <span className="text-[#FDE36E] font-bold text-lg">CHATBOT</span>
+            </div>
+          </Link>
+          <Link
+            to="/"
+            className="relative w-[190px] hover:scale-105 transition z-20"
+            style={{ zIndex: 20 }}
+          >
+            <img src="/images/button1.png" alt="Daftar" className="w-full" />
+            <div className="absolute inset-0 flex items-center justify-center">
+              <span className="text-[#FDE36E] font-bold text-lg">GAME</span>
+            </div>
+          </Link>
         </div>
+
+        {/* Tombol horizontal center (desktop) */}
+        {/* Dihapus agar tidak double tombol DAFTAR */}
+        {isChatOpen && <ChatPopup onClose={handleCloseChat} />}
       </div>
     </div>
   );
