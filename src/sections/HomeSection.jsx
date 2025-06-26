@@ -31,7 +31,7 @@ const HomeSection = () => {
 
         {/* Maskot kiri bawah */}
         <img
-          src="/images/tompa.png"
+          src="/images/tompamelayang.png"
           alt="Maskot"
           className="absolute -bottom-47 -left-20 w-[365px] pointer-events-none select-none mt-10"
         />
@@ -106,27 +106,27 @@ const HomeSection = () => {
       {/* === DESKTOP LAYOUT === */}
       <div className="relative z-10 hidden md:flex flex-col items-center justify-center h-full w-full px-10">
         {/* Logo + Maskot di tengah */}
-        <div className="flex justify-center items-center gap-6">
+        <div className="flex justify-center items-center">
+          {/* Maskot */}
+          <img
+            src="/images/tompamelayang.png"
+            alt="Maskot"
+            className="w-[350px] translate-x-2 translate-y-20 -mt-25"
+          />
+
           {/* Logo */}
           <img
             src="/images/Sinarupa.png"
             alt="Sinarupa"
-            className="w-[500px] translate-x-15 -mt-30"
-          />
-
-          {/* Maskot */}
-          <img
-            src="/images/tompa.png"
-            alt="Maskot"
-            className="w-[500px] -translate-x-15 -mt-25"
+            className="w-[400px] -translate-x-25 translate-y-20 -mt-25"
           />
         </div>
 
         {/* Tombol DAFTAR & KEONG RACUN */}
-        <div className="flex flex-row items-center gap-4 z-20 -translate-y-40">
+        <div className="flex flex-row items-center gap-4 z-20 translate-y-15">
           <Link
             to="/landing"
-            className="relative w-[190px] hover:scale-105 transition z-20"
+            className="relative w-[150px] hover:scale-105 transition z-20"
             style={{ zIndex: 20 }}
           >
             <img src="/images/button1.png" alt="Daftar" className="w-full" />
@@ -136,7 +136,7 @@ const HomeSection = () => {
           </Link>
           <Link
             onClick={handleOpenChat}
-            className="relative w-[190px] hover:scale-105 transition z-20"
+            className="relative w-[150px] hover:scale-105 transition z-20"
             style={{ zIndex: 20 }}
           >
             <img src="/images/button1.png" alt="Daftar" className="w-full" />
@@ -146,7 +146,7 @@ const HomeSection = () => {
           </Link>
           <a
             href="https://minigame.sinarupa.com"
-            className="relative w-[190px] hover:scale-105 transition z-20"
+            className="relative w-[150px] hover:scale-105 transition z-20"
             style={{ zIndex: 20 }}
             target="_blank"
             rel="noopener noreferrer"
