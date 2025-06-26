@@ -4,9 +4,9 @@ export default function KeongRacun() {
       <img
         src="/images/event-keongracun.png"
         alt="Event Keong Racun"
-        className="w-full h-auto max-w-[600px] mx-auto"
-        style={{ display: 'block' }}
+        className="w-full h-auto mx-auto"
+        style={{ display: "block" }}
       />
     </div>
   );
-} 
+}

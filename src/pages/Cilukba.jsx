@@ -4,9 +4,9 @@ export default function Cilukba() {
       <img
         src="/images/event-cilukba.png"
         alt="Event Cilukba"
-        className="w-full h-auto max-w-[600px] mx-auto"
-        style={{ display: 'block' }}
+        className="w-full h-auto mx-auto"
+        style={{ display: "block" }}
       />
     </div>
   );
-} 
+}

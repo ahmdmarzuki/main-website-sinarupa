@@ -4,7 +4,7 @@ export default function Masasik() {
       <img
         src="/images/event-masasik.png"
         alt="Event Masasik"
-        className="w-full h-auto max-w-[600px] mx-auto"
+        className="w-full h-auto mx-auto"
         style={{ display: "block" }}
       />
     </div>

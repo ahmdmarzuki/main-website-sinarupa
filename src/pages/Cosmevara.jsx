@@ -4,7 +4,7 @@ export default function Cosmevara() {
       <img
         src="/images/event-cosmevara.png"
         alt="Event Cosmevara"
-        className="w-full h-auto max-w-[600px] mx-auto"
+        className="w-full h-auto mx-auto"
         style={{ display: "block" }}
       />
     </div>

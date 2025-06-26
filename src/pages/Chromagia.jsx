@@ -4,7 +4,7 @@ export default function Chromagia() {
       <img
         src="/images/event-chromagia.png"
         alt="Event Chromagia"
-        className="w-full h-auto max-w-[600px] mx-auto"
+        className="w-full h-auto mx-auto"
         style={{ display: "block" }}
       />
     </div>

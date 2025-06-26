@@ -4,7 +4,7 @@ export default function Arkhevia() {
       <img
         src="/images/event-arkhevia.png"
         alt="Event Arkhevia"
-        className="w-full h-auto max-w-[600px] mx-auto"
+        className="w-full h-auto mx-auto"
         style={{ display: "block" }}
       />
     </div>
