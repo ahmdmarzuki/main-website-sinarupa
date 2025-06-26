@@ -5,7 +5,7 @@ const majors = [
   {
     name: "Seni Rupa",
     desc: "Fine Arts",
-    href: "#seni-rupa",
+    href: "SR",
   },
   {
     name: "Desain Produk",
