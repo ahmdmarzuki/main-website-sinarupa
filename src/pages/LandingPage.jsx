@@ -5,7 +5,7 @@ import bgDesktop from "/images/bg_desktop.png";
 import bgMobile from "/images/bg_mobile.png";
 
 const LandingPage = () => {
-  const isMobile = useMediaQuery("(max-width: 900px)");
+  const isMobile = useMediaQuery("(max-width: 1000px)");
 
   return (
     <div
@@ -13,26 +13,43 @@ const LandingPage = () => {
       className="relative min-h-[200vh] w-full text-[#4f3dce] font-host overflow-hidden bg-cover bg-no-repeat"
     >
       <div className="relative z-10 px-4 pt-6">
-        {/* === Judul === */}
-        <div className="text-center font-oddval">
-          <h1 className="text-3xl sm:text-5xl md:text-6xl font-extrabold my-6">
-            PENDAFTARAN
-          </h1>
-        </div>
+    {/* === Judul === */}
+<div className="text-center font-oddval">
+  {/* MOBILE: tampil untuk layar <640px */}
+  <h1 className="text-5xl font-extrabold my-4 sm:hidden">
+    PENDAFTARAN
+  </h1>
+
+  {/* DESKTOP: tampil untuk layar >=640px */}
+  <h1 className="hidden sm:block text-5xl md:text-6xl font-extrabold my-6">
+    PENDAFTARAN
+  </h1>
+</div>
 
         {/* === DAY 1 & DAY 2 === */}
         <div className="flex flex-col sm:flex-row justify-center items-center gap-10 mt-10">
- {/* DAY 2 */}
-<div className="flex flex-col items-center transition-transform hover:scale-105 active:scale-95 sm:-ml-6 md:-ml-10">
+{/* MOBILE */}
 <Link
-  to="/form"
-  className="relative w-[350px] h-[600px] sm:w-[300px] md:w-[700px] sm:h-[900px] bg-no-repeat bg-center -mt-20 sm:-mt-52"
-  style={{
-    backgroundImage: "url('/images/regist.png')",
-    backgroundSize: "contain",
-  }}
-/>
+    to="/form"
+    className="relative w-[500px] h-[600px] sm:hidden -mt-35"
+    style={{
+      backgroundImage: "url('/images/regist.png')",
+      backgroundSize: "contain",
+      backgroundRepeat: "no-repeat",
+      backgroundPosition: "center",
+    }}
+  />
 
+  {/* DESKTOP */}
+  <Link
+    to="/form"
+    className="hidden sm:block relative w-[300px] md:w-[700px] h-[900px] bg-no-repeat bg-center -mt-52"
+    style={{
+      backgroundImage: "url('/images/regist.png')",
+      backgroundSize: "contain",
+    }}
+  />
+</div>
 
   
   <Link
@@ -44,7 +61,7 @@ const LandingPage = () => {
 
 
         {/* === Side-events Title */}
-        <h2 className="mt-10 sm:-mt-40 text-3xl font-bold font-oddval text-center sm:text-left pl-0 sm:pl-6">
+        <h2 className="-mt-10 sm:-mt-40 text-3xl font-bold font-oddval text-center sm:text-left pl-0 sm:pl-6">
   Side-events
 </h2>
 
@@ -170,8 +187,7 @@ const LandingPage = () => {
         </div>
       </div>
     </div>
-    </div>
-    </div>
+
 
   );
 };
