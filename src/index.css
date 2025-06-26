@@ -1,1 +1,51 @@
 @import "tailwindcss";
+
+html,
+body {
+  overflow-x: hidden;
+  scroll-behavior: smooth;
+}
+
+@font-face {
+  font-family: Host Grotesk;
+  src: url("/fonts/HostGrotesk-Regular.ttf") format("truetype");
+  font-weight: 400;
+  font-style: normal;
+}
+@font-face {
+  font-family: Host Grotesk;
+  src: url("/fonts/HostGrotesk-Medium.ttf") format("truetype");
+  font-weight: 500;
+  font-style: normal;
+}
+@font-face {
+  font-family: Host Grotesk;
+  src: url("/fonts/HostGrotesk-Bold.ttf") format("truetype");
+  font-weight: 700;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: Host Grotesk;
+  src: url("/fonts/HostGrotesk-Italic.ttf") format("truetype");
+  font-weight: 400;
+  font-style: italic;
+}
+
+@font-face {
+  font-family: Oddval;
+  src: url("/fonts/Oddval-SemiBold.ttf");
+}
+
+.font-host {
+  font-family: "Host Grotesk", sans-serif;
+}
+
+.font-oddval {
+  font-family: "Oddval", sans-serif;
+}
+
+.react-confirm-alert-overlay {
+  background: rgba(0, 0, 0, 0.6); /* ← latar belakang gelap transparan */
+  z-index: 9999;
+}
