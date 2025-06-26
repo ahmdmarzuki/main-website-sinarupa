@@ -154,7 +154,7 @@ export default function App() {
 
 
         <Route path="/di" element={<DI />} />
-        <Route path="/di" element={<DP />} />
+        <Route path="/dp" element={<DP />} />
       
 
         <Route
