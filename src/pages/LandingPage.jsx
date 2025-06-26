@@ -9,7 +9,7 @@ const LandingPage = () => {
 
   return (
     <div
-      style={{ backgroundImage: `url('/images/bg_desktop.png')` }}
+      style={{ backgroundImage: `url('/images/regis.png')` }}
       className="relative min-h-[200vh] w-full text-[#4f3dce] font-host overflow-hidden bg-cover bg-no-repeat"
     >
       <div className="relative z-10 px-4 pt-6">
@@ -26,7 +26,7 @@ const LandingPage = () => {
 <div className="flex flex-col items-center transition-transform hover:scale-105 active:scale-95 sm:-ml-6 md:-ml-10">
   <Link
     to="/form"
-    className="relative sm:w-[500px] md:w-[420px] h-[400px] sm:h-[600px] bg-no-repeat bg-center -mt-90"
+    className="relative sm:w-[500px] md:w-[420px] h-[400px] sm:h-[600px] bg-no-repeat bg-center -mt-60"
     style={{
       backgroundImage: "url('/images/tompa_pala.png')",
       backgroundSize: "contain",
@@ -52,7 +52,7 @@ const LandingPage = () => {
 
 
         {/* === Side-events Title */}
-        <h2 className="mt-24 sm:mt-32 text-3xl font-bold font-host text-center sm:text-left pl-0 sm:pl-6">
+        <h2 className="mt-24 sm:mt-32 text-3xl font-bold font-oddval text-center sm:text-left pl-0 sm:pl-6">
           Side-events
         </h2>
 
@@ -93,7 +93,7 @@ const LandingPage = () => {
                     alt="Acrylic Pouring Art"
                     className="w-full max-h-40 object-contain mb-2"
                   />
-                  <h3 className="font-bold text-[#5740d2] text-lg mb-2">
+                  <h3 className="font-bold text-[#5740d2] text-lg mb-2 font-oddval">
                     Acrylic Pouring Art
                   </h3>
                   <p className="text-sm text-[#5740d2] text-justify font-host ">
@@ -126,7 +126,7 @@ const LandingPage = () => {
                     alt="Cyanotype Workshop"
                     className="w-full max-h-40 object-contain mb-2"
                   />
-                  <h3 className="font-bold text-[#5740d2] text-lg font-host mb-2">
+                  <h3 className="font-bold text-[#5740d2] text-lg font-host mb-2 font-oddval">
                     Cyanotype Workshop
                   </h3>
                   <p className="text-sm text-[#5740d2] font-host text-justify font-host">
@@ -160,7 +160,7 @@ const LandingPage = () => {
                     alt="Talkshow Evan"
                     className="w-full max-h-40 object-contain mb-2"
                   />
-                  <h3 className="font-bold text-[#5740d2] text-lg mb-2">
+                  <h3 className="font-bold text-[#5740d2] text-lg mb-2 font-oddval">
                     Talkshow Evan
                   </h3>
                   <p className="text-sm font-host text-[#5740d2] text-justify">

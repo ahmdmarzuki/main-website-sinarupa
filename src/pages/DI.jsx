@@ -8,7 +8,7 @@ const DiImages = [
   "Gambar-5.jpg",
   "Gambar-6.jpg",
   "Gambar-7.jpg",
-  "Gambar-7.jpg",
+  "Gambar-8.jpg",
 ];
 
 const DI = () => {
@@ -18,10 +18,10 @@ const DI = () => {
       style={{ backgroundImage: "url('/images/bg-di.png')" }}
     >
       <div className="max-w-3xl w-full mx-auto text-center mt-8">
-        <h1 className="text-5xl md:text-6xl font-extrabold text-yellow-300 mb-6 drop-shadow-lg">
+        <h1 className="text-5xl md:text-6xl font-oddval font-extrabold text-yellow-300 mb-6 drop-shadow-lg">
           DESAIN INTERIOR
         </h1>
-        <p className="text-lg md:text-xl text-white font-medium mb-10 text-justify bg-black/30 rounded-xl p-4">
+        <p className="text-lg font-host md:text-xl text-white font-medium mb-10 text-justify bg-black/30 rounded-xl p-4">
           Program studi Desain Interior mempelajari mengenai pengetahuan yang
           menggabungkan kreativitas, keahlian teknis dan pemahaman mendalam
           tentang respons manusia terhadap ruangan. Hal ini bertujuan untuk
@@ -40,7 +40,7 @@ const DI = () => {
       </div>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 max-w-4xl w-full mx-auto mt-4">
-        {DiImages.map((img, idx) => (
+        {DIImages.map((img, idx) => (
           <div key={img} className="flex justify-center items-center">
             <img
               src={`/images/DI/${img}`}
