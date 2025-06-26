@@ -14,7 +14,7 @@ const LandingPage = () => {
     >
       <div className="relative z-10 px-4 pt-6">
         {/* === Judul === */}
-        <div className="text-center font-host">
+        <div className="text-center font-oddval">
           <h1 className="text-3xl sm:text-5xl md:text-6xl font-extrabold my-6">
             PENDAFTARAN
           </h1>
@@ -22,19 +22,34 @@ const LandingPage = () => {
 
         {/* === DAY 1 & DAY 2 === */}
         <div className="flex flex-col sm:flex-row justify-center items-center gap-10 mt-10">
-          {/* DAY 2 */}
-          <div className="flex flex-col items-center transition-transform hover:scale-105 active:scale-95 sm:-ml-6 md:-ml-10">
-            <Link
-              to="/form"
-              className="relative w-[280px] sm:w-[360px] md:w-[420px] h-[400px] sm:h-[480px] bg-no-repeat bg-center bg-contain"
-              style={{ backgroundImage: "url('/images/day02.png')" }}
-            >
-              <div className="absolute font-host -bottom-10 left-1/2 -translate-x-1/2 text-2xl font-extrabold text-[#4f3dce]">
-                PAMERAN
-              </div>
-            </Link>
-          </div>
-        </div>
+ {/* DAY 2 */}
+<div className="flex flex-col items-center transition-transform hover:scale-105 active:scale-95 sm:-ml-6 md:-ml-10">
+  <Link
+    to="/form"
+    className="relative sm:w-[500px] md:w-[420px] h-[400px] sm:h-[600px] bg-no-repeat bg-center -mt-90"
+    style={{
+      backgroundImage: "url('/images/tompa_pala.png')",
+      backgroundSize: "contain",
+    }}
+  />
+  
+  <Link
+  to="/form"
+  className="relative mt-4 w-[200px] h-[60px] hover:scale-105 transition-transform"
+>
+  <img
+    src="/images/button1.png"
+    alt=""
+    className="w-full h-full object-contain"
+  />
+  <div className="absolute inset-0 flex items-center justify-center">
+    <span className="font-host text-xl font-extrabold text-[#4f3dce]">
+      PAMERAN
+    </span>
+  </div>
+</Link>
+
+
 
         {/* === Side-events Title */}
         <h2 className="mt-24 sm:mt-32 text-3xl font-bold font-host text-center sm:text-left pl-0 sm:pl-6">
@@ -162,6 +177,9 @@ const LandingPage = () => {
         </div>
       </div>
     </div>
+    </div>
+    </div>
+
   );
 };
 
