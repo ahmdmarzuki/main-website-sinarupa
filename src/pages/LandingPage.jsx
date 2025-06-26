@@ -5,7 +5,7 @@ import bgDesktop from "/images/bg_desktop.png";
 import bgMobile from "/images/bg_mobile.png";
 
 const LandingPage = () => {
-  const isMobile = useMediaQuery("(max-width: 900px)");
+  const isMobile = useMediaQuery("(max-width: 1000px)");
 
   return (
     <div
@@ -13,48 +13,58 @@ const LandingPage = () => {
       className="relative min-h-[200vh] w-full text-[#4f3dce] font-host overflow-hidden bg-cover bg-no-repeat"
     >
       <div className="relative z-10 px-4 pt-6">
-        {/* === Judul === */}
-        <div className="text-center font-oddval">
-          <h1 className="text-3xl sm:text-5xl md:text-6xl font-extrabold my-6">
-            PENDAFTARAN
-          </h1>
-        </div>
+    {/* === Judul === */}
+<div className="text-center font-oddval">
+  {/* MOBILE: tampil untuk layar <640px */}
+  <h1 className="text-5xl font-extrabold my-4 sm:hidden">
+    PENDAFTARAN
+  </h1>
+
+  {/* DESKTOP: tampil untuk layar >=640px */}
+  <h1 className="hidden sm:block text-5xl md:text-6xl font-extrabold my-6">
+    PENDAFTARAN
+  </h1>
+</div>
 
         {/* === DAY 1 & DAY 2 === */}
         <div className="flex flex-col sm:flex-row justify-center items-center gap-10 mt-10">
- {/* DAY 2 */}
-<div className="flex flex-col items-center transition-transform hover:scale-105 active:scale-95 sm:-ml-6 md:-ml-10">
+{/* MOBILE */}
+<Link
+    to="/form"
+    className="relative w-[500px] h-[600px] sm:hidden -mt-35"
+    style={{
+      backgroundImage: "url('/images/regist.png')",
+      backgroundSize: "contain",
+      backgroundRepeat: "no-repeat",
+      backgroundPosition: "center",
+    }}
+  />
+
+  {/* DESKTOP */}
   <Link
     to="/form"
-    className="relative sm:w-[500px] md:w-[420px] h-[400px] sm:h-[600px] bg-no-repeat bg-center -mt-60"
+    className="hidden sm:block relative w-[300px] md:w-[700px] h-[900px] bg-no-repeat bg-center -mt-52"
     style={{
-      backgroundImage: "url('/images/tompa_pala.png')",
+      backgroundImage: "url('/images/regist.png')",
       backgroundSize: "contain",
     }}
   />
+</div>
+
   
   <Link
   to="/form"
   className="relative mt-4 w-[200px] h-[60px] hover:scale-105 transition-transform"
 >
-  <img
-    src="/images/button1.png"
-    alt=""
-    className="w-full h-full object-contain"
-  />
-  <div className="absolute inset-0 flex items-center justify-center">
-    <span className="font-host text-xl font-extrabold text-[#4f3dce]">
-      PAMERAN
-    </span>
-  </div>
 </Link>
 
 
 
         {/* === Side-events Title */}
-        <h2 className="mt-24 sm:mt-32 text-3xl font-bold font-oddval text-center sm:text-left pl-0 sm:pl-6">
-          Side-events
-        </h2>
+        <h2 className="-mt-10 sm:-mt-40 text-3xl font-bold font-oddval text-center sm:text-left pl-0 sm:pl-6">
+  Side-events
+</h2>
+
 
         {/* Side-events Section */}
         <div className="relative mt-6 max-w-5xl mx-auto px-2">
@@ -177,8 +187,7 @@ const LandingPage = () => {
         </div>
       </div>
     </div>
-    </div>
-    </div>
+
 
   );
 };
