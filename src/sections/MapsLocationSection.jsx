@@ -3,7 +3,7 @@ import React from "react";
 const MapsLocationSection = () => {
   return (
     <>
-      <div className="flex flex-col items-center justify-center relative ml-10 mt-[20vh] lg:mt-[30vh]">
+      <div className="flex flex-col items-center justify-center relative ml-10 mt-[20vh] lg:mt-[40vh]">
         <h1 className="text-5xl font-bold text-[#5740d2] font-oddval mb-4 mr-10">Flow</h1>
         <div className="relative w-full md:w-1/3 flex flex-col md:flex-row items-center justify-center gap-10 mr-10">
           <img src="/images/Flow1.png"/>
