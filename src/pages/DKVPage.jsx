@@ -17,7 +17,7 @@ const DKVPage = () => {
     >
       <div className="max-w-3xl w-full mx-auto text-center mt-8">
         <h1 className="text-5xl md:text-6xl font-extrabold text-yellow-300 mb-6 drop-shadow-lg font-oddval">DESAIN KOMUNIKASI VISUAL</h1>
-        <p className="text-lg md:text-xl font-host text-white font-medium mb-10 text-justify bg-black/30 rounded-xl p-4">
+        <p className="text-lg md:text-xl font-host font-medium mb-10 text-justify rounded-xl p-4" style={{ color: '#fede5b' }}>
         Desain Komunikasi Visual dan Narasi Visual Digital merupakan cabang ilmu yang mendalami konsep komunikasi melalui elemen rupa. DKV bertujuan untuk menyampaikan suatu ide berbentuk pesan maupun informasi melalui desain visual dan NVD mempelajari ilmu komunikasi melalui penyampaian cerita atau storytelling seperti animasi, komik, film, teknologi CGI, dan yang lainnya. Prodi ini mempelajari dua mata kuliah khusus di semester pertama penjurusan, yaitu Dasar-Dasar DKV dan Dasar-Dasar Ilustrasi. Pada Dasar-Dasar DKV, mahasiswa mempelajari tipografi, penggunaan bentuk, dan permainan warna untuk menciptakan komposisi visual yang unik dan estetis. Kemudian, di mata kuliah Dasar-Dasar Ilustrasi dipelajari tentang dasar dalam pembuatan ilustrasi, bagaimana memvisualisasikan suatu karakter sesuai dengan sifatnya. Selain itu, mahasiswa juga mempelajari struktur visual, pencahayaan, dan focal point yang berperan penting dalam penyampaian pesan melalui sebuah ilustrasi.
         </p>
       </div>
