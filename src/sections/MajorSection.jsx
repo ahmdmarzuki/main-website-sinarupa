@@ -10,7 +10,7 @@ const majors = [
   {
     name: "Desain Produk",
     desc: "Product Design",
-    href: "#desain-produk",
+    href: "DP",
   },
   {
     name: "Desain Interior",

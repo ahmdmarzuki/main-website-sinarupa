@@ -25,9 +25,8 @@ import KeongRacun from "./pages/KeongRacun";
 import Homepage from "./pages/Homepage";
 import SR from "./pages/SR";
 import DKVPage from "./pages/DKVPage";
-
 import KriyaArsip from "./pages/KriyaArsip";
-
+import DP from "./pages/DP";
 import DI from "./pages/DI";
 
 
@@ -155,6 +154,7 @@ export default function App() {
 
 
         <Route path="/di" element={<DI />} />
+        <Route path="/di" element={<DP />} />
       
 
         <Route
