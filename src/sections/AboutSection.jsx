@@ -6,7 +6,7 @@ import Footer from "./Footer";
 const AboutSection = () => {
   return (
     <>
-      <div className="flex flex-col md:items-center justify-start lg:justify-center relative -pt-2 lg:mt-[20vh] w-full lg:px-16 gap-2 lg:gap-8">
+      <div className="flex flex-col md:items-center justify-start lg:justify-center relative -pt-2 lg:mt-[15vh] w-full lg:px-16 gap-2 lg:gap-8">
         <h1 className="text-4xl font-bold text-[#FDE36E] font-oddval text-center -mt-[17vh] lg:-mt-[20vh]">
           ABOUT
         </h1>
@@ -68,30 +68,7 @@ const AboutSection = () => {
         </div>
       </div>
       <div className="flex flex-col md:flex-row items-center justify-center gap-10 mt-10">
-        {/* DATE Section */}
-        <div className="flex items-center gap-4">
-          <img src="/images/Jam.png" className="w-25 h-25 md:w-32 md:h-32 ml-2 mt-2" />
-          <div>
-            <h1 className="text-3xl md:text-4xl font-bold text-[#5740d2] font-oddval">
-              DATE
-            </h1>
-            <p className="text-xs md:text-xl font-bold text-[#5740d2] font-host">
-              28 – 29 Juni 2025
-            </p>
-          </div>
-        </div>
-        {/* LOCATION Section */}
-        <div className="flex items-center gap-4">
-          <div>
-            <h1 className="text-3xl md:text-4xl font-bold text-[#5740d2] font-oddval">
-              LOCATION
-            </h1>
-            <p className="text-xs md:text-lg font-bold text-[#5740d2] font-host">
-              GSG ITB Jatinangor
-            </p>
-          </div>
-          <img src="/images/Maps.png" className="w-25 h-25 md:w-32 md:h-32 mt-2" />
-        </div>
+        <img src="/images/tgllokasi.png" className="w-[120vw] md:w-3/4" alt="Peta GSG"/>
       </div>
     </>
   );

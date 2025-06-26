@@ -111,14 +111,14 @@ const HomeSection = () => {
           <img
             src="/images/tompamelayang.png"
             alt="Maskot"
-            className="w-[350px] translate-x-2 translate-y-20 -mt-25"
+            className="w-[370px] translate-x-2 translate-y-20 -mt-[10vh]"
           />
 
           {/* Logo */}
           <img
             src="/images/Sinarupa.png"
             alt="Sinarupa"
-            className="w-[400px] -translate-x-25 translate-y-20 -mt-25"
+            className="w-[400px] -translate-x-25 translate-y-20 -mt-[10vh]"
           />
         </div>
 
