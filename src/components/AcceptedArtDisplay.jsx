@@ -24,6 +24,7 @@ const EditArtModal = ({ isOpen, onClose, art, onSave }) => {
     artMedia: "",
     major: "",
     dimensionType: "",
+    fileType: "",
   });
   const [isSaving, setIsSaving] = useState(false);
 
@@ -198,6 +199,21 @@ const EditArtModal = ({ isOpen, onClose, art, onSave }) => {
                 className="w-full px-4 py-2 bg-white border border-gray-300 rounded text-gray-800"
               />
             </div>
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                File Type
+              </label>
+              <select
+                name="fileType"
+                value={editedArt.fileType || ""}
+                onChange={handleChange}
+                className="w-full px-4 py-2 bg-white border border-gray-300 rounded text-gray-800"
+              >
+                <option value="">Pilih File Type</option>
+                <option value="image">Image</option>
+                <option value="video">Video</option>
+              </select>
+            </div>
           </div>
         </div>
         <div className="p-6 border-t border-gray-200 flex justify-end gap-4">
@@ -240,6 +256,13 @@ const AcceptedArtDisplay = () => {
   const [email, setEmail] = useState("");
   const [role, setRole] = useState("");
   const [isAdmin, setIsAdmin] = useState(false);
+
+  // Add previewModal state (fix blank screen)
+  const [previewModal, setPreviewModal] = useState({
+    open: false,
+    url: "",
+    type: "",
+  });
 
   const majors = [
     "All",
@@ -339,6 +362,56 @@ const AcceptedArtDisplay = () => {
 
   return (
     <div className="space-y-4 w-[100%] px-4 sm:px-8 md:px-12 lg:px-20">
+      {/* Modal for full preview */}
+      {previewModal.open && (
+        <div
+          className="fixed inset-0 z-50 flex items-center justify-center bg-black/70"
+          onClick={() => setPreviewModal({ open: false, url: "", type: "" })}
+        >
+          <div
+            className="relative max-w-3xl w-full max-h-[90vh] flex items-center justify-center"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <button
+              className="absolute top-2 right-2 z-10 bg-black/60 text-white rounded-full p-2 hover:bg-black/80"
+              onClick={() =>
+                setPreviewModal({ open: false, url: "", type: "" })
+              }
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                className="h-6 w-6"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M6 18L18 6M6 6l12 12"
+                />
+              </svg>
+            </button>
+            {previewModal.type === "video" ? (
+              <video
+                src={previewModal.url}
+                controls
+                autoPlay={false}
+                className="max-h-[80vh] max-w-full rounded-lg bg-black"
+                style={{ backgroundColor: "#111" }}
+              />
+            ) : (
+              <img
+                src={previewModal.url}
+                alt="Preview"
+                className="max-h-[80vh] max-w-full rounded-lg bg-black"
+                style={{ backgroundColor: "#111" }}
+              />
+            )}
+          </div>
+        </div>
+      )}
       <div className="flex flex-col">
         <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-6">
           {/* Major Filter Tabs */}
@@ -386,11 +459,56 @@ const AcceptedArtDisplay = () => {
               className="bg-[#ffffff80] rounded-lg p-3 sm:p-4 flex flex-col sm:flex-row justify-between items-center gap-4"
             >
               <div className="flex gap-8 w-full">
-                <img
-                  src={art.artUrl}
-                  alt={art.artTitle}
-                  className="w-full sm:w-32 h-48 sm:h-32 object-cover rounded-lg flex-shrink-0"
-                />
+                <div className="relative group w-full sm:w-32 h-48 sm:h-32 flex-shrink-0">
+                  {art.fileType &&
+                  art.fileType.toLowerCase().includes("video") ? (
+                    <video
+                      src={art.artUrl}
+                      controls
+                      className="w-full h-full object-cover rounded-lg cursor-pointer bg-gray-200"
+                      style={{ backgroundColor: "#e5e7eb" }}
+                      onClick={() =>
+                        setPreviewModal({
+                          open: true,
+                          url: art.artUrl,
+                          type: "video",
+                        })
+                      }
+                    />
+                  ) : (
+                    <img
+                      src={art.artUrl}
+                      alt={art.artTitle}
+                      className="w-full h-full object-cover rounded-lg cursor-pointer"
+                      onClick={() =>
+                        setPreviewModal({
+                          open: true,
+                          url: art.artUrl,
+                          type: "image",
+                        })
+                      }
+                    />
+                  )}
+                  {/* Hover Overlay */}
+                  <div
+                    className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 flex items-center justify-center rounded-lg transition-opacity cursor-pointer select-none"
+                    onClick={() =>
+                      setPreviewModal({
+                        open: true,
+                        url: art.artUrl,
+                        type:
+                          art.fileType &&
+                          art.fileType.toLowerCase().includes("video")
+                            ? "video"
+                            : "image",
+                      })
+                    }
+                  >
+                    <span className="text-white text-base font-semibold">
+                      Click to view
+                    </span>
+                  </div>
+                </div>
                 <div className="flex-1 min-w-0">
                   <div className="flex flex-row gap-3 sm:gap-4 mb-3 sm:mb-4">
                     <img
