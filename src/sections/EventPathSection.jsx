@@ -187,7 +187,10 @@ const EventPathSection = () => {
   const polylinePoints = zigzagPoints.map((pt) => `${pt.x},${pt.y}`).join(" ");
 
   return (
-    <div className="min-h-screen flex justify-center px-4 sm:px-6 lg:px-8">
+    <div
+      id="past-event"
+      className="min-h-screen flex justify-center px-4 sm:px-6 lg:px-8"
+    >
       <div
         className="w-full flex justify-center items-center py-8"
         style={{ minHeight: svgHeight }}

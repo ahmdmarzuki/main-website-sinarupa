@@ -16,7 +16,7 @@ const HomeSection = () => {
   return (
     <div
       id="home"
-      className="relative w-screen min-h-screen font-sans overflow-visible"
+      className="relative w-screen min-h-screen font-sans overflow-visible pt-20"
     >
       {/* === MOBILE LAYOUT === */}
       <div className="relative z-10 flex flex-col h-full w-full px-6 pt-[4vh] md:hidden">

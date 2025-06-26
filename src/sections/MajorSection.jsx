@@ -34,7 +34,6 @@ const majors = [
   },
 ];
 
-
 const MajorSection = () => {
   const [activeIdx, setActiveIdx] = useState(2);
   const scrollRef = useRef(null);
@@ -68,7 +67,10 @@ const MajorSection = () => {
   };
 
   return (
-    <div className="w-full h-screen flex flex-col justify-center items-center py-8">
+    <div
+      id="prodi"
+      className="w-full h-screen flex flex-col justify-center items-center py-8"
+    >
       <h2 className="text-5xl font-oddval font-bold mb-6 text-center text-[#5740d2] ">
         Prodi
       </h2>
@@ -95,9 +97,11 @@ const MajorSection = () => {
               key={major.name}
               ref={(el) => (cardRefs.current[idx] = el)}
               className={`transition-all duration-300 transform flex flex-col items-center justify-end cursor-pointer select-none
-                ${idx === activeIdx
-                  ? "scale-110 border-4 border-[#ec6a1b] z-10"
-                  : "opacity-80 hover:opacity-100 hover:scale-105"}
+                ${
+                  idx === activeIdx
+                    ? "scale-110 border-4 border-[#ec6a1b] z-10"
+                    : "opacity-80 hover:opacity-100 hover:scale-105"
+                }
                 rounded-xl relative sm:mx-0 mx-2 overflow-hidden text-white h-64`}
               style={{
                 minWidth: 200,
@@ -106,21 +110,21 @@ const MajorSection = () => {
                 backgroundImage: `url('${major.image}')`,
                 backgroundSize: "cover",
                 backgroundPosition: "center",
-                boxShadow: idx === activeIdx
-                  ? "0 8px 32px rgba(0,0,0,0.15)"
-                  : undefined,
+                boxShadow:
+                  idx === activeIdx ? "0 8px 32px rgba(0,0,0,0.15)" : undefined,
               }}
               onClick={() => handleCardClick(idx, major.href)}
             >
               {/* Overlay lebih transparan */}
               <div className="absolute inset-0 bg-black/0 z-0" />
 
-
               {/* Nama Prodi */}
               <div className="relative z-10 px-4 py-4 font-oddval text-center">
                 <span
                   className={`transition duration-300 font-bold ${
-                    idx === activeIdx ? "text-white text-base" : "text-white text-sm"
+                    idx === activeIdx
+                      ? "text-white text-base"
+                      : "text-white text-sm"
                   }`}
                 >
                   {major.name}
