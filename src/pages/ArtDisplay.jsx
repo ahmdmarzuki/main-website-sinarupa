@@ -7,14 +7,7 @@ import bgDesktop from "/images/bgDesktopRevisi.webp";
 import bgMobile from "/images/bgMobileRevisi.jpg";
 
 // Custom styles for hiding scrollbar
-const scrollbarHideStyles = {
-  msOverflowStyle: "none", // IE and Edge
-  scrollbarWidth: "none", // Firefox
-  "&::-webkit-scrollbar": {
-    // Chrome, Safari and Opera
-    display: "none",
-  },
-};
+// Gunakan className="no-scrollbar" dan tambahkan CSS di index.css
 
 const majorToPath = {
   "Seni Rupa": "sr",
@@ -305,9 +298,9 @@ const ArtDisplay = ({ initialMajor = "" }) => {
   const columns = createColumns(filteredArtList, isMobile ? 2 : 5);
 
   return (
-    <div className="min-h-screen bg-bottom">
+    <div className="min-h-screen flex flex-col justify-center items-center bg-bottom w-[90vw]">
       {/* Sticky Search Bar */}
-      <div className="sticky top-0 z-50 bg-white py-4 shadow-sm px-4 md:px-14">
+      <div className="sticky w-[100vw] top-0 z-50 bg-white py-4 shadow-sm px-4 md:px-14">
         <div className="w-full mx-auto">
           <div className="relative">
             <input
@@ -343,15 +336,16 @@ const ArtDisplay = ({ initialMajor = "" }) => {
 
       {/* Filter Tabs */}
       <div
-        className={`sticky top-[72px] z-40 bg-white py-4 px-4 transition-transform duration-300 ${
+        className={`sticky top-[72px] z-40 w-[100vw] bg-white py-4 px-4 transition-transform duration-300 ${
           isFilterVisible ? "translate-y-0" : "-translate-y-full"
         }`}
       >
         <div
           className={`flex ${
             isMobile ? "overflow-x-auto whitespace-nowrap pb-2" : "flex-wrap"
-          } gap-2 ${isMobile ? "justify-start" : "justify-center"}`}
-          style={isMobile ? scrollbarHideStyles : {}}
+          } gap-2 ${isMobile ? "justify-start" : "justify-center"} ${
+            isMobile ? "no-scrollbar" : ""
+          }`}
         >
           <button
             onClick={() => handleMajorSelect("")}
@@ -380,7 +374,7 @@ const ArtDisplay = ({ initialMajor = "" }) => {
       </div>
 
       {/* Art Grid */}
-      <div className="container mx-auto px-4 py-8">
+      <div className="container px-4 py-8">
         <div className="flex gap-2 md:gap-4">
           {columns.map((column, columnIndex) => (
             <div key={columnIndex} className="flex-1 flex flex-col gap-4">
