@@ -21,7 +21,7 @@ const DI = () => {
         <h1 className="text-5xl md:text-6xl font-oddval font-extrabold text-yellow-300 mb-6 drop-shadow-lg">
           DESAIN INTERIOR
         </h1>
-        <p className="text-lg font-host md:text-xl text-white font-medium mb-10 text-justify bg-black/30 rounded-xl p-4">
+        <p className="text-lg font-host md:text-xl font-medium mb-10 text-justify rounded-xl p-4" style={{ color: '#fede5b' }}>
           Program studi Desain Interior mempelajari mengenai pengetahuan yang
           menggabungkan kreativitas, keahlian teknis dan pemahaman mendalam
           tentang respons manusia terhadap ruangan. Hal ini bertujuan untuk
