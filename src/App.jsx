@@ -30,7 +30,6 @@ import KriyaArsip from "./pages/KriyaArsip";
 import DP from "./pages/DP";
 import DI from "./pages/DI";
 
-
 export const FORM_PAMERAN_URL =
   "https://docs.google.com/forms/d/e/1FAIpQLSdHASWTjIx4uBC72LEmKhQkLtjTOizDBNTkohWjycpLLsYILQ/formResponse";
 export const FORM_PAMERAN_VIEWFORM_URL =
@@ -149,7 +148,6 @@ export default function App() {
     <div className="min-h-screen flex items-center justify-center bg-transparent">
       <Routes>
         <Route path="/" element={<Homepage />} />
-<<<<<<< archive-display
         <Route path="/upload" element={<UploadArt />} />
         <Route path="/pending" element={<PendingSubsmissionPage />} />
         <Route path="/karyabebas" element={<ArtDisplay />} />
@@ -173,15 +171,12 @@ export default function App() {
           path="/karyabebas/kr"
           element={<ArtDisplay initialMajor="Kriya" />}
         />
-=======
         <Route path="/sr" element={<SR />} />
 
         <Route path="/dkv" element={<DKVPage />} />
 
-
         <Route path="/di" element={<DI />} />
         <Route path="/dp" element={<DP />} />
-      
 
         <Route
           path="/landing"
@@ -258,7 +253,6 @@ export default function App() {
           }
         />
         <Route path="/kriyaarsip" element={<KriyaArsip />} />
->>>>>>> main
       </Routes>
     </div>
   );
