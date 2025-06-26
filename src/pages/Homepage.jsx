@@ -16,7 +16,7 @@ const Homepage = () => {
 
   return (
     <div
-      className="min-h-screen w-full bg-cover bg-no-repeat"
+      className="min-h-screen w-full bg-w- bg-cover bg-no-repeat bg-top"
       style={{
         backgroundImage: `url('/images/newbg_mobile.png')`,
       }}
@@ -36,6 +36,7 @@ const Homepage = () => {
         <MapsLocationSection />
         <PreEvent />
         <MajorSection />
+        <EventPathSection />
         <ComingSoonSection />
         <Footer />
       </div>

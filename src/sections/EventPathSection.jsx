@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useMemo } from "react";
+import { useNavigate } from "react-router-dom";
 
 // Dummy data untuk titik-titik event, asset contoh pakai logo.png
 const points = [
@@ -51,6 +52,16 @@ const hHeight = 400;
 const margin = 40;
 const pointRadius = 12;
 const iconSize = 100;
+
+const eventRoutes = [
+  "/keongracun",
+  "/cilukba",
+  "/cosmevara",
+  "/chromagia",
+  "/masasik",
+  "/resonara",
+  "/arkhevia",
+];
 
 // Hook untuk deteksi tipe layar: desktop, medium, mobile
 function useScreenType() {
@@ -152,6 +163,7 @@ function getRandomZigzagPoints(start, end, n, maxOffset, isDesktop) {
 
 const EventPathSection = () => {
   const screenType = useScreenType();
+  const navigate = useNavigate();
   let basePoints, svgWidth, svgHeight;
   if (screenType === "desktop") {
     basePoints = predefinedPoints.desktop;
@@ -190,7 +202,11 @@ const EventPathSection = () => {
           />
           {/* Titik-titik event */}
           {zigzagPoints.map(({ x, y }, idx) => (
-            <g key={idx}>
+            <g
+              key={idx}
+              style={{ cursor: "pointer" }}
+              onClick={() => navigate(eventRoutes[idx])}
+            >
               {points[idx].asset ? (
                 <image
                   href={points[idx].asset}
@@ -198,7 +214,6 @@ const EventPathSection = () => {
                   y={y - iconSize / 2}
                   width={iconSize}
                   height={iconSize}
-                  style={{ pointerEvents: "none" }}
                 />
               ) : (
                 <circle
@@ -215,7 +230,7 @@ const EventPathSection = () => {
                 y={y + iconSize / 2 + 24}
                 textAnchor="middle"
                 fontSize={15}
-                fill="#000"
+                fill="#FDE36E"
                 fontWeight="bold"
                 style={{ userSelect: "none" }}
               >
