@@ -149,40 +149,10 @@ export default function App() {
     <div className="min-h-screen flex items-center justify-center bg-transparent">
       <Routes>
         <Route path="/" element={<Homepage />} />
-<<<<<<< archive-display
-        <Route path="/upload" element={<UploadArt />} />
-        <Route path="/pending" element={<PendingSubsmissionPage />} />
-        <Route path="/karyabebas" element={<ArtDisplay />} />
-        <Route
-          path="/karyabebas/sr"
-          element={<ArtDisplay initialMajor="Seni Rupa" />}
-        />
-        <Route
-          path="/karyabebas/dkvnvd"
-          element={<ArtDisplay initialMajor="Desain Komunikasi Visual" />}
-        />
-        <Route
-          path="/karyabebas/dp"
-          element={<ArtDisplay initialMajor="Desain Produk" />}
-        />
-        <Route
-          path="/karyabebas/di"
-          element={<ArtDisplay initialMajor="Desain Interior" />}
-        />
-        <Route
-          path="/karyabebas/kr"
-          element={<ArtDisplay initialMajor="Kriya" />}
-        />
-=======
         <Route path="/sr" element={<SR />} />
-
         <Route path="/dkv" element={<DKVPage />} />
-
-
         <Route path="/di" element={<DI />} />
         <Route path="/dp" element={<DP />} />
-      
-
         <Route
           path="/landing"
           element={<LandingPage onSelect={handleSelect} />}
@@ -258,7 +228,6 @@ export default function App() {
           }
         />
         <Route path="/kriyaarsip" element={<KriyaArsip />} />
->>>>>>> main
       </Routes>
     </div>
   );
