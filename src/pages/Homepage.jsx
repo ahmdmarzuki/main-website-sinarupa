@@ -25,7 +25,7 @@ const Homepage = () => {
       <style>{`
         @media (min-width: 768px) {
           .homepage-bg {
-            background-image: url('/images/update-bg.png') !important;
+            background-image: url('/images/11.png') !important;
           }
         }
       `}</style>
