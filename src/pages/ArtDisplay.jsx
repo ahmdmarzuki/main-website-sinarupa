@@ -180,6 +180,11 @@ const ArtDisplay = ({ initialMajor = "" }) => {
   const [openMenuId, setOpenMenuId] = useState(null);
   const menuRef = useRef();
   const [idToDownload, setIdToDownload] = useState(null);
+  const [showIntro, setShowIntro] = useState(true);
+
+  const INTRO_VIDEO_URL = `${
+    isMobile ? "/videos/mobile.mp4" : "/videos/desktop.mp4"
+  }`; // Ganti dengan path video intro kamu
 
   const majors = [
     "Seni Rupa",
@@ -294,6 +299,21 @@ const ArtDisplay = ({ initialMajor = "" }) => {
     };
   }, [openMenuId]);
 
+  // Optional: auto-close intro after video ends
+  const handleIntroEnded = () => setShowIntro(false);
+
+  // Disable scroll when intro is showing
+  useEffect(() => {
+    if (showIntro) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "";
+    }
+    return () => {
+      document.body.style.overflow = "";
+    };
+  }, [showIntro]);
+
   if (isLoading) {
     return (
       <div
@@ -320,6 +340,27 @@ const ArtDisplay = ({ initialMajor = "" }) => {
 
   return (
     <div className="min-h-screen flex flex-col justify-center items-center bg-bottom w-[98vw] md:w-[90vw]">
+      {/* Intro Video Overlay */}
+      {showIntro && (
+        <div className="fixed inset-0 z-[9999] flex items-center justify-center bg-black">
+          <video
+            src={INTRO_VIDEO_URL}
+            autoPlay
+            muted
+            playsInline
+            controls={false}
+            className="w-full h-full object-cover"
+            onEnded={handleIntroEnded}
+          />
+          <button
+            className="absolute top-6 right-6 z-10 bg-black/60 text-white rounded-full py-2 px-4 hover:bg-black/80 text-xl"
+            onClick={() => setShowIntro(false)}
+            aria-label="Close intro"
+          >
+            Lewati
+          </button>
+        </div>
+      )}
       {/* Sticky Search Bar */}
       <div className="sticky w-[100vw] top-0 z-50 bg-white py-4 shadow-sm px-4 md:px-14">
         <div className="w-full mx-auto">
