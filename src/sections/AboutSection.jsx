@@ -68,7 +68,8 @@ const AboutSection = () => {
         </div>
       </div>
       <div className="flex flex-col md:flex-row items-center justify-center gap-10 mt-10">
-        <img src="/images/tgllokasi.png" className="w-[120vw] md:w-3/4" alt="Peta GSG"/>
+        <img src="/images/tgllokasi.png" className="hidden md:block w-3/4" alt="Peta GSG Desktop"/>
+        <img src="/images/tgllokasimobile.png" className="block md:hidden w-10/12" alt="Peta GSG Mobile"/>
       </div>
     </>
   );
