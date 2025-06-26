@@ -36,15 +36,26 @@ function ArtImageWithSkeleton({ src, alt, type }) {
   return (
     <div className="relative w-full">
       {!loaded && <ArtSkeleton />}
-      <img
-        src={src}
-        alt={alt}
-        className={`w-full z-0 h-auto object-cover rounded-lg transition-opacity duration-300 ${
-          loaded ? "opacity-100" : "opacity-0"
-        }`}
-        loading="lazy"
-        onLoad={() => setLoaded(true)}
-      />
+      {type && type.toLowerCase().includes("video") ? (
+        <video
+          src={src}
+          controls
+          className={`w-full z-0 h-auto object-cover rounded-lg transition-opacity duration-300 ${
+            loaded ? "opacity-100" : "opacity-0"
+          }`}
+          onLoadedData={() => setLoaded(true)}
+        />
+      ) : (
+        <img
+          src={src}
+          alt={alt}
+          className={`w-full z-0 h-auto object-cover rounded-lg transition-opacity duration-300 ${
+            loaded ? "opacity-100" : "opacity-0"
+          }`}
+          loading="lazy"
+          onLoad={() => setLoaded(true)}
+        />
+      )}
     </div>
   );
 }
@@ -79,14 +90,24 @@ const ArtDetailModal = ({ isOpen, onClose, art }) => {
           >
             ×
           </button>
-          {/* Gambar karya */}
+          {/* Gambar/video karya */}
           <div className="w-full flex justify-center">
-            <img
-              src={art.artUrl}
-              alt={art.artTitle}
-              className="rounded-t-2xl pt-4 rounded-b-none object-contain w-full h-[30vh] md:h-[50vh] bg-gray-100"
-              style={{ boxShadow: "0 2px 8px rgba(0,0,0,0.08)" }}
-            />
+            {art.fileType && art.fileType.toLowerCase().includes("video") ? (
+              <video
+                src={art.artUrl}
+                controls
+                className="rounded-t-2xl pt-4 rounded-b-none object-contain w-full h-[30vh] md:h-[50vh] bg-gray-100"
+                style={{ boxShadow: "0 2px 8px rgba(0,0,0,0.08)" }}
+              />
+            ) : (
+              <img
+                src={art.artUrl}
+                alt={art.artTitle}
+                className="rounded-t-2xl pt-4 rounded-b-none object-contain w-full h-[30vh] md:h-[50vh] bg-gray-100"
+                style={{ boxShadow: "0 2px 8px rgba(0,0,0,0.08)" }}
+                onClick={() => setFullscreenArt(art)}
+              />
+            )}
           </div>
           {/* Card detail */}
           <div className="w-full max-h-[40vh] md:max-h-[60vh] bg-white shadow-lg px-6 py-6 flex flex-col md:flex-row gap-6 border-t-0 border border-gray-200">
@@ -336,9 +357,7 @@ const ArtDisplay = ({ initialMajor = "" }) => {
 
       {/* Filter Tabs */}
       <div
-        className={`sticky top-[72px] z-40 w-[100vw] bg-white py-4 px-4 transition-transform duration-300 ${
-          isFilterVisible ? "translate-y-0" : "-translate-y-full"
-        }`}
+        className={`sticky top-[72px] z-40 w-[100vw] bg-white py-4 px-4 transition-transform duration-300 `}
       >
         <div
           className={`flex ${
@@ -393,12 +412,11 @@ const ArtDisplay = ({ initialMajor = "" }) => {
                     <ArtImageWithSkeleton
                       src={art.artUrl}
                       alt={art.artTitle}
-                      type={art.tu}
+                      type={art.fileType}
                     />
                     <div className="flex flex-row justify-between items-center">
                       <p className="text-gray-600 text-sm mb-0">
                         {art.realName}
-                        {/* {idToDownload} */}
                       </p>
                       {/* Titik tiga menu */}
                       <div className="relative">
@@ -444,6 +462,7 @@ const ArtDisplay = ({ initialMajor = "" }) => {
           ))}
         </div>
       </div>
+
       <ArtDetailModal
         isOpen={isDetailModalOpen}
         onClose={() => setIsDetailModalOpen(false)}
