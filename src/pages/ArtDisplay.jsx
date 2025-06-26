@@ -437,7 +437,7 @@ const ArtDisplay = ({ initialMajor = "" }) => {
                                 setOpenMenuId(null);
                               }}
                             >
-                              Download
+                              Fullscreen
                             </button>
                           </div>
                         )}
