@@ -29,6 +29,12 @@ import DKVPage from "./pages/DKVPage";
 import KriyaArsip from "./pages/KriyaArsip";
 import DP from "./pages/DP";
 import DI from "./pages/DI";
+import Cilukba from "./pages/Cilukba";
+import Cosmevara from "./pages/Cosmevara";
+import Chromagia from "./pages/Chromagia";
+import Masasik from "./pages/Masasik";
+import Resonara from "./pages/Resonara";
+import Arkhevia from "./pages/Arkhevia";
 
 export const FORM_PAMERAN_URL =
   "https://docs.google.com/forms/d/e/1FAIpQLSdHASWTjIx4uBC72LEmKhQkLtjTOizDBNTkohWjycpLLsYILQ/formResponse";
@@ -246,6 +252,60 @@ export default function App() {
           path="/keongracun"
           element={
             <KeongRacun
+              onSubmit={handleKeongRacunSubmit}
+              onBack={() => navigate("/")}
+            />
+          }
+        />
+        <Route
+          path="/cilukba"
+          element={
+            <Cilukba
+              onSubmit={handleKeongRacunSubmit}
+              onBack={() => navigate("/")}
+            />
+          }
+        />
+        <Route
+          path="/cosmevara"
+          element={
+            <Cosmevara
+              onSubmit={handleKeongRacunSubmit}
+              onBack={() => navigate("/")}
+            />
+          }
+        />
+        <Route
+          path="/chromagia"
+          element={
+            <Chromagia
+              onSubmit={handleKeongRacunSubmit}
+              onBack={() => navigate("/")}
+            />
+          }
+        />
+        <Route
+          path="/masasik"
+          element={
+            <Masasik
+              onSubmit={handleKeongRacunSubmit}
+              onBack={() => navigate("/")}
+            />
+          }
+        />
+        <Route
+          path="/resonara"
+          element={
+            <Resonara
+              onSubmit={handleKeongRacunSubmit}
+              onBack={() => navigate("/")}
+            />
+          }
+        />
+        <Route
+          path="/arkhevia"
+          element={
+            <Arkhevia
               onSubmit={handleKeongRacunSubmit}
               onBack={() => navigate("/")}
             />

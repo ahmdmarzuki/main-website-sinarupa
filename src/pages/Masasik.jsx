@@ -5,8 +5,8 @@ export default function Masasik() {
         src="/images/event-masasik.png"
         alt="Event Masasik"
         className="w-full h-auto max-w-[600px] mx-auto"
-        style={{ display: 'block' }}
+        style={{ display: "block" }}
       />
     </div>
   );
-} 
+}

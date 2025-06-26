@@ -5,8 +5,8 @@ export default function Resonara() {
         src="/images/event-resonara.png"
         alt="Event Resonara"
         className="w-full h-auto max-w-[600px] mx-auto"
-        style={{ display: 'block' }}
+        style={{ display: "block" }}
       />
     </div>
   );
-} 
+}
