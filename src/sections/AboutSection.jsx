@@ -7,7 +7,7 @@ const AboutSection = () => {
   return (
     <>
       <div className="flex flex-col md:items-center md:justify-center relative md:mt-10 w-full md:px-16 gap-8">
-        <h1 className="text-4xl font-bold text-[#5740d2] font-oddval text-center">
+        <h1 className="text-4xl font-bold text-[#ec6a1b] font-oddval text-center">
           ABOUT
         </h1>
         <div className="relative">
