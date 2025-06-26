@@ -172,7 +172,6 @@ export default function App() {
           element={<ArtDisplay initialMajor="Kriya" />}
         />
         <Route path="/sr" element={<SR />} />
-
         <Route path="/dkv" element={<DKVPage />} />
 
         <Route path="/di" element={<DI />} />

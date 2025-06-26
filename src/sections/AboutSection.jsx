@@ -6,8 +6,8 @@ import Footer from "./Footer";
 const AboutSection = () => {
   return (
     <>
-      <div className="flex flex-col md:items-center justify-start lg:justify-center relative -pt-10 md:-mt-185 lg:-mt-25 w-full lg:px-16 gap-2 lg:gap-8">
-        <h1 className="text-4xl font-bold text-[#FDE36E] font-oddval text-center -mt-[20vh] lg:mt-0">
+      <div className="flex flex-col md:items-center justify-start lg:justify-center relative -pt-2 lg:-mt-[02vh] w-full lg:px-16 gap-2 lg:gap-8">
+        <h1 className="text-4xl font-bold text-[#FDE36E] font-oddval text-center -mt-[35vh] lg:-mt-[30vh]">
           ABOUT
         </h1>
         <div className="relative">
