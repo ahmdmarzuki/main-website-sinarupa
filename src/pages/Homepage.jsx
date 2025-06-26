@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import Navbar from "../components/Navbar";
 import HomeSection from "../sections/HomeSection";
 import ComingSoonSection from "../sections/ComingSoonSection";
@@ -11,6 +11,10 @@ import AboutSection from "../sections/AboutSection";
 import MajorSection from "../sections/MajorSection";
 
 const Homepage = () => {
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+
   return (
     <div
       className="min-h-screen w-full bg-cover bg-no-repeat"
