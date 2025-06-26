@@ -1,14 +1,14 @@
 import React from "react";
 
 const DpImages = [
-  "Gambar-1.png",
-  "Gambar-2.jpeg",
-  "Gambar-3.jpeg",
-  "Gambar-4.jpeg",
-  "Gambar-5.jpeg",
-  "Gambar-6.jpeg",
-  "Gambar-7.jpeg",
-  "Gambar-7.jpeg",
+  "Gambar_1.png",
+  "Gambar_2.jpeg",
+  "Gambar_3.jpeg",
+  "Gambar_4.jpeg",
+  "Gambar_5.jpeg",
+  "Gambar_6.jpeg",
+  "Gambar_7.jpeg",
+  "Gambar_8.jpeg",
 ];
 
 const DP = () => {
@@ -34,7 +34,9 @@ Program studi Desain Produk berfokus pada perancangan produk dengan aspek fungsi
               alt={`Desain Produk ${idx + 1}`}
               className="rounded-lg shadow-lg object-contain max-h-72 w-full bg-white/10"
               loading="lazy"
+              onError={e => { e.target.onerror = null; e.target.style.display = 'none'; }}
             />
+            <noscript>{`Desain Produk ${idx + 1}`}</noscript>
           </div>
         ))}
       </div>
