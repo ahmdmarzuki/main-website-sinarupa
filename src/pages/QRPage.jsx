@@ -74,7 +74,7 @@ export default function QRPage() {
         </div>
 
         <p className="mt-6 text-[#4f3dce] font-host font-bold italic">
-          Screenshoot QR untuk ditunjukkan pada saat memasuki area pameran
+          Screenshot QR untuk ditunjukkan pada saat memasuki area pameran
         </p>
 
         <div
