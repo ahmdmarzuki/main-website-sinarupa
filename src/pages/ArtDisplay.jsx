@@ -298,7 +298,7 @@ const ArtDisplay = ({ initialMajor = "" }) => {
   const columns = createColumns(filteredArtList, isMobile ? 2 : 5);
 
   return (
-    <div className="min-h-screen flex flex-col justify-center items-center bg-bottom w-[90vw]">
+    <div className="min-h-screen flex flex-col justify-center items-center bg-bottom w-[98vw] md:w-[90vw]">
       {/* Sticky Search Bar */}
       <div className="sticky w-[100vw] top-0 z-50 bg-white py-4 shadow-sm px-4 md:px-14">
         <div className="w-full mx-auto">

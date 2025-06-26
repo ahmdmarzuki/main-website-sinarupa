@@ -24,37 +24,30 @@ const LandingPage = () => {
         <div className="flex flex-col sm:flex-row justify-center items-center gap-10 mt-10">
  {/* DAY 2 */}
 <div className="flex flex-col items-center transition-transform hover:scale-105 active:scale-95 sm:-ml-6 md:-ml-10">
-  <Link
-    to="/form"
-    className="relative sm:w-[500px] md:w-[420px] h-[400px] sm:h-[600px] bg-no-repeat bg-center -mt-60"
-    style={{
-      backgroundImage: "url('/images/tompa_pala.png')",
-      backgroundSize: "contain",
-    }}
-  />
+<Link
+  to="/form"
+  className="relative w-[350px] h-[600px] sm:w-[300px] md:w-[700px] sm:h-[900px] bg-no-repeat bg-center -mt-20 sm:-mt-52"
+  style={{
+    backgroundImage: "url('/images/regist.png')",
+    backgroundSize: "contain",
+  }}
+/>
+
+
   
   <Link
   to="/form"
   className="relative mt-4 w-[200px] h-[60px] hover:scale-105 transition-transform"
 >
-  <img
-    src="/images/button1.png"
-    alt=""
-    className="w-full h-full object-contain"
-  />
-  <div className="absolute inset-0 flex items-center justify-center">
-    <span className="font-host text-xl font-extrabold text-[#4f3dce]">
-      PAMERAN
-    </span>
-  </div>
 </Link>
 
 
 
         {/* === Side-events Title */}
-        <h2 className="mt-24 sm:mt-32 text-3xl font-bold font-oddval text-center sm:text-left pl-0 sm:pl-6">
-          Side-events
-        </h2>
+        <h2 className="mt-10 sm:-mt-40 text-3xl font-bold font-oddval text-center sm:text-left pl-0 sm:pl-6">
+  Side-events
+</h2>
+
 
         {/* Side-events Section */}
         <div className="relative mt-6 max-w-5xl mx-auto px-2">
