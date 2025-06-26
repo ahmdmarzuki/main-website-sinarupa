@@ -69,7 +69,7 @@ const MajorSection = () => {
 
   return (
     <div className="w-full h-screen flex flex-col justify-center items-center py-8">
-      <h2 className="text-4xl font-oddval font-bold mb-6 text-center text-[#5740d2] ">
+      <h2 className="text-5xl font-oddval font-bold mb-6 text-center text-[#5740d2] ">
         Prodi
       </h2>
       <div className="flex items-center gap-2 w-full justify-center md:px-16">

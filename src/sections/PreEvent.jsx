@@ -3,7 +3,7 @@ import React from "react";
 const PreEvent = () => {
   return (
     <>
-      <div className="w-screen flex flex-col items-center justify-center font-oddval text-[#5740d2]">
+      <div className="w-screen flex flex-col items-center justify-center font-oddval text-[#5740d2] mt-16">
         <h1 className="text-4xl md:text-5xl font-bold mb-20">Pre-Events</h1>
         <div className="flex flex-col md:flex-row items-center justify-center gap-12 w-full">
           <div className="flex flex-col items-center justify-center w-full md:w-1/2">

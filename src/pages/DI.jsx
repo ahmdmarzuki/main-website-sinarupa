@@ -40,7 +40,7 @@ const DI = () => {
       </div>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 max-w-4xl w-full mx-auto mt-4">
-        {DIImages.map((img, idx) => (
+        {DiImages.map((img, idx) => (
           <div key={img} className="flex justify-center items-center">
             <img
               src={`/images/DI/${img}`}
