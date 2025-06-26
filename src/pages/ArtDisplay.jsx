@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { fetchArtDatabase } from "../firebase/firestore";
 import { useMediaQuery } from "../useMediaQuery";
 import { useNavigate, useLocation } from "react-router-dom";
@@ -38,7 +38,7 @@ const ArtSkeleton = () => (
 );
 
 // Komponen gambar dengan skeleton loading
-function ArtImageWithSkeleton({ src, alt }) {
+function ArtImageWithSkeleton({ src, alt, type }) {
   const [loaded, setLoaded] = useState(false);
   return (
     <div className="relative w-full">
@@ -46,7 +46,7 @@ function ArtImageWithSkeleton({ src, alt }) {
       <img
         src={src}
         alt={alt}
-        className={`w-full h-auto object-cover rounded-lg transition-opacity duration-300 ${
+        className={`w-full z-0 h-auto object-cover rounded-lg transition-opacity duration-300 ${
           loaded ? "opacity-100" : "opacity-0"
         }`}
         loading="lazy"
@@ -54,6 +54,99 @@ function ArtImageWithSkeleton({ src, alt }) {
       />
     </div>
   );
+}
+
+// Modal detail karya
+const ArtDetailModal = ({ isOpen, onClose, art }) => {
+  useEffect(() => {
+    if (isOpen) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "";
+    }
+    return () => {
+      document.body.style.overflow = "";
+    };
+  }, [isOpen]);
+  if (!isOpen || !art) return null;
+  return (
+    <div
+      className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4"
+      onClick={onClose}
+    >
+      <div
+        className="bg-transparent w-full max-w-[80vw] h-[70vh] md:max-w-3xl md:max-h-[95vh] flex flex-col items-center justify-center"
+        onClick={(e) => e.stopPropagation()}
+      >
+        <div className="relative w-full flex flex-col items-center">
+          <button
+            onClick={onClose}
+            className="absolute top-2 right-2 text-gray-500 hover:text-gray-700 text-2xl font-bold z-10"
+            aria-label="Close"
+          >
+            ×
+          </button>
+          {/* Gambar karya */}
+          <div className="w-full flex justify-center">
+            <img
+              src={art.artUrl}
+              alt={art.artTitle}
+              className="rounded-t-2xl pt-4 rounded-b-none object-contain w-full h-[30vh] md:h-[50vh] bg-gray-100"
+              style={{ boxShadow: "0 2px 8px rgba(0,0,0,0.08)" }}
+            />
+          </div>
+          {/* Card detail */}
+          <div className="w-full max-h-[40vh] md:max-h-[60vh] bg-white shadow-lg px-6 py-6 flex flex-col md:flex-row gap-6 border-t-0 border border-gray-200">
+            {/* Kiri: info karya */}
+            <div className="md:w-1/3 w-full flex flex-col">
+              <div className="font-bold text-lg md:text-xl text-black mb-4">
+                {art.artTitle}
+              </div>
+              <div className="italic text-gray-700 text-sm mb-1">
+                {art.artNameYear}
+              </div>
+              <div className="text-gray-700 text-sm mb-1">{art.artMedia}</div>
+              <div className="text-gray-700 text-sm mb-1">
+                {art.artDimension}
+              </div>
+            </div>
+            {/* Kanan: deskripsi */}
+            <div className="md:w-2/3 w-full max-h-[20vh] overflow-y-auto text-gray-800 text-sm md:text-base whitespace-pre-line">
+              {art.artDesc}
+            </div>
+          </div>
+          {/* Identitas */}
+          <div className="w-full bg-white rounded-b-2xl flex flex-col items-center pb-6 pt-2 border-t-0 border border-gray-200">
+            <div className="flex flex-col md:flex-row items-center gap-3 mt-2">
+              <img
+                src={art.profilePictureUrl}
+                alt={art.realName}
+                className="w-12 h-12 md:w-10 md:h-10 rounded-full object-cover border border-gray-300 mb-2 md:mb-0"
+              />
+              <div className="text-center md:text-left">
+                <div className="font-medium text-gray-900 text-sm md:text-base">
+                  {art.realName}
+                </div>
+                <div className="text-gray-700 text-xs md:text-sm">
+                  {art.id} – {art.major}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+// Helper untuk download file dari url
+function downloadImage(url, filename) {
+  const link = document.createElement("a");
+  link.href = url;
+  link.download = filename || "download";
+  document.body.appendChild(link);
+  link.click();
+  document.body.removeChild(link);
 }
 
 const ArtDisplay = ({ initialMajor = "" }) => {
@@ -68,6 +161,11 @@ const ArtDisplay = ({ initialMajor = "" }) => {
   const isMobile = useMediaQuery("(max-width: 768px)");
   const navigate = useNavigate();
   const location = useLocation();
+  const [isDetailModalOpen, setIsDetailModalOpen] = useState(false);
+  const [selectedArt, setSelectedArt] = useState(null);
+  const [openMenuId, setOpenMenuId] = useState(null);
+  const menuRef = useRef();
+  const [idToDownload, setIdToDownload] = useState(null);
 
   const majors = [
     "Seni Rupa",
@@ -164,6 +262,24 @@ const ArtDisplay = ({ initialMajor = "" }) => {
     return columns;
   };
 
+  // Close menu jika klik di luar
+  useEffect(() => {
+    function handleClickOutside(e) {
+      if (menuRef.current && !menuRef.current.contains(e.target)) {
+        setOpenMenuId(null);
+        setIdToDownload(null);
+      }
+    }
+    if (openMenuId !== null) {
+      document.addEventListener("mousedown", handleClickOutside);
+    } else {
+      document.removeEventListener("mousedown", handleClickOutside);
+    }
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [openMenuId]);
+
   if (isLoading) {
     return (
       <div
@@ -196,7 +312,7 @@ const ArtDisplay = ({ initialMajor = "" }) => {
           <div className="relative">
             <input
               type="text"
-              placeholder="Search by title, artist, or major..."
+              placeholder="Cari berdasarkan judul, artist, atau jurusan ..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               className="w-full px-4 py-3 rounded-lg bg-gray-100 text-black placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50"
@@ -271,17 +387,61 @@ const ArtDisplay = ({ initialMajor = "" }) => {
               {column.map((art) => (
                 <div
                   key={art.id}
-                  className="overflow-hidden duration-300 text-white"
+                  className="overflow-visible duration-300 text-white"
                 >
-                  <div className="relative group flex flex-col gap-1">
-                    <ArtImageWithSkeleton src={art.artUrl} alt={art.artTitle} />
-                    <div className="flex flex-row justify-between">
-                      {/* <p className="text-black mt-2 font-medium">
-                        {art.artTitle}
-                      </p> */}
-                      <p className="text-gray-600 text-sm">{art.realName}</p>
-                      <p className="text-black">...</p>
-                      {/* <p className="text-gray-600">{art.major}</p> */}
+                  <div
+                    className="relative group flex flex-col gap-1 cursor-pointer"
+                    onClick={() => {
+                      setSelectedArt(art);
+                      setIsDetailModalOpen(true);
+                    }}
+                  >
+                    <ArtImageWithSkeleton
+                      src={art.artUrl}
+                      alt={art.artTitle}
+                      type={art.tu}
+                    />
+                    <div className="flex flex-row justify-between items-center">
+                      <p className="text-gray-600 text-sm mb-0">
+                        {art.realName}
+                        {/* {idToDownload} */}
+                      </p>
+                      {/* Titik tiga menu */}
+                      <div className="relative">
+                        <button
+                          className="text-black px-2 py-1 text-xl focus:outline-none hover:text-gray-500"
+                          onClick={(e) => {
+                            setIdToDownload(art.id);
+                            e.stopPropagation();
+                            setOpenMenuId(
+                              openMenuId === art.id ? null : art.id
+                            );
+                          }}
+                          aria-label="Menu"
+                        >
+                          &#8230;
+                        </button>
+                        {idToDownload === art.id && (
+                          <div
+                            ref={menuRef}
+                            className="absolute -right-2 -top-8 mt-2 w-32 bg-white rounded shadow-lg z-40 border border-gray-200"
+                            onClick={(e) => e.stopPropagation()}
+                          >
+                            <button
+                              className="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 rounded"
+                              onClick={() => {
+                                downloadImage(
+                                  art.artUrl,
+                                  art.artTitle || "karya"
+                                );
+                                setOpenMenuId(null);
+                              }}
+                            >
+                              Download
+                            </button>
+                          </div>
+                        )}
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -290,6 +450,11 @@ const ArtDisplay = ({ initialMajor = "" }) => {
           ))}
         </div>
       </div>
+      <ArtDetailModal
+        isOpen={isDetailModalOpen}
+        onClose={() => setIsDetailModalOpen(false)}
+        art={selectedArt}
+      />
     </div>
   );
 };
