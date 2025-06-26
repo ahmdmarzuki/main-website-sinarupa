@@ -12,7 +12,7 @@ const MapsLocationSection = () => {
       </div>
       <div className="flex flex-col items-center justify-center relative mr-20n mt-20">
       <h1 className="text-5xl font-bold text-[#5740d2] font-oddval mt-15 mb-5">Lokasi</h1>
-        <img src="/images/mapz.png" className="w-[120vw] md:w-3/4" alt="Peta GSG"/>
+        <img src="/images/mapz.png" className="w-[121vw] md:w-3/4" alt="Peta GSG"/>
       </div>
       <div className="flex flex-col items-center justify-center relative">
         <h1 className="text-5xl font-bold text-[#5740d2] font-oddval mt-15 mb-5">Rundown</h1>
