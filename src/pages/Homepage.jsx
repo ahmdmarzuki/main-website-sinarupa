@@ -19,14 +19,14 @@ const Homepage = () => {
     <div
       className="min-h-screen w-full bg-cover bg-no-repeat"
       style={{
-        backgroundImage: `url('/images/bg_mobile.png')`,
+        backgroundImage: `url('/images/newbg_mobile.png')`,
       }}
     >
       {/* Responsive background for md and above */}
       <style>{`
         @media (min-width: 768px) {
           .homepage-bg {
-            background-image: url('/images/bg_desktop.png') !important;
+            background-image: url('/images/newbg_desktop.png') !important;
           }
         }
       `}</style>
