@@ -178,7 +178,7 @@ const ArtDisplay = ({ initialMajor = "" }) => {
   // Handle URL-based major selection
   useEffect(() => {
     const path = location.pathname.split("/").pop();
-    if (path && path !== "karyabebas" && pathToMajor[path]) {
+    if (path && path !== "" && pathToMajor[path]) {
       setSelectedMajor(pathToMajor[path]);
     }
   }, [location]);
@@ -246,9 +246,9 @@ const ArtDisplay = ({ initialMajor = "" }) => {
   const handleMajorSelect = (major) => {
     setSelectedMajor(major);
     if (major === "") {
-      navigate("/karyabebas");
+      navigate("/");
     } else {
-      navigate(`/karyabebas/${majorToPath[major]}`);
+      navigate(`/${majorToPath[major]}`);
     }
   };
 
