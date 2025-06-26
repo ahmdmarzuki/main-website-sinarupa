@@ -362,7 +362,11 @@ const ArtDisplay = ({ initialMajor = "" }) => {
         </div>
       )}
       {/* Sticky Search Bar */}
-      <div className="sticky w-[100vw] top-0 z-50 bg-white py-4 shadow-sm px-4 md:px-14">
+
+      <div
+        className="sticky w-[100vw] top-0 z-50 bg-white py-4 shadow-sm px-4 md:px-14 bg-bottom bg-cover"
+        style={{ backgroundImage: `url(${isMobile ? bgMobile : bgDesktop})` }}
+      >
         <div className="w-full mx-auto">
           <div className="relative">
             <input
@@ -395,7 +399,6 @@ const ArtDisplay = ({ initialMajor = "" }) => {
           )}
         </div>
       </div>
-
       {/* Filter Tabs */}
       <div
         className={`sticky top-[72px] z-40 w-[100vw] bg-white py-4 px-4 transition-transform duration-300 `}
@@ -432,7 +435,6 @@ const ArtDisplay = ({ initialMajor = "" }) => {
           ))}
         </div>
       </div>
-
       {/* Art Grid */}
       <div className="container px-4 py-8">
         <div className="flex gap-2 md:gap-4">
@@ -503,7 +505,6 @@ const ArtDisplay = ({ initialMajor = "" }) => {
           ))}
         </div>
       </div>
-
       <ArtDetailModal
         isOpen={isDetailModalOpen}
         onClose={() => setIsDetailModalOpen(false)}
