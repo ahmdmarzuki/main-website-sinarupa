@@ -18,8 +18,8 @@ const SR = () => {
       style={{ backgroundImage: "url('/images/bg-sr.png')" }}
     >
       <div className="max-w-3xl w-full mx-auto text-center mt-8">
-        <h1 className="font-Oddval text-5xl md:text-6xl font-extrabold mb-6 drop-shadow-lg" style={{ color: '#fede5b' }}>SENI RUPA</h1>
-        <p className="text-lg md:text-xl font-medium mb-10 text-justify rounded-xl p-4" style={{ color: '#fede5b' }}>
+        <h1 className="font-oddval text-5xl md:text-6xl font-extrabold mb-6 drop-shadow-lg" style={{ color: '#fede5b' }}>SENI RUPA</h1>
+        <p className="text-lg md:text-xl font-medium mb-10 text-justify rounded-xl p-4 font-host" style={{ color: '#fede5b' }}>
           Seni Rupa merupakan ilmu seni yang berfokus pada nilai estetika dan konseptual. Program studi ini mempelajari berbagai macam teknik, media, dan material baik tradisional maupun kontemporer. Karya yang terlahir memiliki nilai teoritis yang dikemas dalam bentuk yang estetik. Dalam perkuliahan semester pertama Seni Rupa, mahasiswa diajarkan dasar bentuk, warna, dan tekstur dengan membuat suatu modul dan menghasilkan komposisi visual yang berirama di mata kuliah Rupa Dasar Seni Rupa dalam bentuk 2 maupun 3 dimensi. Dalam mata kuliah Gambar Anatomi, mahasiswa diharapkan dapat memahami struktur dari makhluk hidup. Mata kuliah ini mempelajari struktur dan anatomi manusia dan kuda yang dituangkan dalam bentuk 2 dimensi menggunakan kertas dan pensil. Mulai dari menggores bentuk dasar yang menjadi rangka, otot yang mengatur pergerakan tubuh, hingga lapisan terluar semua bagian tersebut terkesan hidup.
         </p>
       </div>

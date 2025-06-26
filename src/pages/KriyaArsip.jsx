@@ -23,8 +23,8 @@ const KR = () => {
       }}
     >
       <div className="max-w-3xl w-full mx-auto text-center mt-8">
-        <h1 className="text-5xl md:text-6xl font-extrabold text-yellow-300 mb-6 drop-shadow-lg">KRIYA</h1>
-        <p className="text-lg md:text-xl text-white font-medium mb-10 text-justify bg-black/30 rounded-xl p-4">
+        <h1 className="text-5xl md:text-6xl font-extrabold text-yellow-300 mb-6 font-oddval drop-shadow-lg">KRIYA</h1>
+        <p className="text-lg md:text-xl text-white font-medium mb-10 text-justify bg-black/30 font-host rounded-xl p-4">
           Program studi Kriya merupakan program studi yang mempelajari tentang ilmu keterampilan untuk menghasilkan suatu karya yang bernilai estetik dan fungsional. Prosesnya melibatkan pengolahan berbagai macam material yang bertumpu pada kreativitas, keterampilan, dan penguasaan medium. Prodi Kriya juga berkaitan erat dengan sejarah, lingkungan, dan tradisi masyarakat dengan fokus pemanfaatan ragam kriya di Indonesia yang tervisualisasi melalui hasil karya tradisional maupun modern. Rupa Dasar Kriya merupakan salah satu mata kuliah pada semester penjurusan. Mata kuliah ini mempelajari eksplorasi berbagai medium dengan memanfaatkan unsur objek alam dan memperhatikan teknik pembentukan, struktur, dan karakter dari objek tersebut. Pada mata kuliah Gambar Dasar Kriya, mahasiswa mempelajari ragam hias untuk melatih eksplorasi melalui bentuk, garis, dan titik, serta pembuatan bentuk budaya seperti batik dan tenun dengan menggunakan teknik manual maupun digital.
         </p>
       </div>
