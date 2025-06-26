@@ -318,7 +318,7 @@ const ArtDisplay = ({ initialMajor = "" }) => {
     return (
       <div
         className="min-h-screen bg-bottom flex items-center justify-center"
-        style={{ backgroundImage: `url(${isMobile ? bgMobile : bgDesktop})` }}
+        // style={{ backgroundImage: `url(${isMobile ? bgMobile : bgDesktop})` }}
       >
         <div className="text-white text-xl">Loading...</div>
       </div>
