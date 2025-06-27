@@ -7,7 +7,7 @@ const AboutSection = () => {
   return (
     <section id="about" className="">
       <div className="flex flex-col md:items-center justify-start lg:justify-center relative -pt-2 lg:mt-[15vh] w-full lg:px-16 gap-2 lg:gap-8">
-        <h1 className="text-4xl font-bold text-[#FDE36E] font-oddval text-center -mt-[17vh] lg:mt-[2vh]">
+        <h1 className="text-4xl font-bold text-[#FDE36E] font-oddval text-center -mt-[5vh] lg:mt-[2vh]">
           ABOUT
         </h1>
         <div className="relative">
