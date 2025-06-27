@@ -7,9 +7,7 @@ import {
 } from "react-router-dom";
 
 import UploadArt from "./pages/UploadArt";
-import LoginPage from "./pages/LoginPage";
 import PendingSubsmissionPage from "./pages/PendingSubsmissionPage";
-import GuestViewPendingPage from "./pages/GuestViewPendingPage";
 import ArtDisplay from "./pages/ArtDisplay";
 
 import ChatPage from "./pages/ChatPage";
@@ -155,7 +153,6 @@ export default function App() {
       <Routes>
         <Route path="/" element={<Homepage />} />
         <Route path="/upload" element={<UploadArt />} />
-        <Route path="/pending" element={<PendingSubsmissionPage />} />
         <Route path="/karyabebas" element={<ArtDisplay />} />
         <Route
           path="/karyabebas/sr"
@@ -245,9 +242,7 @@ export default function App() {
           }
         />
         <Route path="/upload" element={<UploadArt />} />
-        <Route path="/login" element={<LoginPage />} />
         <Route path="/pending" element={<PendingSubsmissionPage />} />
-        <Route path="/guest" element={<GuestViewPendingPage />} />
         <Route
           path="/keongracun"
           element={
