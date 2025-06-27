@@ -3,8 +3,11 @@ import { fetchArtDatabase } from "../firebase/firestore";
 import { useMediaQuery } from "../useMediaQuery";
 import { useNavigate, useLocation } from "react-router-dom";
 
-import bgDesktop from "/images/bgDesktopRevisi.webp";
+import bgDesktop from "/images/bgDesktopRevisi.png";
 import bgMobile from "/images/bgMobileRevisi.jpg";
+
+import bgDesktop2 from "/images/bgDesk.jpg";
+import bgMobile2 from "/images/newbg_mobile.png";
 
 // Custom styles for hiding scrollbar
 // Gunakan className="no-scrollbar" dan tambahkan CSS di index.css
@@ -255,7 +258,8 @@ const ArtDisplay = ({ initialMajor = "" }) => {
         (art) =>
           art.artTitle?.toLowerCase().includes(query) ||
           art.realName?.toLowerCase().includes(query) ||
-          art.major?.toLowerCase().includes(query)
+          art.major?.toLowerCase().includes(query) ||
+          art.id?.toLowerCase().includes(query)
       );
     }
 
@@ -329,7 +333,7 @@ const ArtDisplay = ({ initialMajor = "" }) => {
     return (
       <div
         className="min-h-screen bg-bottom flex items-center justify-center"
-        style={{ backgroundImage: `url(${isMobile ? bgMobile : bgDesktop})` }}
+        style={{ backgroundImage: `url(${isMobile ? bgMobile2 : bgDesktop2})` }}
       >
         <div className="text-white text-xl">{error}</div>
       </div>
@@ -339,177 +343,182 @@ const ArtDisplay = ({ initialMajor = "" }) => {
   const columns = createColumns(filteredArtList, isMobile ? 2 : 5);
 
   return (
-    <div className="min-h-screen flex flex-col justify-center items-center bg-bottom w-[98vw] md:w-[90vw]">
-      {/* Intro Video Overlay */}
-      {showIntro && (
-        <div className="fixed inset-0 z-[9999] flex items-center justify-center bg-black">
-          <video
-            src={INTRO_VIDEO_URL}
-            autoPlay
-            muted
-            playsInline
-            controls={false}
-            className="w-full h-full object-cover"
-            onEnded={handleIntroEnded}
-          />
-          <button
-            className="absolute top-6 right-6 z-10 bg-black/60 text-white rounded-full py-2 px-4 hover:bg-black/80 text-xl"
-            onClick={() => setShowIntro(false)}
-            aria-label="Close intro"
-          >
-            Lewati
-          </button>
-        </div>
-      )}
-      {/* Sticky Search Bar */}
-
-      <div
-        className="sticky w-[100vw] top-0 z-50 bg-white py-4 shadow-sm px-4 md:px-14 bg-bottom bg-cover"
-        style={{ backgroundImage: `url(${isMobile ? bgMobile : bgDesktop})` }}
-      >
-        <div className="w-full mx-auto">
-          <div className="relative">
-            <input
-              type="text"
-              placeholder="Cari berdasarkan judul, artist, atau jurusan ..."
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-              className="w-full px-4 py-3 rounded-lg bg-gray-100 text-black placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50"
+    <div
+      className="w-[100vw] flex flex-col justify-start bg-amber-200 items-center bg-cover min-h-screen bg-top bg-no-repeat"
+      style={{ backgroundImage: `url(${isMobile ? bgMobile : bgDesktop})` }}
+    >
+      <div className="relative min-h-screen flex flex-col justify-center items-center bg-bottom w-[98vw] md:w-[90vw]">
+        {/* Intro Video Overlay */}
+        {showIntro && (
+          <div className="fixed inset-0 z-[9999] flex items-center justify-center bg-black">
+            <video
+              src={INTRO_VIDEO_URL}
+              autoPlay
+              muted
+              playsInline
+              controls={false}
+              className="w-full h-full object-cover"
+              onEnded={handleIntroEnded}
             />
-            <div className="absolute right-3 top-1/2 transform -translate-y-1/2">
-              <svg
-                className="w-5 h-5 text-gray-400"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
-                />
-              </svg>
-            </div>
+            <button
+              className="absolute top-6 right-6 z-10 bg-black/60 text-white rounded-full py-2 px-4 hover:bg-black/80 text-xl"
+              onClick={() => setShowIntro(false)}
+              aria-label="Close intro"
+            >
+              Lewati
+            </button>
           </div>
-          {searchQuery && (
-            <p className="text-gray-600 mt-2 text-sm">
-              Found {filteredArtList.length} results
-            </p>
-          )}
-        </div>
-      </div>
-      {/* Filter Tabs */}
-      <div
-        className={`sticky top-[72px] z-40 w-[100vw] bg-white py-4 px-4 transition-transform duration-300 `}
-      >
+        )}
+        {/* Sticky Search Bar */}
+
         <div
-          className={`flex ${
-            isMobile ? "overflow-x-auto whitespace-nowrap pb-2" : "flex-wrap"
-          } gap-2 ${isMobile ? "justify-start" : "justify-center"} ${
-            isMobile ? "no-scrollbar" : ""
-          }`}
+          className="fixed w-[100vw] top-0 z-50 py-4 flex flex-col shadow-xl px-4 md:px-14 bg-bottom bg-cover"
+          style={{ backgroundImage: `url(${isMobile ? bgMobile : bgDesktop})` }}
         >
-          <button
-            onClick={() => handleMajorSelect("")}
-            className={`px-4 py-2 rounded-full text-sm font-medium transition-colors flex-shrink-0 ${
-              selectedMajor === ""
-                ? "bg-blue-600 text-white"
-                : "bg-gray-100 text-gray-700 hover:bg-gray-200"
+          <div className="w-full mx-auto">
+            <div className="relative">
+              <input
+                type="text"
+                placeholder="Cari berdasarkan judul, artist, NIM, atau jurusan ..."
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                className="w-full px-4 py-3 rounded-lg bg-gray-100 text-black placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50"
+              />
+              <div className="absolute right-3 top-1/2 transform -translate-y-1/2">
+                <svg
+                  className="w-5 h-5 text-gray-400"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
+                  />
+                </svg>
+              </div>
+            </div>
+            {searchQuery && (
+              <p className="text-gray-600 mt-2 text-sm">
+                Found {filteredArtList.length} results
+              </p>
+            )}
+          </div>
+        </div>
+        {/* Filter Tabs */}
+        <div
+          className={`sticky top-[80px] z-40 w-[100vw] py-4 px-4 transition-transform duration-300 `}
+        >
+          <div
+            className={`flex ${
+              isMobile ? "overflow-x-auto whitespace-nowrap pb-2" : "flex-wrap"
+            } gap-2 ${isMobile ? "justify-start" : "justify-center"} ${
+              isMobile ? "no-scrollbar" : ""
             }`}
           >
-            All
-          </button>
-          {majors.map((major) => (
             <button
-              key={major}
-              onClick={() => handleMajorSelect(major)}
+              onClick={() => handleMajorSelect("")}
               className={`px-4 py-2 rounded-full text-sm font-medium transition-colors flex-shrink-0 ${
-                selectedMajor === major
+                selectedMajor === ""
                   ? "bg-blue-600 text-white"
                   : "bg-gray-100 text-gray-700 hover:bg-gray-200"
               }`}
             >
-              {major}
+              All
             </button>
-          ))}
+            {majors.map((major) => (
+              <button
+                key={major}
+                onClick={() => handleMajorSelect(major)}
+                className={`px-4 py-2 rounded-full text-sm font-medium transition-colors flex-shrink-0 ${
+                  selectedMajor === major
+                    ? "bg-blue-600 text-white"
+                    : "bg-gray-100 text-gray-700 hover:bg-gray-200"
+                }`}
+              >
+                {major}
+              </button>
+            ))}
+          </div>
         </div>
-      </div>
-      {/* Art Grid */}
-      <div className="container px-4 py-8">
-        <div className="flex gap-2 md:gap-4">
-          {columns.map((column, columnIndex) => (
-            <div key={columnIndex} className="flex-1 flex flex-col gap-4">
-              {column.map((art) => (
-                <div
-                  key={art.id}
-                  className="overflow-visible duration-300 text-white"
-                >
+        {/* Art Grid */}
+        <div className="container px-4 py-24">
+          <div className="flex gap-2 md:gap-4">
+            {columns.map((column, columnIndex) => (
+              <div key={columnIndex} className="flex-1 flex flex-col gap-4">
+                {column.map((art) => (
                   <div
-                    className="relative group flex flex-col gap-1 cursor-pointer"
-                    onClick={() => {
-                      setSelectedArt(art);
-                      setIsDetailModalOpen(true);
-                    }}
+                    key={art.id}
+                    className="overflow-visible duration-300 text-white"
                   >
-                    <ArtImageWithSkeleton
-                      src={art.artUrl}
-                      alt={art.artTitle}
-                      type={art.fileType}
-                    />
-                    <div className="flex flex-row justify-between items-center">
-                      <p className="text-gray-600 text-sm mb-0">
-                        {art.realName}
-                      </p>
-                      {/* Titik tiga menu */}
-                      <div className="relative">
-                        <button
-                          className="text-black px-2 py-1 text-xl focus:outline-none hover:text-gray-500"
-                          onClick={(e) => {
-                            setIdToDownload(art.id);
-                            e.stopPropagation();
-                            setOpenMenuId(
-                              openMenuId === art.id ? null : art.id
-                            );
-                          }}
-                          aria-label="Menu"
-                        >
-                          &#8230;
-                        </button>
-                        {idToDownload === art.id && (
-                          <div
-                            ref={menuRef}
-                            className="absolute -right-2 -top-8 mt-2 w-32 bg-white rounded shadow-lg z-40 border border-gray-200"
-                            onClick={(e) => e.stopPropagation()}
+                    <div
+                      className="relative group flex flex-col gap-1 cursor-pointer"
+                      onClick={() => {
+                        setSelectedArt(art);
+                        setIsDetailModalOpen(true);
+                      }}
+                    >
+                      <ArtImageWithSkeleton
+                        src={art.artUrl}
+                        alt={art.artTitle}
+                        type={art.fileType}
+                      />
+                      <div className="flex flex-row justify-between items-center">
+                        <p className="text-black text-sm mb-0">
+                          {art.realName}
+                        </p>
+                        {/* Titik tiga menu */}
+                        <div className="relative">
+                          <button
+                            className="text-black px-2 py-1 text-xl focus:outline-none hover:text-gray-500"
+                            onClick={(e) => {
+                              setIdToDownload(art.id);
+                              e.stopPropagation();
+                              setOpenMenuId(
+                                openMenuId === art.id ? null : art.id
+                              );
+                            }}
+                            aria-label="Menu"
                           >
-                            <button
-                              className="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 rounded"
-                              onClick={() => {
-                                downloadImage(
-                                  art.artUrl,
-                                  art.artTitle || "karya"
-                                );
-                                setOpenMenuId(null);
-                              }}
+                            &#8230;
+                          </button>
+                          {idToDownload === art.id && (
+                            <div
+                              ref={menuRef}
+                              className="absolute -right-2 -top-8 mt-2 w-32 bg-white rounded shadow-lg z-40 border border-gray-200"
+                              onClick={(e) => e.stopPropagation()}
                             >
-                              Fullscreen
-                            </button>
-                          </div>
-                        )}
+                              <button
+                                className="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 rounded"
+                                onClick={() => {
+                                  downloadImage(
+                                    art.artUrl,
+                                    art.artTitle || "karya"
+                                  );
+                                  setOpenMenuId(null);
+                                }}
+                              >
+                                Fullscreen
+                              </button>
+                            </div>
+                          )}
+                        </div>
                       </div>
                     </div>
                   </div>
-                </div>
-              ))}
-            </div>
-          ))}
+                ))}
+              </div>
+            ))}
+          </div>
         </div>
+        <ArtDetailModal
+          isOpen={isDetailModalOpen}
+          onClose={() => setIsDetailModalOpen(false)}
+          art={selectedArt}
+        />
       </div>
-      <ArtDetailModal
-        isOpen={isDetailModalOpen}
-        onClose={() => setIsDetailModalOpen(false)}
-        art={selectedArt}
-      />
     </div>
   );
 };
