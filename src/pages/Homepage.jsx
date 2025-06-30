@@ -9,6 +9,7 @@ import AboutSection from "../sections/AboutSection";
 import MajorSection from "../sections/MajorSection";
 import PreEvent from "../sections/PreEvent";
 import { useMediaQuery } from "../useMediaQuery";
+import PasenTransition from "../sections/PasenTransition";
 
 const Homepage = () => {
   useEffect(() => {

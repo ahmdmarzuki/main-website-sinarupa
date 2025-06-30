@@ -14,6 +14,7 @@
     "@heroicons/react": "^2.2.0",
     "@tailwindcss/vite": "^4.1.8",
     "firebase": "^11.9.0",
+    "gsap": "^3.13.0",
     "hamburger-react": "^2.5.2",
     "motion": "^12.19.1",
     "react": "^19.1.0",

@@ -1,0 +1,64 @@
+"filename", "language", "JavaScript", "JavaScript JSX", "CSS", "Markdown", "JSON", "HTML", "XML", "comment", "blank", "total"
+"c:\Users\ahmad\Documents\coding\web\main-website-sinarupa\README.md", "Markdown", 0, 0, 0, 7, 0, 0, 0, 0, 6, 13
+"c:\Users\ahmad\Documents\coding\web\main-website-sinarupa\eslint.config.js", "JavaScript", 32, 0, 0, 0, 0, 0, 0, 0, 2, 34
+"c:\Users\ahmad\Documents\coding\web\main-website-sinarupa\index.html", "HTML", 0, 0, 0, 0, 0, 13, 0, 0, 1, 14
+"c:\Users\ahmad\Documents\coding\web\main-website-sinarupa\package-lock.json", "JSON", 0, 0, 0, 0, 4222, 0, 0, 0, 1, 4223
+"c:\Users\ahmad\Documents\coding\web\main-website-sinarupa\package.json", "JSON", 0, 0, 0, 0, 47, 0, 0, 0, 1, 48
+"c:\Users\ahmad\Documents\coding\web\main-website-sinarupa\public\vite.svg", "XML", 0, 0, 0, 0, 0, 0, 1, 0, 0, 1
+"c:\Users\ahmad\Documents\coding\web\main-website-sinarupa\src\App.css", "CSS", 0, 0, 37, 0, 0, 0, 0, 0, 6, 43
+"c:\Users\ahmad\Documents\coding\web\main-website-sinarupa\src\App.jsx", "JavaScript JSX", 0, 282, 0, 0, 0, 0, 0, 0, 32, 314
+"c:\Users\ahmad\Documents\coding\web\main-website-sinarupa\src\assets\react.svg", "XML", 0, 0, 0, 0, 0, 0, 1, 0, 0, 1
+"c:\Users\ahmad\Documents\coding\web\main-website-sinarupa\src\components\AcceptedArtDisplay.jsx", "JavaScript JSX", 0, 383, 0, 0, 0, 0, 0, 6, 23, 412
+"c:\Users\ahmad\Documents\coding\web\main-website-sinarupa\src\components\ChatPopup.jsx", "JavaScript JSX", 0, 284, 0, 0, 0, 0, 0, 4, 14, 302
+"c:\Users\ahmad\Documents\coding\web\main-website-sinarupa\src\components\CropModalDesktop.jsx", "JavaScript JSX", 0, 87, 0, 0, 0, 0, 0, 0, 5, 92
+"c:\Users\ahmad\Documents\coding\web\main-website-sinarupa\src\components\CropModalMobile.jsx", "JavaScript JSX", 0, 83, 0, 0, 0, 0, 0, 0, 4, 87
+"c:\Users\ahmad\Documents\coding\web\main-website-sinarupa\src\components\ModalDisclaimer.jsx", "JavaScript JSX", 0, 43, 0, 0, 0, 0, 0, 0, 3, 46
+"c:\Users\ahmad\Documents\coding\web\main-website-sinarupa\src\components\Navbar.jsx", "JavaScript JSX", 0, 103, 0, 0, 0, 0, 0, 0, 9, 112
+"c:\Users\ahmad\Documents\coding\web\main-website-sinarupa\src\components\PendingArtDisplay.jsx", "JavaScript JSX", 0, 432, 0, 0, 0, 0, 0, 0, 20, 452
+"c:\Users\ahmad\Documents\coding\web\main-website-sinarupa\src\components\ProfileCropModalDesktop.jsx", "JavaScript JSX", 0, 63, 0, 0, 0, 0, 0, 0, 5, 68
+"c:\Users\ahmad\Documents\coding\web\main-website-sinarupa\src\components\ProfileCropModalMobile.jsx", "JavaScript JSX", 0, 59, 0, 0, 0, 0, 0, 0, 4, 63
+"c:\Users\ahmad\Documents\coding\web\main-website-sinarupa\src\firebase\auth.js", "JavaScript", 117, 0, 0, 0, 0, 0, 0, 0, 12, 129
+"c:\Users\ahmad\Documents\coding\web\main-website-sinarupa\src\firebase\firebaseConfig.js", "JavaScript", 16, 0, 0, 0, 0, 0, 0, 0, 4, 20
+"c:\Users\ahmad\Documents\coding\web\main-website-sinarupa\src\firebase\firestore.js", "JavaScript", 260, 0, 0, 0, 0, 0, 0, 0, 13, 273
+"c:\Users\ahmad\Documents\coding\web\main-website-sinarupa\src\firebase\geminiService.js", "JavaScript", 6, 0, 0, 0, 0, 0, 0, 0, 3, 9
+"c:\Users\ahmad\Documents\coding\web\main-website-sinarupa\src\index.css", "CSS", 0, 0, 51, 0, 0, 0, 0, 0, 9, 60
+"c:\Users\ahmad\Documents\coding\web\main-website-sinarupa\src\main.jsx", "JavaScript JSX", 0, 12, 0, 0, 0, 0, 0, 0, 2, 14
+"c:\Users\ahmad\Documents\coding\web\main-website-sinarupa\src\pages\Arkhevia.jsx", "JavaScript JSX", 0, 12, 0, 0, 0, 0, 0, 0, 1, 13
+"c:\Users\ahmad\Documents\coding\web\main-website-sinarupa\src\pages\ArtDisplay.jsx", "JavaScript JSX", 0, 465, 0, 0, 0, 0, 0, 27, 35, 527
+"c:\Users\ahmad\Documents\coding\web\main-website-sinarupa\src\pages\ChatPage.jsx", "JavaScript JSX", 0, 216, 0, 0, 0, 0, 0, 2, 11, 229
+"c:\Users\ahmad\Documents\coding\web\main-website-sinarupa\src\pages\Chromagia.jsx", "JavaScript JSX", 0, 12, 0, 0, 0, 0, 0, 0, 1, 13
+"c:\Users\ahmad\Documents\coding\web\main-website-sinarupa\src\pages\Cilukba.jsx", "JavaScript JSX", 0, 12, 0, 0, 0, 0, 0, 0, 1, 13
+"c:\Users\ahmad\Documents\coding\web\main-website-sinarupa\src\pages\Cosmevara.jsx", "JavaScript JSX", 0, 12, 0, 0, 0, 0, 0, 0, 1, 13
+"c:\Users\ahmad\Documents\coding\web\main-website-sinarupa\src\pages\DI.jsx", "JavaScript JSX", 0, 54, 0, 0, 0, 0, 0, 0, 5, 59
+"c:\Users\ahmad\Documents\coding\web\main-website-sinarupa\src\pages\DKVPage.jsx", "JavaScript JSX", 0, 37, 0, 0, 0, 0, 0, 0, 3, 40
+"c:\Users\ahmad\Documents\coding\web\main-website-sinarupa\src\pages\DP.jsx", "JavaScript JSX", 0, 43, 0, 0, 0, 0, 0, 0, 5, 48
+"c:\Users\ahmad\Documents\coding\web\main-website-sinarupa\src\pages\FormPage.jsx", "JavaScript JSX", 0, 213, 0, 0, 0, 0, 0, 3, 15, 231
+"c:\Users\ahmad\Documents\coding\web\main-website-sinarupa\src\pages\Homepage.jsx", "JavaScript JSX", 0, 42, 0, 0, 0, 0, 0, 0, 5, 47
+"c:\Users\ahmad\Documents\coding\web\main-website-sinarupa\src\pages\KeongRacun.jsx", "JavaScript JSX", 0, 12, 0, 0, 0, 0, 0, 0, 1, 13
+"c:\Users\ahmad\Documents\coding\web\main-website-sinarupa\src\pages\KriyaArsip.jsx", "JavaScript JSX", 0, 44, 0, 0, 0, 0, 0, 0, 6, 50
+"c:\Users\ahmad\Documents\coding\web\main-website-sinarupa\src\pages\LandingPage.jsx", "JavaScript JSX", 0, 163, 0, 0, 0, 0, 0, 12, 12, 187
+"c:\Users\ahmad\Documents\coding\web\main-website-sinarupa\src\pages\Masasik.jsx", "JavaScript JSX", 0, 12, 0, 0, 0, 0, 0, 0, 1, 13
+"c:\Users\ahmad\Documents\coding\web\main-website-sinarupa\src\pages\PendingSubsmissionPage.jsx", "JavaScript JSX", 0, 201, 0, 0, 0, 0, 0, 0, 21, 222
+"c:\Users\ahmad\Documents\coding\web\main-website-sinarupa\src\pages\QRPage.jsx", "JavaScript JSX", 0, 83, 0, 0, 0, 0, 0, 2, 12, 97
+"c:\Users\ahmad\Documents\coding\web\main-website-sinarupa\src\pages\QRTalkshow.jsx", "JavaScript JSX", 0, 78, 0, 0, 0, 0, 0, 3, 14, 95
+"c:\Users\ahmad\Documents\coding\web\main-website-sinarupa\src\pages\QRWorkshop.jsx", "JavaScript JSX", 0, 60, 0, 0, 0, 0, 0, 2, 13, 75
+"c:\Users\ahmad\Documents\coding\web\main-website-sinarupa\src\pages\Resonara.jsx", "JavaScript JSX", 0, 12, 0, 0, 0, 0, 0, 0, 1, 13
+"c:\Users\ahmad\Documents\coding\web\main-website-sinarupa\src\pages\SR.jsx", "JavaScript JSX", 0, 39, 0, 0, 0, 0, 0, 0, 4, 43
+"c:\Users\ahmad\Documents\coding\web\main-website-sinarupa\src\pages\Talkshow.jsx", "JavaScript JSX", 0, 142, 0, 0, 0, 0, 0, 2, 23, 167
+"c:\Users\ahmad\Documents\coding\web\main-website-sinarupa\src\pages\UploadArt.jsx", "JavaScript JSX", 0, 774, 0, 0, 0, 0, 0, 32, 64, 870
+"c:\Users\ahmad\Documents\coding\web\main-website-sinarupa\src\pages\Workshop.jsx", "JavaScript JSX", 0, 191, 0, 0, 0, 0, 0, 2, 23, 216
+"c:\Users\ahmad\Documents\coding\web\main-website-sinarupa\src\sections\AboutSection.jsx", "JavaScript JSX", 0, 84, 0, 0, 0, 0, 0, 0, 3, 87
+"c:\Users\ahmad\Documents\coding\web\main-website-sinarupa\src\sections\ComingSoonSection.jsx", "JavaScript JSX", 0, 25, 0, 0, 0, 0, 0, 2, 3, 30
+"c:\Users\ahmad\Documents\coding\web\main-website-sinarupa\src\sections\EventPathSection.jsx", "JavaScript JSX", 0, 225, 0, 0, 0, 0, 0, 13, 13, 251
+"c:\Users\ahmad\Documents\coding\web\main-website-sinarupa\src\sections\Footer.jsx", "JavaScript JSX", 0, 86, 0, 0, 0, 0, 0, 5, 3, 94
+"c:\Users\ahmad\Documents\coding\web\main-website-sinarupa\src\sections\HomeSection.jsx", "JavaScript JSX", 0, 142, 0, 0, 0, 0, 0, 16, 12, 170
+"c:\Users\ahmad\Documents\coding\web\main-website-sinarupa\src\sections\MajorSection.jsx", "JavaScript JSX", 0, 148, 0, 0, 0, 0, 0, 5, 11, 164
+"c:\Users\ahmad\Documents\coding\web\main-website-sinarupa\src\sections\MapsLocationSection.jsx", "JavaScript JSX", 0, 57, 0, 0, 0, 0, 0, 0, 3, 60
+"c:\Users\ahmad\Documents\coding\web\main-website-sinarupa\src\sections\MerchSection.jsx", "JavaScript JSX", 0, 24, 0, 0, 0, 0, 0, 0, 3, 27
+"c:\Users\ahmad\Documents\coding\web\main-website-sinarupa\src\sections\PasenTransition.jsx", "JavaScript JSX", 0, 43, 0, 0, 0, 0, 0, 0, 8, 51
+"c:\Users\ahmad\Documents\coding\web\main-website-sinarupa\src\sections\PreEvent.jsx", "JavaScript JSX", 0, 41, 0, 0, 0, 0, 0, 0, 3, 44
+"c:\Users\ahmad\Documents\coding\web\main-website-sinarupa\src\sections\PreEventSection.jsx", "JavaScript JSX", 0, 0, 0, 0, 0, 0, 0, 0, 1, 1
+"c:\Users\ahmad\Documents\coding\web\main-website-sinarupa\src\useMediaQuery.js", "JavaScript", 14, 0, 0, 0, 0, 0, 0, 0, 4, 18
+"c:\Users\ahmad\Documents\coding\web\main-website-sinarupa\tailwind.config.js", "JavaScript", 7, 0, 0, 0, 0, 0, 0, 1, 1, 9
+"c:\Users\ahmad\Documents\coding\web\main-website-sinarupa\vite.config.js", "JavaScript", 6, 0, 0, 0, 0, 0, 0, 1, 2, 9
+"Total", "-", 458, 5635, 88, 7, 4269, 13, 2, 140, 527, 11139

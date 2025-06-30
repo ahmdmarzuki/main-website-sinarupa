@@ -1,0 +1,101 @@
+Date : 2025-06-30 08:28:53
+Directory : c:\Users\ahmad\Documents\coding\web\main-website-sinarupa
+Total : 62 files,  10472 codes, 140 comments, 527 blanks, all 11139 lines
+
+Languages
++----------------+------------+------------+------------+------------+------------+
+| language       | files      | code       | comment    | blank      | total      |
++----------------+------------+------------+------------+------------+------------+
+| JavaScript JSX |         46 |      5,635 |        138 |        462 |      6,235 |
+| JSON           |          2 |      4,269 |          0 |          2 |      4,271 |
+| JavaScript     |          8 |        458 |          2 |         41 |        501 |
+| CSS            |          2 |         88 |          0 |         15 |        103 |
+| HTML           |          1 |         13 |          0 |          1 |         14 |
+| Markdown       |          1 |          7 |          0 |          6 |         13 |
+| XML            |          2 |          2 |          0 |          0 |          2 |
++----------------+------------+------------+------------+------------+------------+
+
+Directories
++------------------------------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+| path                                                                                                 | files      | code       | comment    | blank      | total      |
++------------------------------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+| .                                                                                                    |         62 |     10,472 |        140 |        527 |     11,139 |
+| . (Files)                                                                                            |          7 |      4,334 |          2 |         14 |      4,350 |
+| public                                                                                               |          1 |          1 |          0 |          0 |          1 |
+| src                                                                                                  |         54 |      6,137 |        138 |        513 |      6,788 |
+| src (Files)                                                                                          |          5 |        396 |          0 |         53 |        449 |
+| src\assets                                                                                           |          1 |          1 |          0 |          0 |          1 |
+| src\components                                                                                       |          9 |      1,537 |         10 |         87 |      1,634 |
+| src\firebase                                                                                         |          4 |        399 |          0 |         32 |        431 |
+| src\pages                                                                                            |         24 |      2,929 |         87 |        278 |      3,294 |
+| src\sections                                                                                         |         11 |        875 |         41 |         63 |        979 |
++------------------------------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+
+Files
++------------------------------------------------------------------------------------------------------+----------------+------------+------------+------------+------------+
+| filename                                                                                             | language       | code       | comment    | blank      | total      |
++------------------------------------------------------------------------------------------------------+----------------+------------+------------+------------+------------+
+| c:\Users\ahmad\Documents\coding\web\main-website-sinarupa\README.md                                  | Markdown       |          7 |          0 |          6 |         13 |
+| c:\Users\ahmad\Documents\coding\web\main-website-sinarupa\eslint.config.js                           | JavaScript     |         32 |          0 |          2 |         34 |
+| c:\Users\ahmad\Documents\coding\web\main-website-sinarupa\index.html                                 | HTML           |         13 |          0 |          1 |         14 |
+| c:\Users\ahmad\Documents\coding\web\main-website-sinarupa\package-lock.json                          | JSON           |      4,222 |          0 |          1 |      4,223 |
+| c:\Users\ahmad\Documents\coding\web\main-website-sinarupa\package.json                               | JSON           |         47 |          0 |          1 |         48 |
+| c:\Users\ahmad\Documents\coding\web\main-website-sinarupa\public\vite.svg                            | XML            |          1 |          0 |          0 |          1 |
+| c:\Users\ahmad\Documents\coding\web\main-website-sinarupa\src\App.css                                | CSS            |         37 |          0 |          6 |         43 |
+| c:\Users\ahmad\Documents\coding\web\main-website-sinarupa\src\App.jsx                                | JavaScript JSX |        282 |          0 |         32 |        314 |
+| c:\Users\ahmad\Documents\coding\web\main-website-sinarupa\src\assets\react.svg                       | XML            |          1 |          0 |          0 |          1 |
+| c:\Users\ahmad\Documents\coding\web\main-website-sinarupa\src\components\AcceptedArtDisplay.jsx      | JavaScript JSX |        383 |          6 |         23 |        412 |
+| c:\Users\ahmad\Documents\coding\web\main-website-sinarupa\src\components\ChatPopup.jsx               | JavaScript JSX |        284 |          4 |         14 |        302 |
+| c:\Users\ahmad\Documents\coding\web\main-website-sinarupa\src\components\CropModalDesktop.jsx        | JavaScript JSX |         87 |          0 |          5 |         92 |
+| c:\Users\ahmad\Documents\coding\web\main-website-sinarupa\src\components\CropModalMobile.jsx         | JavaScript JSX |         83 |          0 |          4 |         87 |
+| c:\Users\ahmad\Documents\coding\web\main-website-sinarupa\src\components\ModalDisclaimer.jsx         | JavaScript JSX |         43 |          0 |          3 |         46 |
+| c:\Users\ahmad\Documents\coding\web\main-website-sinarupa\src\components\Navbar.jsx                  | JavaScript JSX |        103 |          0 |          9 |        112 |
+| c:\Users\ahmad\Documents\coding\web\main-website-sinarupa\src\components\PendingArtDisplay.jsx       | JavaScript JSX |        432 |          0 |         20 |        452 |
+| c:\Users\ahmad\Documents\coding\web\main-website-sinarupa\src\components\ProfileCropModalDesktop.jsx | JavaScript JSX |         63 |          0 |          5 |         68 |
+| c:\Users\ahmad\Documents\coding\web\main-website-sinarupa\src\components\ProfileCropModalMobile.jsx  | JavaScript JSX |         59 |          0 |          4 |         63 |
+| c:\Users\ahmad\Documents\coding\web\main-website-sinarupa\src\firebase\auth.js                       | JavaScript     |        117 |          0 |         12 |        129 |
+| c:\Users\ahmad\Documents\coding\web\main-website-sinarupa\src\firebase\firebaseConfig.js             | JavaScript     |         16 |          0 |          4 |         20 |
+| c:\Users\ahmad\Documents\coding\web\main-website-sinarupa\src\firebase\firestore.js                  | JavaScript     |        260 |          0 |         13 |        273 |
+| c:\Users\ahmad\Documents\coding\web\main-website-sinarupa\src\firebase\geminiService.js              | JavaScript     |          6 |          0 |          3 |          9 |
+| c:\Users\ahmad\Documents\coding\web\main-website-sinarupa\src\index.css                              | CSS            |         51 |          0 |          9 |         60 |
+| c:\Users\ahmad\Documents\coding\web\main-website-sinarupa\src\main.jsx                               | JavaScript JSX |         12 |          0 |          2 |         14 |
+| c:\Users\ahmad\Documents\coding\web\main-website-sinarupa\src\pages\Arkhevia.jsx                     | JavaScript JSX |         12 |          0 |          1 |         13 |
+| c:\Users\ahmad\Documents\coding\web\main-website-sinarupa\src\pages\ArtDisplay.jsx                   | JavaScript JSX |        465 |         27 |         35 |        527 |
+| c:\Users\ahmad\Documents\coding\web\main-website-sinarupa\src\pages\ChatPage.jsx                     | JavaScript JSX |        216 |          2 |         11 |        229 |
+| c:\Users\ahmad\Documents\coding\web\main-website-sinarupa\src\pages\Chromagia.jsx                    | JavaScript JSX |         12 |          0 |          1 |         13 |
+| c:\Users\ahmad\Documents\coding\web\main-website-sinarupa\src\pages\Cilukba.jsx                      | JavaScript JSX |         12 |          0 |          1 |         13 |
+| c:\Users\ahmad\Documents\coding\web\main-website-sinarupa\src\pages\Cosmevara.jsx                    | JavaScript JSX |         12 |          0 |          1 |         13 |
+| c:\Users\ahmad\Documents\coding\web\main-website-sinarupa\src\pages\DI.jsx                           | JavaScript JSX |         54 |          0 |          5 |         59 |
+| c:\Users\ahmad\Documents\coding\web\main-website-sinarupa\src\pages\DKVPage.jsx                      | JavaScript JSX |         37 |          0 |          3 |         40 |
+| c:\Users\ahmad\Documents\coding\web\main-website-sinarupa\src\pages\DP.jsx                           | JavaScript JSX |         43 |          0 |          5 |         48 |
+| c:\Users\ahmad\Documents\coding\web\main-website-sinarupa\src\pages\FormPage.jsx                     | JavaScript JSX |        213 |          3 |         15 |        231 |
+| c:\Users\ahmad\Documents\coding\web\main-website-sinarupa\src\pages\Homepage.jsx                     | JavaScript JSX |         42 |          0 |          5 |         47 |
+| c:\Users\ahmad\Documents\coding\web\main-website-sinarupa\src\pages\KeongRacun.jsx                   | JavaScript JSX |         12 |          0 |          1 |         13 |
+| c:\Users\ahmad\Documents\coding\web\main-website-sinarupa\src\pages\KriyaArsip.jsx                   | JavaScript JSX |         44 |          0 |          6 |         50 |
+| c:\Users\ahmad\Documents\coding\web\main-website-sinarupa\src\pages\LandingPage.jsx                  | JavaScript JSX |        163 |         12 |         12 |        187 |
+| c:\Users\ahmad\Documents\coding\web\main-website-sinarupa\src\pages\Masasik.jsx                      | JavaScript JSX |         12 |          0 |          1 |         13 |
+| c:\Users\ahmad\Documents\coding\web\main-website-sinarupa\src\pages\PendingSubsmissionPage.jsx       | JavaScript JSX |        201 |          0 |         21 |        222 |
+| c:\Users\ahmad\Documents\coding\web\main-website-sinarupa\src\pages\QRPage.jsx                       | JavaScript JSX |         83 |          2 |         12 |         97 |
+| c:\Users\ahmad\Documents\coding\web\main-website-sinarupa\src\pages\QRTalkshow.jsx                   | JavaScript JSX |         78 |          3 |         14 |         95 |
+| c:\Users\ahmad\Documents\coding\web\main-website-sinarupa\src\pages\QRWorkshop.jsx                   | JavaScript JSX |         60 |          2 |         13 |         75 |
+| c:\Users\ahmad\Documents\coding\web\main-website-sinarupa\src\pages\Resonara.jsx                     | JavaScript JSX |         12 |          0 |          1 |         13 |
+| c:\Users\ahmad\Documents\coding\web\main-website-sinarupa\src\pages\SR.jsx                           | JavaScript JSX |         39 |          0 |          4 |         43 |
+| c:\Users\ahmad\Documents\coding\web\main-website-sinarupa\src\pages\Talkshow.jsx                     | JavaScript JSX |        142 |          2 |         23 |        167 |
+| c:\Users\ahmad\Documents\coding\web\main-website-sinarupa\src\pages\UploadArt.jsx                    | JavaScript JSX |        774 |         32 |         64 |        870 |
+| c:\Users\ahmad\Documents\coding\web\main-website-sinarupa\src\pages\Workshop.jsx                     | JavaScript JSX |        191 |          2 |         23 |        216 |
+| c:\Users\ahmad\Documents\coding\web\main-website-sinarupa\src\sections\AboutSection.jsx              | JavaScript JSX |         84 |          0 |          3 |         87 |
+| c:\Users\ahmad\Documents\coding\web\main-website-sinarupa\src\sections\ComingSoonSection.jsx         | JavaScript JSX |         25 |          2 |          3 |         30 |
+| c:\Users\ahmad\Documents\coding\web\main-website-sinarupa\src\sections\EventPathSection.jsx          | JavaScript JSX |        225 |         13 |         13 |        251 |
+| c:\Users\ahmad\Documents\coding\web\main-website-sinarupa\src\sections\Footer.jsx                    | JavaScript JSX |         86 |          5 |          3 |         94 |
+| c:\Users\ahmad\Documents\coding\web\main-website-sinarupa\src\sections\HomeSection.jsx               | JavaScript JSX |        142 |         16 |         12 |        170 |
+| c:\Users\ahmad\Documents\coding\web\main-website-sinarupa\src\sections\MajorSection.jsx              | JavaScript JSX |        148 |          5 |         11 |        164 |
+| c:\Users\ahmad\Documents\coding\web\main-website-sinarupa\src\sections\MapsLocationSection.jsx       | JavaScript JSX |         57 |          0 |          3 |         60 |
+| c:\Users\ahmad\Documents\coding\web\main-website-sinarupa\src\sections\MerchSection.jsx              | JavaScript JSX |         24 |          0 |          3 |         27 |
+| c:\Users\ahmad\Documents\coding\web\main-website-sinarupa\src\sections\PasenTransition.jsx           | JavaScript JSX |         43 |          0 |          8 |         51 |
+| c:\Users\ahmad\Documents\coding\web\main-website-sinarupa\src\sections\PreEvent.jsx                  | JavaScript JSX |         41 |          0 |          3 |         44 |
+| c:\Users\ahmad\Documents\coding\web\main-website-sinarupa\src\sections\PreEventSection.jsx           | JavaScript JSX |          0 |          0 |          1 |          1 |
+| c:\Users\ahmad\Documents\coding\web\main-website-sinarupa\src\useMediaQuery.js                       | JavaScript     |         14 |          0 |          4 |         18 |
+| c:\Users\ahmad\Documents\coding\web\main-website-sinarupa\tailwind.config.js                         | JavaScript     |          7 |          1 |          1 |          9 |
+| c:\Users\ahmad\Documents\coding\web\main-website-sinarupa\vite.config.js                             | JavaScript     |          6 |          1 |          2 |          9 |
+| Total                                                                                                |                |     10,472 |        140 |        527 |     11,139 |
++------------------------------------------------------------------------------------------------------+----------------+------------+------------+------------+------------+

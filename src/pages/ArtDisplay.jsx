@@ -8,6 +8,7 @@ import bgMobile from "/images/bgMobileRevisi.jpg";
 
 import bgDesktop2 from "/images/bgDesk.jpg";
 import bgMobile2 from "/images/newbg_mobile.png";
+import bgKarbeb from "/images/bg-karbeb.png";
 
 // Custom styles for hiding scrollbar
 // Gunakan className="no-scrollbar" dan tambahkan CSS di index.css
@@ -344,8 +345,8 @@ const ArtDisplay = ({ initialMajor = "" }) => {
 
   return (
     <div
-      className="w-[100vw] flex flex-col justify-start bg-amber-200 items-center bg-cover min-h-screen bg-top bg-no-repeat"
-      style={{ backgroundImage: `url(${isMobile ? bgMobile : bgDesktop})` }}
+      className="w-[100vw] flex flex-col justify-start items-center bg-contain min-h-screen bg-top bg-repeat-y md:bg-cover md:bg-no-repeat"
+      style={{ backgroundImage: `url(${isMobile ? bgKarbeb : bgDesktop})` }}
     >
       <div className="relative min-h-screen flex flex-col justify-center items-center bg-bottom w-[98vw] md:w-[90vw]">
         {/* Intro Video Overlay */}
